@@ -4,7 +4,9 @@
   "description": "A no-code development tool for Unity, built with HTML, Sass, and JavaScript. This project allows users to visually design Unity game structures using a drag-and-drop interface, with automatic code generation. It features an intuitive UI, real-time project preview, and export functionality for seamless integration into Unity.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
   },
   "homepage": "https://github.com/CCDevX/unity-no-code-builder#readme",
   "devDependencies": {
+    "sass": "^1.85.1",
     "vite": "^6.2.2"
   }
 }
