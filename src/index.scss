@@ -1,5 +1,11 @@
+@use "./common/scss/reset" as *;
+@use "./common/scss/base" as *;
 @use "./common/scss/variables" as *;
 @use "./common/scss/media-queries" as *;
+@use "./common/scss/keyframes" as *;
+@use "./common/scss/buttons" as *;
+@use "./common/scss/cards" as *;
+@use "./common/scss/modal" as *;
 
 .container {
   display: flex;

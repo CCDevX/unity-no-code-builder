@@ -1,0 +1,15 @@
+@use "./variables" as *;
+
+.card {
+  background: $bg-secondary;
+  border-radius: 0.8rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: $box-shadow;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}

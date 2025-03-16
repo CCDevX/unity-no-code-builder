@@ -6,3 +6,27 @@ body {
   color: $text-primary;
   line-height: 1.6;
 }
+
+h1 {
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 3rem;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-size: 2.5rem;
+}
+
+h3 {
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  font-size: 2rem;
+  color: $accent-color;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  color: $text-secondary;
+}
