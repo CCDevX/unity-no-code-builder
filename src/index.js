@@ -1,4 +1,8 @@
 import "./index.scss";
+import {
+  showModal,
+  hideModal,
+} from "./common/javascript/helper/modal-helper.js";
 
 const sidebar = document.querySelector("#sidebar");
 const closeSidebarBtn = document.querySelector("#close-sidebar");
@@ -272,17 +276,23 @@ const initPageFunctionality = (pageName, params = {}) => {
 const initProjectBuilder = (params) => {};
 
 /* Modal function to export */
-const modal = document.querySelector("#new-project-modal");
-const modalOverlay = document.querySelector("#modal-overlay");
-const closeModal = document.querySelector(".close-modal");
-const cancelProject = document.querySelector("#cancel-project");
-const createProjectBtn = document.querySelector("#create-project");
-const projectNameInput = document.querySelector("#project-name");
-const technicalNameDisplay = document.querySelector("#technical-name");
 
-const showNewProjectModal = () => {
-  modal.style.display = "block";
+const showNewProjectModal = async () => {
+  await showModal("create-new-project-modal");
+
+  const modal = document.querySelector("#new-project-modal");
+  const modalOverlay = document.querySelector("#modal-overlay");
+  const closeModal = document.querySelector(".close-modal");
+  const cancelProject = document.querySelector("#cancel-project");
+  const createProjectBtn = document.querySelector("#create-project");
+  const projectNameInput = document.querySelector("#project-name");
+  const technicalNameDisplay = document.querySelector("#technical-name");
+
+  console.log("cancel project : ", cancelProject);
+
+  //modal.style.display = "block";
   modalOverlay.style.display = "block";
+
   projectNameInput.focus();
 
   if (projectNameInput.value) {
@@ -290,13 +300,36 @@ const showNewProjectModal = () => {
       projectNameInput.value
     );
   }
+
+  projectNameInput.addEventListener("input", (event) => {
+    technicalNameDisplay.textContent = convertToTechnicalName(
+      event.target.value
+    );
+  });
+
+  // Close modal events
+  closeModal.addEventListener("click", hideNewProjectModal);
+  cancelProject.addEventListener("click", hideNewProjectModal);
+  modalOverlay.addEventListener("click", hideNewProjectModal);
+  // Create project button in modal
+  createProjectBtn.addEventListener("click", (event) => {
+    // TODO
+  });
 };
 
 const hideNewProjectModal = () => {
+  const modal = document.querySelector("#new-project-modal");
+  const modalOverlay = document.querySelector("#modal-overlay");
+  const closeModal = document.querySelector(".close-modal");
+  const cancelProject = document.querySelector("#cancel-project");
+  const createProjectBtn = document.querySelector("#create-project");
+  const projectNameInput = document.querySelector("#project-name");
+  const technicalNameDisplay = document.querySelector("#technical-name");
   modal.style.display = "none";
   modalOverlay.style.display = "none";
   projectNameInput.value = "";
   technicalNameDisplay.textContent = "";
+  hideModal();
 };
 
 const convertToTechnicalName = (name) => {
@@ -307,17 +340,3 @@ const convertToTechnicalName = (name) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter
     .join(""); // Join without spaces
 };
-
-projectNameInput.addEventListener("input", (event) => {
-  technicalNameDisplay.textContent = convertToTechnicalName(event.target.value);
-});
-
-// Close modal events
-closeModal.addEventListener("click", hideNewProjectModal);
-cancelProject.addEventListener("click", hideNewProjectModal);
-modalOverlay.addEventListener("click", hideNewProjectModal);
-
-// Create project button in modal
-createProjectBtn.addEventListener("click", (event) => {
-  // TODO
-});
