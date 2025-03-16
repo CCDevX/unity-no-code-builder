@@ -1,0 +1,96 @@
+@use "./variables" as *;
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: $bg-secondary;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  width: 90%;
+  max-width: 50rem;
+  display: none;
+  .modal-content {
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      border-bottom: 0.1rem solid $border-color;
+
+      h2 {
+        margin: 0;
+      }
+
+      .close-modal {
+        background: none;
+        border: none;
+        font-size: 2.5rem;
+        cursor: pointer;
+        color: $text-secondary;
+      }
+    }
+
+    .modal-body {
+      padding: 2rem;
+
+      .form-group {
+        margin-bottom: 20px;
+        &last-child {
+          margin-bottom: 0;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 0.8rem;
+          color: $text-secondary;
+        }
+
+        .form-control {
+          width: 100%;
+          padding: 1rem;
+          border-radius: 0.4rem;
+          border: 0.1rem solid $border-color;
+          background: $bg-elevated;
+          color: $text-primary;
+          font-size: 1.6rem;
+          &:focus {
+            outline: none;
+            border-color: $accent-color;
+            box-shadow: 0 0 0 0.2rem rgba(131, 103, 199, 0.2);
+          }
+        }
+
+        .technical-name {
+          padding: 1rem;
+          background: $bg-elevated;
+          border-radius: 0.4rem;
+          color: $accent-color;
+          font-family: monospace;
+          font-size: 1.6rem;
+        }
+      }
+    }
+
+    .modal-footer {
+      padding: 1.5rem 2rem;
+      border-top: 0.1rem solid $border-color;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+  }
+}

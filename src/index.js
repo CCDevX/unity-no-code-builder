@@ -160,7 +160,7 @@ const initPageFunctionality = (pageName, params = {}) => {
       );
       if (createProjectButton) {
         createProjectButton.addEventListener("click", (event) => {
-          //showNewProjectModal();
+          showNewProjectModal();
         });
       }
       const sampleProjectButton = document.querySelector(
@@ -270,3 +270,54 @@ const initPageFunctionality = (pageName, params = {}) => {
 };
 
 const initProjectBuilder = (params) => {};
+
+/* Modal function to export */
+const modal = document.querySelector("#new-project-modal");
+const modalOverlay = document.querySelector("#modal-overlay");
+const closeModal = document.querySelector(".close-modal");
+const cancelProject = document.querySelector("#cancel-project");
+const createProjectBtn = document.querySelector("#create-project");
+const projectNameInput = document.querySelector("#project-name");
+const technicalNameDisplay = document.querySelector("#technical-name");
+
+const showNewProjectModal = () => {
+  modal.style.display = "block";
+  modalOverlay.style.display = "block";
+  projectNameInput.focus();
+
+  if (projectNameInput.value) {
+    technicalNameDisplay.textContent = convertToTechnicalName(
+      projectNameInput.value
+    );
+  }
+};
+
+const hideNewProjectModal = () => {
+  modal.style.display = "none";
+  modalOverlay.style.display = "none";
+  projectNameInput.value = "";
+  technicalNameDisplay.textContent = "";
+};
+
+const convertToTechnicalName = (name) => {
+  return name
+    .replace(/\s+/g, " ") // Replace multiple spaces with a single space
+    .trim() // Remove leading/trailing whitespace
+    .split(" ") // Split into words
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize first letter
+    .join(""); // Join without spaces
+};
+
+projectNameInput.addEventListener("input", (event) => {
+  technicalNameDisplay.textContent = convertToTechnicalName(event.target.value);
+});
+
+// Close modal events
+closeModal.addEventListener("click", hideNewProjectModal);
+cancelProject.addEventListener("click", hideNewProjectModal);
+modalOverlay.addEventListener("click", hideNewProjectModal);
+
+// Create project button in modal
+createProjectBtn.addEventListener("click", (event) => {
+  // TODO
+});
