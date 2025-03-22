@@ -1,7 +1,7 @@
 const modalContainer = document.querySelector("#modal-container");
 const modalOverlay = document.querySelector("#modal-overlay");
 
-export const showModal = async (modalType) => {
+const showModal = async (modalType) => {
   try {
     const response = await fetch(`./pages/modals/${modalType}.html`);
     if (!response.ok) throw new Error("Modal not found");
@@ -19,9 +19,10 @@ export const showModal = async (modalType) => {
   }
 };
 
-// Fonction pour cacher le modal
-export const hideModal = () => {
+const hideModal = () => {
   modalContainer.innerHTML = "";
   modalContainer.style.display = "none";
   modalOverlay.style.display = "none";
 };
+
+export { showModal, hideModal };
