@@ -23,4 +23,23 @@
       background: rgba(131, 103, 199, 0.2);
     }
   }
+
+  &-icon {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 2rem;
+    cursor: pointer;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: center;
+    align-items: center;
+    transition: background-color var(--transition-speed);
+    &:hover {
+      background-color: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+  }
 }

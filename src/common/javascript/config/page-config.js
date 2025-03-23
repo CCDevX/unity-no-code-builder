@@ -5,15 +5,15 @@ const pageConfig = {
   },
   projects: {
     title: "Projects",
-    scripts: [],
+    scripts: ["pages/projects/projects.js"],
   },
   settings: {
     title: "Settings",
-    scripts: [],
+    scripts: ["pages/settings/settings.js"],
   },
   help: {
     title: "Help",
-    scripts: [],
+    scripts: ["pages/help/help.js"],
   },
   "project-builder": {
     title: "Project Builder",

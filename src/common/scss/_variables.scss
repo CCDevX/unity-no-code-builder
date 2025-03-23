@@ -1,11 +1,15 @@
-$bg-primary: #121212; // Main background color
-$bg-secondary: #1e1e1e; // Secondary background color
-$bg-elevated: #252525; // Elevated elements background
-$text-primary: #ffffff; // Primary text color
-$text-secondary: #b3b3b3; // Secondary text color
-$accent-color: #8367c7; // Accent color for buttons, links
-$accent-hover: #9980d4; // Hover color for accent elements
-$border-color: #333333; // Border color for dividers and UI components
+$bg-primary: #111418; // Main background color
+$bg-secondary: #1a1f24; // Secondary background color
+$bg-elevated: #242a30; // Elevated elements background
+$text-primary: #e4e6eb; // Primary text color
+$text-secondary: #a3aab5; // Secondary text color
+$accent-color: #5296d5; // Accent color for buttons, links
+$accent-hover: #6ba9e8; // Hover color for accent elements
+$border-color: #2c333a; // Border color for dividers and UI components
+$error: #d45c5c; // Error color (e.g., validation, destructive actions)
+$error-hover: #e37272; // Hover color for error elements
+$succes: #5fb37a; // Success color (e.g., confirmations, positive alerts)
+$succes-hover: #77c690; // Hover color for success elements
 $sidebar-width: 25rem; // Sidebar width
 $header-height: 6rem; // Header height
 $transition-speed: 0.3s; // Animation transition speed

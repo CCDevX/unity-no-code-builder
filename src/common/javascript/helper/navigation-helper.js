@@ -39,6 +39,7 @@ const loadPageScripts = async (pageName, pageConfig) => {
           const script = document.createElement("script");
           script.src = scriptSrc;
           script.setAttribute("data-page-script", "");
+          script.type = "module";
           script.async = true; // Chargement en arrière-plan
           document.body.appendChild(script);
 
