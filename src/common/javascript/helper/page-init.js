@@ -1,4 +1,5 @@
 import { initHomePage } from "../../../pages/home/home";
+import { initProjectPage } from "../../../pages/projects/projects";
 
 const initPage = (pageName, params = {}) => {
   switch (pageName) {
@@ -6,6 +7,7 @@ const initPage = (pageName, params = {}) => {
       initHomePage();
       break;
     case "projects":
+      initProjectPage();
       break;
     case "settings":
       break;
@@ -13,7 +15,6 @@ const initPage = (pageName, params = {}) => {
       break;
     case "project-builder":
       const currentProject = localStorage.getItem("currentProject");
-      //initProjectBuilder(params);
       break;
     default:
       break;
