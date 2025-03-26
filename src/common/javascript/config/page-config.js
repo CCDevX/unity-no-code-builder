@@ -20,6 +20,7 @@ const pageConfig = {
     scripts: [
       "common/javascript/builder.js",
       "common/javascript/builder-export.js",
+      "pages/project-builder/project-builder.js",
     ],
   },
 };

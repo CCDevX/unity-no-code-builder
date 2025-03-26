@@ -1,0 +1,146 @@
+@use "../../common/scss/variables" as *;
+
+.project-builder-container {
+  margin-bottom: 4rem;
+  .builder-layout {
+    display: flex;
+    margin-top: 2rem;
+    gap: 2rem;
+    min-height: 60rem;
+    .builder-panel {
+      flex: 1;
+      background: $bg-secondary;
+      border-radius: 0.8rem;
+      box-shadow: $box-shadow;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      &.builder-tools {
+        max-width: 50%;
+        .builder-tabs {
+          margin-top: 2rem;
+          .tab-nav {
+            display: flex;
+            list-style: none;
+            border-bottom: 0.1rem solid $border-color;
+            margin-bottom: 2rem;
+            background: $bg-secondary;
+            padding-top: 0;
+
+            .tab-item {
+              padding: 1rem 2rem;
+              margin-right: 0.4rem;
+              cursor: pointer;
+              border: 0.1rem solid transparent;
+              border-bottom: none;
+              color: $text-secondary;
+              border-top-left-radius: 0.4rem;
+              border-top-right-radius: 0.4rem;
+              margin-bottom: -0.1rem;
+              &:hover {
+                color: $text-primary;
+                background-color: $bg-elevated;
+              }
+
+              &.active {
+                background-color: $bg-elevated;
+                border-color: $border-color;
+                border-bottom-color: $bg-elevated;
+                color: $accent-color;
+              }
+            }
+          }
+        }
+
+        .tab-content {
+          .tab-pane {
+            display: none;
+            padding: 2rem;
+            background-color: $bg-elevated;
+            border-radius: 0 0 0.4rem 0.4rem;
+            &.active {
+              display: block;
+            }
+            .component-list {
+              display: grid;
+              grid-template-columns: repeat(2, 1fr);
+              gap: 1rem;
+              margin-top: 1.5rem;
+              .component-item {
+                background: $bg-elevated;
+                border: 0.1rem solid $border-color;
+                border-radius: 0.4rem;
+                padding: 1.2rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                cursor: grab;
+                transition: all 0.2s ease;
+                user-select: none;
+                position: relative;
+                &:hover {
+                  border-color: $accent-color;
+                  transform: translateY(-2px);
+                }
+                i {
+                  font-size: 2.5rem;
+                  margin-bottom: 0.8rem;
+                  color: $accent-color;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.builder-preview {
+        max-width: 50%;
+        .preview-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.5rem 2rem;
+          border-bottom: 0.1rem solid $border-color;
+          background: $bg-secondary;
+          padding-top: 2rem;
+          h3 {
+            margin: 0;
+          }
+        }
+
+        .preview-container {
+          flex-grow: 1;
+          padding: 2rem;
+          background: $bg-elevated;
+          overflow-y: auto;
+          height: 100%;
+          position: relative;
+          .drop-area {
+            min-height: 56rem;
+            height: fit-content; // Allows the height to adjust to the content
+            border: 0.2rem dashed $border-color;
+            border-radius: 0.8rem;
+            position: relative;
+            background-color: $bg-primary;
+            transition: all 0.3s ease;
+            padding-bottom: 5rem; // Adds bottom spacing for the last element
+
+            .empty-state {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              text-align: center;
+              color: $text-secondary;
+              i {
+                font-size: 3rem;
+                margin-bottom: 1.5rem;
+                counter-reset: $accent-color;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
