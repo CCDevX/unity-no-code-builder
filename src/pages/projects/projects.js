@@ -24,11 +24,12 @@ const initProjectPage = () => {
     if (projectList && projectList.querySelector(".empty-project")) {
       projectList.innerHTML = "";
       projects.forEach((project) => {
+        console.log("project : ", project);
         const projectCard = document.createElement("div");
         projectCard.className = "card project-card";
         projectCard.innerHTML = `<h3>${project.name}</h3>
-      <p>Technical name : ${project.techninalName}</p>
-      <p>Created on : ${new Date(project.createdAt).toLocaleDateString}</p>
+      <p>Technical name : ${project.technicalName}</p>
+      <p>Created on : ${new Date(project.createdAt).toLocaleDateString()}</p>
       <div class="projects-actions">
         <button id="save-key" class="btn btn-secondary open-project" data-id="${
           project.technicalName

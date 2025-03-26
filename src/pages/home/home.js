@@ -1,4 +1,7 @@
 import { showNewProjectModal } from "../modals/create-new-project-modal.js";
+import { loadPage } from "../../common/javascript/helper/navigation-helper.js";
+import { initPage } from "../../common/javascript/helper/page-init.js";
+import { pageConfig } from "../../common/javascript/config/page-config.js";
 
 export const initHomePage = () => {
   const createProjectButton = document.querySelector("#create-project-button");
@@ -72,7 +75,7 @@ export const initHomePage = () => {
       // Set as the current project and redirect
 
       localStorage.setItem("currentProject", sampleProject.technicalName);
-      loadPage("project-builder", {
+      loadPage("project-builder", pageConfig, initPage, {
         projectId: sampleProject.technicalName,
       });
     });
@@ -90,7 +93,7 @@ export const initHomePage = () => {
           link.classList.add("active");
         }
       });
-      loadPage("help");
+      loadPage("help", pageConfig, initPage);
     });
   }
 };
