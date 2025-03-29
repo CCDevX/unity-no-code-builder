@@ -18,8 +18,7 @@ const pageConfig = {
   "project-builder": {
     title: "Project Builder",
     scripts: [
-      "common/javascript/builder.js",
-      "common/javascript/builder-export.js",
+      "pages/project-builder/builder-export.js",
       "pages/project-builder/project-builder.js",
     ],
   },

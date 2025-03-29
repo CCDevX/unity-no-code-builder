@@ -2,6 +2,7 @@ import { showNewProjectModal } from "../modals/create-new-project-modal.js";
 import { loadPage } from "../../common/javascript/helper/navigation-helper.js";
 import { initPage } from "../../common/javascript/helper/page-init.js";
 import { pageConfig } from "../../common/javascript/config/page-config.js";
+import { setCurrentProject } from "../../common/javascript/helper/project-helper.js";
 
 export const initHomePage = () => {
   const createProjectButton = document.querySelector("#create-project-button");
@@ -12,7 +13,7 @@ export const initHomePage = () => {
   }
   const sampleProjectButton = document.querySelector("#sample-project-button");
   if (sampleProjectButton) {
-    sampleProjectButton.addEventListener("click", (event) => {
+    sampleProjectButton.addEventListener("click", async (event) => {
       const sampleProject = {
         name: "Sample Project",
         technicalName: "SampleProject",
@@ -73,9 +74,9 @@ export const initHomePage = () => {
       }
 
       // Set as the current project and redirect
-
-      localStorage.setItem("currentProject", sampleProject.technicalName);
-      loadPage("project-builder", pageConfig, initPage, {
+      //localStorage.setItem("currentProject", sampleProject.technicalName);
+      setCurrentProject(sampleProject.technicalName);
+      await loadPage("project-builder", pageConfig, initPage, {
         projectId: sampleProject.technicalName,
       });
     });
@@ -86,14 +87,14 @@ export const initHomePage = () => {
   );
 
   if (viewResourcesProjectButton) {
-    viewResourcesProjectButton.addEventListener("click", () => {
+    viewResourcesProjectButton.addEventListener("click", async () => {
       document.querySelectorAll(".menu a").forEach((link) => {
         link.classList.remove("active");
         if (link.getAttribute("data-page") === "help") {
           link.classList.add("active");
         }
       });
-      loadPage("help", pageConfig, initPage);
+      await loadPage("help", pageConfig, initPage);
     });
   }
 };

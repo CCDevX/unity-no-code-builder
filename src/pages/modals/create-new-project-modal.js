@@ -43,7 +43,7 @@ export const showNewProjectModal = async () => {
   cancelProject.addEventListener("click", hideNewProjectModal);
   modalOverlay.addEventListener("click", hideNewProjectModal);
   // Create project button in modal
-  createProjectBtn.addEventListener("click", (event) => {
+  createProjectBtn.addEventListener("click", async (event) => {
     const projectName = projectNameInput.value.trim();
     const technicalName = technicalNameDisplay.textContent;
 
@@ -63,7 +63,7 @@ export const showNewProjectModal = async () => {
     if (succes) {
       hideNewProjectModal();
       console.log(initPage);
-      loadPage("project-builder", pageConfig, initPage, {
+      await loadPage("project-builder", pageConfig, initPage, {
         projectId: technicalName,
       });
     }

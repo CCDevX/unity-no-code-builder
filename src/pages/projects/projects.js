@@ -1,7 +1,10 @@
 import "./projects.scss";
 
 import { loadPage } from "../../common/javascript/helper/navigation-helper";
-import { getAllProjects } from "../../common/javascript/helper/project-helper";
+import {
+  getAllProjects,
+  setCurrentProject,
+} from "../../common/javascript/helper/project-helper";
 import { showNewProjectModal } from "../modals/create-new-project-modal";
 import { pageConfig } from "../../common/javascript/config/page-config";
 import { initPage } from "../../common/javascript/helper/page-init";
@@ -58,15 +61,16 @@ const initProjectPage = () => {
     }
 
     document.querySelectorAll(".open-project").forEach((button) => {
-      button.addEventListener("click", (event) => {
+      button.addEventListener("click", async (event) => {
         const projectId = event.currentTarget.getAttribute("data-id");
-        localStorage.setItem("currentProject", projectId);
-        loadPage("project-builder", pageConfig, initPage, { projectId });
+        //localStorage.setItem("currentProject", projectId);
+        setCurrentProject(projectId);
+        await loadPage("project-builder", pageConfig, initPage, { projectId });
       });
     });
 
     document.querySelectorAll(".delete-project").forEach((button) => {
-      button.addEventListener("click", (event) => {
+      button.addEventListener("click", async (event) => {
         const projectId = event.currentTarget.getAttribute("data-id");
         if (
           confirm(
@@ -74,7 +78,7 @@ const initProjectPage = () => {
           )
         ) {
           deleteProject(projectId);
-          loadPage("projects", pageConfig, initPage);
+          await loadPage("projects", pageConfig, initPage);
         }
       });
     });

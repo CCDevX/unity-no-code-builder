@@ -1,4 +1,5 @@
 import { initHomePage } from "../../../pages/home/home";
+import { initProjectBuilder } from "../../../pages/project-builder/project-builder";
 import { initProjectPage } from "../../../pages/projects/projects";
 import { initSettingsPage } from "../../../pages/settings/settings";
 
@@ -21,7 +22,7 @@ const initPage = (pageName, params = {}) => {
     case "help":
       break;
     case "project-builder":
-      const currentProject = localStorage.getItem("currentProject");
+      initProjectBuilder();
       break;
     default:
       break;
