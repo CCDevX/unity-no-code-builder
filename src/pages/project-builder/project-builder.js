@@ -261,8 +261,90 @@ const saveProjectState = () => {
     localStorage.setItem("projects", JSON.stringify(projects));
   }
 };
-const makeComponentReordable = () => {};
-const updateComponentPositions = () => {};
+const getComponentIndex = (element) => {
+  return Array.from(dropArea.querySelectorAll(".preview-component")).indexOf(
+    element
+  );
+};
+
+const reorderComponents = (element, newIndex) => {
+  const components = Array.from(
+    dropArea.querySelectorAll(".preview-component")
+  );
+
+  if (newIndex >= components.length) {
+    dropArea.appendChild(element);
+  } else {
+    dropArea.insertBefore(element, components[newIndex]);
+  }
+
+  updateComponentPositions();
+};
+
+const makeComponentReordable = (element) => {
+  let startY;
+  let initialIndex;
+
+  const drag = (e) => {
+    const deltaY = e.clientY - startY;
+    const components = Array.from(
+      dropArea.querySelectorAll(".preview-component")
+    );
+    const currentIndex = getComponentIndex(element);
+
+    let newIndex = currentIndex;
+    if (deltaY < 0 && currentIndex > 0) {
+      const prevComponent = components[currentIndex - 1];
+      if (e.clientY < prevComponent.getBoundingClientRect().bottom) {
+        newIndex--;
+      }
+    } else if (deltaY > 0 && currentIndex < components.length - 1) {
+      const nextComponent = components[currentIndex + 1];
+      if (e.clientY > nextComponent.getBoundingClientRect().top) {
+        newIndex++;
+      }
+    }
+
+    if (newIndex !== currentIndex) {
+      reorderComponents(element, newIndex);
+      startY = e.clientY;
+    }
+  };
+
+  const stopDrag = () => {
+    element.classList.remove("dragging");
+    document.removeEventListener("mousemove", drag);
+    document.removeEventListener("mouseup", stopDrag);
+    updateComponentPositions();
+  };
+
+  const startDrag = (e) => {
+    e.preventDefault();
+    startY = e.clientY;
+    element.classList.add("dragging");
+    initialIndex = getComponentIndex(element);
+
+    document.addEventListener("mousemove", drag);
+    document.addEventListener("mouseup", stopDrag);
+  };
+  element.addEventListener("mousedown", startDrag);
+};
+const updateComponentPositions = () => {
+  const components = dropArea.querySelectorAll(".preview-component");
+  let currentTop = 10;
+
+  components.forEach((comp) => {
+    comp.style.top = `${currentTop}px`;
+    const height = comp.getBoundingClientRect().height;
+    currentTop += height + 10;
+  });
+
+  if (components.length > 0) {
+    dropArea.style.height = `${currentTop}px`;
+  } else {
+    dropArea.style.height = "500px";
+  }
+};
 
 const createComponent = (type, x, y) => {
   const preview = dropArea;
@@ -332,6 +414,108 @@ const createComponent = (type, x, y) => {
   }, 500);
   return component;
 };
-const updateStyleEditor = () => {};
+const updateStyleEditor = (component, componentType) => {
+  const boldGroup = document.querySelector(".form-group:has(#element-bold)");
+  const textGroup = document.querySelector(".form-group:has(#element-text)");
+
+  boldGroup.classList.add("disabled");
+  textGroup.classList.add("disabled");
+
+  switch (componentType) {
+    case "text":
+      boldGroup.classList.remove("disabled");
+      textGroup.classList.remove("disabled");
+      break;
+    case "button":
+    case "input":
+    case "helpbox":
+      textGroup.classList.remove("disabled");
+      break;
+    default:
+      break;
+  }
+
+  const boldInput = document.querySelector("#element-bold");
+  const textInput = document.querySelector("#element-text");
+  if (boldInput) {
+    boldInput.checked = component.dataset.bold === "true";
+    boldInput.addEventListener("change", (event) => {
+      component.dataset.bold = event.currentTarget.checked;
+      const textElement = component.querySelector(".unity-text .unity-title");
+      if (textElement) {
+        textElement.style.fontWeight = event.currentTarget.checked
+          ? "bold"
+          : "normal";
+      }
+      saveProjectState();
+    });
+  }
+
+  if (textInput) {
+    textInput.value = component.dataset.text || "";
+    textInput.addEventListener("input", (event) => {
+      component.dataset.text = event.currentTarget.value;
+      const textElement = component.querySelector(".unity-text .unity-title");
+      if (textElement) {
+        textElement.textContent = event.currentTarget.value;
+      }
+      saveProjectState();
+    });
+  }
+
+  //mettre à jour l'éditeur d'action
+
+  actionTypeSelect.value = component.dataset.actionType || "";
+  actionUrlInput.value = "";
+  actionCodeInput.value = "";
+
+  if (component.dataset.actionType === "CustomCode") {
+    actionUrlInput.style.display = "none";
+    actionCodeInput.style.display = "block";
+    actionCodeInput.value = component.dataset.customCode || "";
+  } else {
+    actionUrlInput.style.display = "block";
+    actionCodeInput.style.display = "none";
+    actionCodeInput.value =
+      component.dataset.actionType === "DebugLog"
+        ? component.dataset.debugMessage
+        : component.dataset.actionUrl || "";
+  }
+
+  actionParams.style.display =
+    component.dataset.actionType === "OpenUrl" ||
+    component.dataset.actionType === "DebugLog" ||
+    component.dataset.actionType === "CustomCode"
+      ? "block"
+      : "none";
+
+  if (component.dataset.actionType === "DebugLog") {
+    actionUrlInput.placeholder = "Enter debug message ...";
+  } else if (component.dataset.actionType === "OpenUrl") {
+    actionUrlInput.placeholder = "https://...";
+  }
+
+  removeActionBtn.style.display = component.dataset.actionType
+    ? "inline-block"
+    : "none";
+
+  //générer la visibilité de l'onglet Actions
+  const actionsTabs = document.querySelector(
+    ".tab-item[data-target='actions']"
+  );
+  const actionsPane = document.querySelector("#actions");
+
+  // N'afficher l'onglet Actions que pour les boutons
+  if (componentType === "button") {
+    actionsTab.style.display = "block";
+  } else {
+    actionsTab.style.display = "none";
+    // Si l'onglet Actions est actif mais qu'on sélectionne un non-bouton
+    if (actionsPane.classList.contains("active")) {
+      // Basculer vers l'onglet Properties
+      document.querySelector('.tab-item[data-target="styles"]').click();
+    }
+  }
+};
 
 export { initProjectBuilder };
