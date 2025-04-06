@@ -138,7 +138,7 @@ const hideDropIndicator = () => {
 dropIndicator = document.querySelector("#drop-indicator");
 
 const loadProjectState = (project) => {
-  if (project && project.components) {
+  if (project && project.components && project.components.length > 0) {
     const emptyState = dropArea.querySelector(".empty-state");
     if (emptyState) emptyState.remove();
 
@@ -263,7 +263,75 @@ const saveProjectState = () => {
 };
 const makeComponentReordable = () => {};
 const updateComponentPositions = () => {};
-const createComponent = () => {};
+
+const createComponent = (type, x, y) => {
+  const preview = dropArea;
+  const deleteBtn = document.querySelector("#delete-component");
+
+  const existingComponents = preview.querySelectorAll(".preview-component");
+  let nextTop = 10; //Padding Top
+
+  existingComponents.forEach((comp) => {
+    const rect = comp.getBoundingClientRect();
+    const bottom = comp.offsetTop + rect.height;
+    nextTop = Math.max(nextTop, bottom + 10);
+  });
+
+  const component = document.createElement("div");
+  component.className = `preview-component ${type}-component`;
+  component.style.position = "absolute";
+  component.style.top = `${nextTop}px`;
+  component.style.left = `10px`;
+  component.style.width = "calc(100% - 20px)";
+
+  switch (type) {
+    case "text":
+      component.innerHTML = `<p class="unity-text">Texte content</p>`;
+      break;
+    case "button":
+      component.innerHTML = `<button class="unity-btn">Bouton</button>`;
+      break;
+    case "input":
+      component.innerHTML = `<input type="text" class="form-control unity-input" placeholder="Input field"/>`;
+      break;
+    case "helpbox":
+      component.innerHTML = `
+      <div class="unity-helpbox">
+        <i class="fa-solid fa-circle-info unity-helpbox-icon"></i>
+        <p class="unity-helpbox-text">Help text content</p>
+      </div>`;
+      break;
+    default:
+      component.innerHTML = `<div>Component : ${type}</div>`;
+      break;
+  }
+  makeComponentReordable(component);
+
+  //supprimer l'ancien gestionnaire d'évèment de sélection
+  const innerElement = component.firstElementChild;
+  if (innerElement) {
+    component.removeEventListener("click", null);
+    innerElement.addEventListener("click", (event) => {
+      e.stopPropagation();
+      document.querySelectorAll("preview-component").forEach((comp) => {
+        comp.classList.remove("selected");
+      });
+
+      const componentContainer =
+        event.currentTarget.closet(".preview-component");
+      componentContainer.classList.add("selected");
+      if (deleteBtn) deleteBtn.style.display.flex;
+      updateStyleEditor(componentContainer, type);
+    });
+  }
+  preview.appendChild(component);
+
+  component.classList.add("component-placed");
+  setTimeout(() => {
+    component.classList.remove("component-placed");
+  }, 500);
+  return component;
+};
 const updateStyleEditor = () => {};
 
 export { initProjectBuilder };
