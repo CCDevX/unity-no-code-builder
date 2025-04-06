@@ -31,6 +31,140 @@ const initProjectBuilder = () => {
   // Auto-save after component creation or position update
   wrapWithAutoSave("createComponent");
   wrapWithAutoSave("updateComponentPositions");
+
+  dropArea.addEventListener("click", function (e) {
+    if (e.target === this) {
+      document.querySelectorAll(".preview-component").forEach((comp) => {
+        comp.classList.remove("selected");
+      });
+      selectedComponent = null;
+
+      const deleteBtn = document.querySelector("#delete-component");
+      const actionsTab = document.querySelector(
+        '.tab-item[data-target="actions"]'
+      );
+      const actionsPane = document.querySelector("#actions");
+
+      if (deleteBtn) deleteBtn.style.display = "none";
+      if (actionsTab) actionsTab.style.display = "none";
+      if (actionsPane && actionsPane.classList.contains("active")) {
+        document.querySelector('.tab-item[data-target="styles"]').click();
+      }
+    }
+  });
+
+  // Ajouter la gestion du bouton de suppression
+  const deleteBtn = document.querySelector("#delete-component");
+  let selectedComponent = null;
+
+  // Ajouter l'événement de suppression
+  deleteBtn.addEventListener("click", (event) => {
+    if (
+      selectedComponent &&
+      confirm("Are you sure you want to delete this component?")
+    ) {
+      selectedComponent.remove();
+      selectedComponent = null;
+      deleteBtn.style.display = "none";
+      updateComponentPositions();
+      saveProjectState();
+    }
+  });
+
+  // Masquer le bouton de suppression lors d'un clic sur la zone de drop
+  dropArea.addEventListener("click", function (e) {
+    if (e.target === this) {
+      document.querySelectorAll(".preview-component").forEach((comp) => {
+        comp.classList.remove("selected");
+      });
+      selectedComponent = null;
+
+      const deleteBtn = document.querySelector("#delete-component");
+      if (deleteBtn) {
+        deleteBtn.style.display = "none";
+      }
+    }
+  });
+
+  // Ajouter la gestion des actions
+  const actionTypeSelect = document.querySelector("#action-type");
+  const actionParams = document.querySelector(".action-params");
+  const actionUrlInput = document.querySelector("#action-url");
+  const applyActionBtn = document.querySelector("#apply-action");
+  const removeActionBtn = document.querySelector("#remove-action");
+  const actionCodeInput = document.querySelector("#action-code");
+
+  // Gérer l'affichage des paramètres en fonction du type d'action
+  actionTypeSelect.addEventListener("change", function () {
+    const actionType = this.value;
+    const showParams =
+      actionType === "OpenUrl" ||
+      actionType === "DebugLog" ||
+      actionType === "CustomCode";
+    actionParams.style.display = showParams ? "block" : "none";
+
+    // Gérer l'affichage du champ approprié
+    if (actionType === "CustomCode") {
+      actionUrlInput.style.display = "none";
+      actionCodeInput.style.display = "block";
+      document.querySelector(".prompt-container").style.display = "block";
+      actionCodeInput.placeholder = "// Enter your C# code here...";
+    } else {
+      actionUrlInput.style.display = "block";
+      actionCodeInput.style.display = "none";
+      document.querySelector(".prompt-container").style.display = "none";
+      actionUrlInput.placeholder =
+        actionType === "DebugLog" ? "Enter debug message..." : "https://...";
+    }
+
+    if (actionType === "") {
+      removeActionBtn.style.display = "none";
+    }
+  });
+
+  // Appliquer l'action au composant sélectionné
+  applyActionBtn.addEventListener("click", function () {
+    if (!selectedComponent) {
+      alert("Please select a component first");
+      return;
+    }
+
+    const actionType = actionTypeSelect.value;
+    if (!actionType) {
+      alert("Please select an action type");
+      return;
+    }
+
+    // Sauvegarder l'action dans le dataset du composant sans ajouter d'écouteur
+    selectedComponent.dataset.actionType = actionType;
+    if (actionType === "OpenUrl") {
+      selectedComponent.dataset.actionUrl = actionUrlInput.value;
+    } else if (actionType === "DebugLog") {
+      selectedComponent.dataset.debugMessage = actionUrlInput.value;
+    } else if (actionType === "CustomCode") {
+      selectedComponent.dataset.customCode = actionCodeInput.value;
+    }
+
+    removeActionBtn.style.display = "inline-block";
+    saveProjectState();
+  });
+
+  // Supprimer l'action du composant sélectionné
+  removeActionBtn.addEventListener("click", function () {
+    if (!selectedComponent) return;
+
+    delete selectedComponent.dataset.actionType;
+    delete selectedComponent.dataset.actionUrl;
+    delete selectedComponent.dataset.debugMessage;
+    delete selectedComponent.dataset.customCode;
+
+    actionTypeSelect.value = "";
+    actionUrlInput.value = "";
+    actionCodeInput.value = "";
+    actionParams.style.display = "none";
+    removeActionBtn.style.display = "none";
+    saveProjectState();
+  });
 };
 
 const setupProjectTitle = (project) => {
