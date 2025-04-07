@@ -144,3 +144,295 @@
     }
   }
 }
+
+/* Project Builder Styles */
+
+.builder-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.builder-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  color: var(--accent-color);
+}
+
+/* Project Builder Split Layout Styles */
+
+.preview-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.component-item.component-grabbing {
+  cursor: grabbing;
+  transform: scale(0.95);
+  /*box-shadow: 0 0 0 2px var(--accent-color);*/
+}
+
+.style-editor {
+  padding: 10px 0;
+}
+
+.preview-component {
+  position: absolute;
+  left: 10px;
+  width: calc(100% - 20px);
+  min-height: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 8px;
+  cursor: move;
+  z-index: 1;
+  /* Supprimé la transition pour éviter les effets de bord lors du réordonnancement */
+}
+
+.preview-component.selected {
+  box-shadow: 0 0 0 2px var(--accent-color), 0 0 8px rgba(131, 103, 199, 0.5);
+  z-index: 10;
+}
+
+.img-placeholder {
+  width: 120px;
+  height: 80px;
+  background-color: var(--bg-elevated);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-placeholder i {
+  font-size: 2rem;
+  color: var(--text-secondary);
+}
+
+.container-placeholder {
+  width: 200px;
+  height: 100px;
+  border: 1px dashed var(--text-secondary);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.preview-list {
+  list-style: disc;
+  padding-left: 20px;
+  color: var(--text-primary);
+}
+
+.preview-list li {
+  margin-bottom: 5px;
+}
+
+/* Override some tab styles for the builder */
+.builder-tools .tab-nav {
+  background-color: var(--bg-secondary);
+}
+
+.builder-tools .tab-content {
+  flex: 1;
+}
+
+.builder-tools .tab-pane {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Enhanced Drag and Drop Styles */
+.drop-indicator {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 0 0 3px rgba(131, 103, 199, 0.3);
+  opacity: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.drop-indicator:before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  right: -15px;
+  bottom: -15px;
+  border: 2px solid var(--accent-color);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+.drop-indicator:after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.drop-indicator.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Animation for when component is placed */
+.component-placed {
+  animation: placed 0.5s ease;
+}
+
+/* Preview area enhancements */
+.drop-area {
+  transition: all 0.3s ease;
+}
+
+.drop-area.drag-over {
+  background-color: rgba(131, 103, 199, 0.05);
+  border-color: var(--accent-color);
+  box-shadow: inset 0 0 0 1px var(--accent-color);
+}
+
+/* Animation for pulse effect */
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.7;
+    transform: scale(0.8);
+  }
+}
+
+/* Animation for placing components */
+@keyframes placed {
+  0% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 4px var(--accent-color);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+
+/* Better visibility for selected components */
+.preview-component.selected {
+  box-shadow: 0 0 0 2px var(--accent-color), 0 0 8px rgba(131, 103, 199, 0.5);
+  z-index: 10;
+}
+
+/* Enhanced tab styling to make them more clickable */
+.tab-nav .tab-item {
+  cursor: pointer;
+  user-select: none;
+}
+
+.tab-nav .tab-item a {
+  cursor: pointer;
+  user-select: none;
+  pointer-events: none; /* Make sure the click goes through to the li element */
+}
+
+/* Make sure tab panes are properly shown/hidden */
+.tab-pane {
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+}
+
+/* Enhanced tab styling for better interaction */
+.tab-item {
+  cursor: pointer;
+  user-select: none;
+  padding: 10px 15px;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+  transition: all var(--transition-speed);
+}
+
+.tab-item:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-elevated);
+}
+
+.tab-item.active {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-color);
+  border-bottom-color: var(--bg-elevated);
+  color: var(--accent-color);
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.preview-component {
+  position: absolute;
+  left: 10px;
+  width: calc(100% - 20px);
+  min-height: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 8px;
+  cursor: move;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 1;
+}
+
+.preview-component.dragging {
+  z-index: 100;
+  opacity: 0.8;
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.preview-component.selected {
+  z-index: 2;
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.preview-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#export-project {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9em;
+}
+
+#export-project i {
+  font-size: 1em;
+}

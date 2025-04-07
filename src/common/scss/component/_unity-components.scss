@@ -1,0 +1,82 @@
+@use "sass:color";
+@use "../variables" as *;
+
+/* Unity components */
+.unity-btn {
+  background-color: color.adjust($bg-secondary, $lightness: +10%);
+  color: $text-primary;
+  padding: 0.5rem 2rem;
+  border: 0.1rem solid $border-color;
+  width: 100%;
+  border-radius: 0.3rem;
+}
+
+.unity-input {
+  width: 100%;
+  padding: 0.5rem;
+  background-color: $bg-elevated;
+  border: 0.1rem solid color.adjust($border-color, $lightness: -10%);
+  border-style: inset;
+  color: $text-primary;
+}
+
+.unity-text .unity-title {
+  margin: 0;
+  color: $text-primary;
+}
+
+.unity-title {
+  font-size: 2rem;
+}
+
+.unity-helpbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 0.5rem;
+  background-color: $bg-secondary;
+  border: 0.1rem solid $border-color;
+  border-radius: 0.4rem;
+}
+
+.unity-helpbox-icon {
+  font-size: 1.6rem;
+  color: $accent-color;
+  margin-top: 0.2rem;
+}
+
+.unity-helpbox-text {
+  color: $text-primary;
+  flex: 1;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.form-group.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.form-group.disabled input,
+.form-group.disabled label {
+  cursor: not-allowed;
+}
+
+.delete-component-btn {
+  background: none;
+  border: none;
+  color: $error;
+  font-size: 1.6rem;
+  cursor: pointer;
+  padding: 0.8rem;
+  border-radius: 0.4rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+}
+
+.delete-component-btn:hover {
+  opacity: 1;
+  background-color: $error-hover;
+}
