@@ -1,8 +1,15 @@
+import "./home.scss";
 import { showNewProjectModal } from "../modals/create-new-project-modal.js";
-import { loadPage } from "../../common/javascript/helper/navigation-helper.js";
+import {
+  loadPage,
+  setActiveMenuLink,
+} from "../../common/javascript/helper/navigation-helper.js";
 import { initPage } from "../../common/javascript/helper/page-init.js";
 import { pageConfig } from "../../common/javascript/config/page-config.js";
-import { setCurrentProject } from "../../common/javascript/helper/project-helper.js";
+import {
+  setCurrentProject,
+  addProject,
+} from "../../common/javascript/helper/project-helper.js";
 
 export const initHomePage = () => {
   const createProjectButton = document.querySelector("#create-project-button");
@@ -61,24 +68,15 @@ export const initHomePage = () => {
         ],
       };
 
-      // Retrieve existing projects
-
-      let projects = JSON.parse(localStorage.getItem("projects") || "[]");
-
-      // Check if the project already exists
-      if (
-        !projects.some((p) => p.technicalName === sampleProject.technicalName)
-      ) {
-        projects.push(sampleProject);
-        localStorage.setItem("projects", JSON.stringify(projects));
+      const success = addProject(sampleProject);
+      try {
+        await loadPage("project-builder", pageConfig, initPage, {
+          projectId: sampleProject.technicalName,
+        });
+      } catch (error) {
+        showToast("Failed to load the project builder page.", "error");
+        console.error(error);
       }
-
-      // Set as the current project and redirect
-      //localStorage.setItem("currentProject", sampleProject.technicalName);
-      setCurrentProject(sampleProject.technicalName);
-      await loadPage("project-builder", pageConfig, initPage, {
-        projectId: sampleProject.technicalName,
-      });
     });
   }
 
@@ -88,13 +86,13 @@ export const initHomePage = () => {
 
   if (viewResourcesProjectButton) {
     viewResourcesProjectButton.addEventListener("click", async () => {
-      document.querySelectorAll(".menu a").forEach((link) => {
-        link.classList.remove("active");
-        if (link.getAttribute("data-page") === "help") {
-          link.classList.add("active");
-        }
-      });
-      await loadPage("help", pageConfig, initPage);
+      try {
+        await loadPage("help", pageConfig, initPage);
+        setActiveMenuLink("help");
+      } catch (error) {
+        showToast("Failed to load the help page.", "error");
+        console.error(error);
+      }
     });
   }
 };

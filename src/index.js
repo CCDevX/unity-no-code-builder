@@ -2,7 +2,10 @@
 import "./index.scss";
 
 // Import navigation and initialization logic
-import { loadPage } from "./common/javascript/helper/navigation-helper.js";
+import {
+  loadPage,
+  setActiveMenuLink,
+} from "./common/javascript/helper/navigation-helper.js";
 import { initPage } from "./common/javascript/helper/page-init.js";
 import { pageConfig } from "./common/javascript/config/page-config.js";
 
@@ -59,12 +62,10 @@ const initializeSidebar = () => {
 const handleMenuClick = (event) => {
   event.preventDefault();
 
-  // Remove 'active' class from all links, then highlight the current one
-  menuLinks.forEach((item) => item.classList.remove("active"));
-  event.currentTarget.classList.add("active");
-
   // Load the selected page dynamically
   const pageName = event.currentTarget.getAttribute("data-page");
+
+  setActiveMenuLink(pageName);
   loadPage(pageName, pageConfig, initPage);
 
   // Automatically close the sidebar on small screens

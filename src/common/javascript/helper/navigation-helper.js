@@ -45,6 +45,22 @@ const loadPageScripts = async (pageName, pageConfig) => {
 };
 
 /**
+ * Highlights the active menu link based on the currently loaded page.
+ * This function iterates through all sidebar links and toggles the "active" class
+ * depending on whether the link's data-page matches the provided page name.
+ *
+ * @param {string} pageName - The name of the page to mark as active in the sidebar menu.
+ */
+const setActiveMenuLink = (pageName) => {
+  document.querySelectorAll(".menu a").forEach((link) => {
+    link.classList.remove("active");
+    if (link.getAttribute("data-page") === pageName) {
+      link.classList.add("active");
+    }
+  });
+};
+
+/**
  * Loads a new page by:
  * 1. Displaying the loading state,
  * 2. Fetching the HTML,
@@ -97,4 +113,10 @@ const loadPage = async (
 };
 
 // Export the key functions to be used in other modules
-export { displayLoadingState, fetchPageContent, loadPageScripts, loadPage };
+export {
+  displayLoadingState,
+  fetchPageContent,
+  loadPageScripts,
+  loadPage,
+  setActiveMenuLink,
+};
