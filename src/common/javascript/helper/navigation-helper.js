@@ -1,99 +1,100 @@
+// Select DOM elements for page title and main content container
 const pageTitle = document.querySelector("#page-title");
 const pageContent = document.querySelector("#page-content");
 
+/**
+ * Displays a loading spinner while the page content is being fetched.
+ */
 const displayLoadingState = () => {
   pageContent.innerHTML =
     '<div class="loading"><i class="fa-solid fa-spinner"></i> Loading ... </div>';
 };
 
-const clearOldScripts = () => {
-  document.querySelectorAll("script[data-page-script]").forEach((script) => {
-    script.remove();
-  });
-};
-
+/**
+ * Fetches the HTML content of a specific page based on the provided name.
+ * @param {string} pageName - The name of the page to fetch.
+ * @returns {Promise<string>} - The raw HTML of the page.
+ */
 const fetchPageContent = async (pageName) => {
   const response = await fetch(`./pages/${pageName}/${pageName}.html`);
 
+  // If the fetch fails, throw an error to be handled by the caller
   if (!response.ok) {
     throw new Error(`HTTP error! Status: ${response.status}`);
   }
 
-  return response.text();
+  return response.text(); // Return HTML as string
 };
 
+/**
+ * Dynamically imports the script associated with the current page.
+ * This uses ES module dynamic import and assumes a standard structure.
+ * @param {string} pageName - The name of the page whose script should be loaded.
+ * @param {Object} pageConfig - Configuration object for all pages (used for flexibility).
+ * @returns {Promise<Module>} - The imported JS module.
+ */
 const loadPageScripts = async (pageName, pageConfig) => {
-  const scripts = pageConfig[pageName]?.scripts || [];
-
-  if (scripts.length === 0) {
-    console.log(`No scripts to load for page: ${pageName}`);
-    return "No scripts loaded";
+  console.log("Loading script for page:", pageName);
+  try {
+    const module = await import(`@pages/${pageName}/${pageName}.js`);
+    return module;
+  } catch (error) {
+    console.error(`Failed to load script for ${pageName}:`, error);
+    throw error;
   }
-
-  console.log(`Loading scripts for page: ${pageName}`);
-
-  return Promise.all(
-    scripts.map(
-      (scriptSrc) =>
-        new Promise((resolve, reject) => {
-          const script = document.createElement("script");
-          script.src = scriptSrc;
-          script.setAttribute("data-page-script", "");
-          script.type = "module";
-          script.async = true; // Chargement en arrière-plan
-          document.body.appendChild(script);
-
-          script.onload = () => {
-            console.log(`Script loaded: ${scriptSrc}`);
-            resolve(scriptSrc); // Renvoie le script chargé
-          };
-
-          script.onerror = () => {
-            console.error(`Script failed to load: ${scriptSrc}`);
-            reject(new Error(`Failed to load script: ${scriptSrc}`));
-          };
-        })
-    )
-  );
 };
 
+/**
+ * Loads a new page by:
+ * 1. Displaying the loading state,
+ * 2. Fetching the HTML,
+ * 3. Injecting it into the DOM,
+ * 4. Loading any associated scripts,
+ * 5. Initializing page-specific logic via callback.
+ *
+ * @param {string} pageName - The name of the page to load.
+ * @param {Object} pageConfig - Contains titles and script paths for each page.
+ * @param {Function} initPageCallback - Function to initialize the page logic.
+ * @param {Object} params - Optional parameters to pass to the init function.
+ */
 const loadPage = async (
   pageName,
   pageConfig,
   initPageCallback,
   params = {}
 ) => {
+  // Show spinner while content is loading
   displayLoadingState();
 
+  // Update the document title based on configuration or fallback
   pageTitle.textContent = pageConfig[pageName]?.title || "Dashboard";
 
-  clearOldScripts();
-
   try {
+    // Load the HTML content for the target page
     const html = await fetchPageContent(pageName);
     pageContent.innerHTML = html;
+
     console.log(
       `Loading page: ${pageName} with scripts: ${pageConfig[pageName]?.scripts}`
     );
 
+    // Dynamically import any page-specific scripts
     const loadedScripts = await loadPageScripts(pageName, pageConfig);
     console.log(`All scripts loaded:`, loadedScripts);
 
     console.log(`Page ${pageName} is fully ready.`);
+
+    // Run the page-specific initializer if provided
     initPageCallback(pageName, params);
   } catch (error) {
-    console.log(`Could note load page ${pageName} : ${error}`);
+    // In case of error, display a fallback error message in the content area
+    console.log(`Could not load page ${pageName}: ${error}`);
     pageContent.innerHTML = `<div class="error-container">
-                                <h1><Error loading page/h1>
-                                <button class="btn btn-primary" onclick="location.reload()" >Reload</button>
-                                </div>`;
+                                <h1>Error loading page</h1>
+                                <button class="btn btn-primary" onclick="location.reload()">Reload</button>
+                              </div>`;
   }
 };
 
-export {
-  displayLoadingState,
-  clearOldScripts,
-  fetchPageContent,
-  loadPageScripts,
-  loadPage,
-};
+// Export the key functions to be used in other modules
+export { displayLoadingState, fetchPageContent, loadPageScripts, loadPage };
