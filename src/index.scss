@@ -8,6 +8,7 @@
 @use "./common/scss/modal" as *;
 @use "./common/scss/forms" as *;
 @use "./common/scss/toast" as *;
+@use "sass:color";
 
 .container {
   display: flex; /* Flexbox layout */
@@ -55,21 +56,28 @@
             font-size: 2rem;
             display: flex;
             align-items: center;
-            padding: 1.2rem 2rem;
+            padding: 1.4rem 2.4rem;
             color: $text-secondary;
             text-decoration: none;
             transition: all $transition-speed;
             i {
-              margin-right: 1rem;
+              margin-right: 1.2rem;
               width: 3rem;
               text-align: center;
             }
 
-            &:hover,
+            &:hover {
+              background: color.scale($bg-elevated, $lightness: 2%);
+              color: $text-primary;
+              border-left: 0.4rem solid $accent-color; /* Active/hover style */
+            }
+
             &.active {
               background: $bg-elevated;
               color: $text-primary;
-              border-left: 0.4rem solid $accent-color; /* Active/hover style */
+              font-weight: 600;
+              border-left: 0.4rem solid $accent-color;
+              box-shadow: inset 0 0 0.5rem rgba($accent-color, 0.2);
             }
           }
         }
@@ -87,6 +95,8 @@
     flex: 1; /* Take remaining space */
     margin-left: $sidebar-width;
     transition: margin-left $transition-speed;
+    display: flex;
+    flex-direction: column;
     @include sm {
       margin-left: 0; /* Full width on mobile */
     }
@@ -114,6 +124,7 @@
     }
     .content-body {
       padding: 2rem;
+      flex: 1 1 auto;
     }
     /* Footer */
     footer {
@@ -157,17 +168,3 @@
 }
 
 /* Toast */
-
-.toast-container {
-  display: none;
-  position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  pointer-events: none;
-}

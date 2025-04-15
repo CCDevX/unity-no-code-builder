@@ -1,3 +1,28 @@
+// $bg-primary: #202834; // Bleu-gris sombre (nettement plus clair que le précédent)
+// $bg-secondary: rgba(42, 53, 70, 0.8); // Bleu-gris moyen-sombre transparent
+// $bg-elevated: rgba(
+//   55,
+//   65,
+//   81,
+//   0.7
+// ); // Bleu-gris moyen transparent (style Tailwind gray-600/700)
+// $text-primary: #eaecef; // Blanc cassé / Gris très clair (plus neutre)
+// $text-secondary: rgba(200, 205, 210, 0.7); // Gris clair neutre transparent
+// $accent-color: #007acc; // Bleu VS Code standard
+// $accent-hover: #0098e6; // Bleu VS Code hover (légèrement plus clair/vif)
+// $border-color: #3a4556; // Gris-bleu foncé pour bordures, cohérent avec la nouvelle base
+// $success: #28a745; // Vert succès (inchangé)
+// $success-hover: #34c759; // Vert succès hover (inchangé)
+// $error: #dc3545; // Rouge erreur (inchangé)
+// $error-hover: #ff453a; // Rouge erreur hover (inchangé)
+
+// // Variables structurelles (inchangées)
+// $sidebar-width: 25rem;
+// $header-height: 6rem;
+// $transition-speed: 0.25s;
+// $box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.1); // Ombre ajustée légèrement si besoin pour la nouvelle base
+// $font-family: "Inter", sans-serif;
+
 $bg-primary: #202834; // Bleu-gris sombre (nettement plus clair que le précédent)
 $bg-secondary: rgba(42, 53, 70, 0.8); // Bleu-gris moyen-sombre transparent
 $bg-elevated: rgba(

@@ -3,6 +3,7 @@ import "../../common/scss/component/_unity-components.scss";
 
 (function () {
   function initBuilder() {
+    console.log("enter to init builder");
     const currentProject = localStorage.getItem("currentProject");
     const projects = JSON.parse(localStorage.getItem("projects") || "[]");
     const componentItems = document.querySelectorAll(".component-item");

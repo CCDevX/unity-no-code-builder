@@ -1,0 +1,47 @@
+@use "../../common/scss/variables" as *;
+
+.form-group {
+  background: $bg-elevated;
+  padding: 3rem;
+  border-radius: 0.5rem;
+  box-shadow: $box-shadow;
+  max-width: 60rem;
+  margin: 3rem auto;
+  label {
+    font-size: 2rem;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 1.6rem;
+  font-size: 2.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid $border-color;
+  background: $bg-primary;
+  color: $text-primary;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-color;
+    box-shadow: 0 0 0 2px rgba($accent-color, 0.2);
+  }
+}
+
+.form-text {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: $text-secondary;
+  margin: 1.6rem 0;
+  a {
+    text-decoration: none;
+    border-bottom: 0.1rem solid transparent;
+    transition: color $transition-speed, border-color $transition-speed;
+
+    &:hover,
+    &:focus {
+      border-color: $text-primary;
+      text-decoration: none;
+    }
+  }
+}

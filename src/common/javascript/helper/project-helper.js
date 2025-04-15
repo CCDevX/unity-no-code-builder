@@ -63,4 +63,60 @@ const addProject = (project) => {
   return true;
 };
 
-export { getAllProjects, getCurrentProject, setCurrentProject, addProject };
+const getSampleProjectTemplate = () => {
+  const sampleProject = {
+    name: "Sample Project",
+    technicalName: "SampleProject",
+    createdAt: new Date().toISOString(),
+    isSample: true,
+    components: [
+      {
+        type: "preview",
+        content: '<p class="unity-text">Welcome to Unity Win Builder</p>',
+        properties: {
+          bold: true,
+          text: "Welcome to Unity Win Builder",
+          values: "",
+        },
+        styles: {
+          top: "10px",
+          left: "10px",
+          width: "calc(100% - 20px)",
+          height: "",
+        },
+        actions: {
+          type: "",
+          url: "",
+          debugMessage: "",
+          customCode: "",
+        },
+      },
+      {
+        type: "preview",
+        content: '<button class="unity-btn">Click me!</button>',
+        properties: { bold: false, text: "Click me!", values: "" },
+        styles: {
+          top: "60px",
+          left: "10px",
+          width: "calc(100% - 20px)",
+          height: "",
+        },
+        actions: {
+          type: "DebugLog",
+          url: "",
+          debugMessage: "Button clicked!",
+          customCode: "",
+        },
+      },
+    ],
+  };
+  return sampleProject;
+};
+
+export {
+  getAllProjects,
+  getCurrentProject,
+  setCurrentProject,
+  addProject,
+  getSampleProjectTemplate,
+};

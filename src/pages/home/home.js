@@ -7,68 +7,48 @@ import {
 import { initPage } from "../../common/javascript/helper/page-init.js";
 import { pageConfig } from "../../common/javascript/config/page-config.js";
 import {
+  getAllProjects,
   setCurrentProject,
   addProject,
+  getSampleProjectTemplate,
 } from "../../common/javascript/helper/project-helper.js";
 
+/**
+ * Initializes the home page:
+ * - Binds the "Create Project" and "Sample Project" buttons
+ * - Handles navigation to the help/resources page
+ */
 export const initHomePage = () => {
+  // Handle "Create Project" button
   const createProjectButton = document.querySelector("#create-project-button");
   if (createProjectButton) {
     createProjectButton.addEventListener("click", (event) => {
       showNewProjectModal();
     });
   }
+
+  // Handle "Sample Project" button
   const sampleProjectButton = document.querySelector("#sample-project-button");
   if (sampleProjectButton) {
     sampleProjectButton.addEventListener("click", async (event) => {
-      const sampleProject = {
-        name: "Sample Project",
-        technicalName: "SampleProject",
-        createdAt: new Date().toISOString(),
-        isSample: true,
-        components: [
-          {
-            type: "preview",
-            content: '<p class="unity-text">Welcome to Unity Win Builder</p>',
-            properties: {
-              bold: true,
-              text: "Welcome to Unity Win Builder",
-              values: "",
-            },
-            styles: {
-              top: "10px",
-              left: "10px",
-              width: "calc(100% - 20px)",
-              height: "",
-            },
-            actions: {
-              type: "",
-              url: "",
-              debugMessage: "",
-              customCode: "",
-            },
-          },
-          {
-            type: "preview",
-            content: '<button class="unity-btn">Click me!</button>',
-            properties: { bold: false, text: "Click me!", values: "" },
-            styles: {
-              top: "60px",
-              left: "10px",
-              width: "calc(100% - 20px)",
-              height: "",
-            },
-            actions: {
-              type: "DebugLog",
-              url: "",
-              debugMessage: "Button clicked!",
-              customCode: "",
-            },
-          },
-        ],
-      };
+      const sampleProject = getSampleProjectTemplate();
 
-      const success = addProject(sampleProject);
+      // Check if the sample project already exists in localStorage
+      const existingProjects = getAllProjects();
+      const alreadyExists = existingProjects.some(
+        (p) => p.technicalName === sampleProject.technicalName
+      );
+
+      // If it doesn't exist, add it to storage
+      if (!alreadyExists) {
+        const success = addProject(sampleProject);
+        if (!success) return; // Exit if project failed to be added
+      }
+
+      // Set the sample project as the current one
+      setCurrentProject(sampleProject.technicalName);
+
+      // Load the project builder page with the sample project
       try {
         await loadPage("project-builder", pageConfig, initPage, {
           projectId: sampleProject.technicalName,
@@ -80,6 +60,7 @@ export const initHomePage = () => {
     });
   }
 
+  // Handle "View Resources" button
   const viewResourcesProjectButton = document.querySelector(
     "#view-resources-button"
   );

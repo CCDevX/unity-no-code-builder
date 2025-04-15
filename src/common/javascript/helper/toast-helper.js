@@ -9,24 +9,27 @@ const toastContainer = document.querySelector("#toast-container");
 const showToast = (message, type = "info", duration = 3000) => {
   if (!toastContainer) return;
 
-  // Create the toast element
+  // Create toast
   const toast = document.createElement("div");
   toast.classList.add("toast", `toast-${type}`);
   toast.innerHTML = `<span>${message}</span>`;
-
-  // Add the toast to the container
   toastContainer.appendChild(toast);
-  toastContainer.style.display = "flex"; // or "block", depending on your style
+  toastContainer.style.display = "flex";
 
-  // Animate and remove after duration
+  // Trigger fade-in
+  void toast.offsetWidth; // Force reflow to restart CSS transition
+  toast.classList.add("show");
+
+  // Hide toast after duration
   setTimeout(() => {
-    toast.classList.add("hide"); // fade-out animation
+    toast.classList.remove("show");
+    toast.classList.add("hide");
     setTimeout(() => {
       toast.remove();
       if (toastContainer.children.length === 0) {
         toastContainer.style.display = "none";
       }
-    }, 300); // time for fade-out animation
+    }, 300); // matches CSS transition time
   }, duration);
 };
 
