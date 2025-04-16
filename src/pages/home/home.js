@@ -1,5 +1,5 @@
 import "./home.scss";
-import { showNewProjectModal } from "../modals/create-new-project-modal.js";
+import { showNewProjectModal } from "../modals/create-new-project-modal/create-new-project-modal.js";
 import {
   loadPage,
   setActiveMenuLink,

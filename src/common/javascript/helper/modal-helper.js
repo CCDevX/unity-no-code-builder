@@ -9,7 +9,9 @@ const modalOverlay = document.querySelector("#modal-overlay");
 const showModal = async (modalType) => {
   try {
     // Fetch the modal HTML content from the appropriate file
-    const response = await fetch(`./pages/modals/${modalType}.html`);
+    const response = await fetch(
+      `./pages/modals/${modalType}/${modalType}.html`
+    );
 
     // If the response is not successful, throw an error
     if (!response.ok) throw new Error("Modal not found");

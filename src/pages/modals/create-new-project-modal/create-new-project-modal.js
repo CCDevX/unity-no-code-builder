@@ -1,15 +1,15 @@
 import {
   showModal,
   hideModal,
-} from "../../common/javascript/helper/modal-helper.js";
+} from "../../../common/javascript/helper/modal-helper.js";
 
-import { addProject } from "../../common/javascript/helper/project-helper.js";
+import { addProject } from "../../../common/javascript/helper/project-helper.js";
 
-import { loadPage } from "../../common/javascript/helper/navigation-helper.js";
+import { loadPage } from "../../../common/javascript/helper/navigation-helper.js";
 
-import { initPage } from "../../common/javascript/helper/page-init.js";
+import { initPage } from "../../../common/javascript/helper/page-init.js";
 
-import { pageConfig } from "../../common/javascript/config/page-config.js";
+import { pageConfig } from "../../../common/javascript/config/page-config.js";
 
 export const showNewProjectModal = async () => {
   await showModal("create-new-project-modal");

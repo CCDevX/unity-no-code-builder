@@ -6,65 +6,108 @@ const PROJECTS_KEY = "projects";
 const CURRENT_PROJECT_KEY = "currentProject";
 
 /**
- * Retrieve all projects stored in localStorage.
- * If none are found, returns an empty array.
+ * Safely retrieves all saved projects.
+ * @returns {Array} List of projects or an empty array if error occurs
  */
 const getAllProjects = () => {
-  return getFromStorage(PROJECTS_KEY, []);
+  try {
+    return getFromStorage(PROJECTS_KEY, []);
+  } catch (error) {
+    console.error("Failed to get projects from storage:", error);
+    showToast("Failed to load your projects.", "error");
+    return [];
+  }
 };
 
 /**
- * Retrieve the currently active project.
- * If none is set, returns null.
+ * Retrieves the currently selected project from storage.
+ * @returns {string|null} The current project ID or null
  */
 const getCurrentProject = () => {
-  return getFromStorage(CURRENT_PROJECT_KEY, null);
+  try {
+    return getFromStorage(CURRENT_PROJECT_KEY, null);
+  } catch (error) {
+    console.error("Failed to get current project:", error);
+    showToast("Could not retrieve the current project.", "error");
+    return null;
+  }
 };
 
 /**
- * Set a given project (by its technical name) as the currently active project.
- * @param {string} technicalName - Unique identifier of the project
+ * Sets the current active project in storage.
+ * @param {string} technicalName - ID of the project to set as current
  */
 const setCurrentProject = (technicalName) => {
-  saveToStorage(CURRENT_PROJECT_KEY, technicalName);
+  try {
+    saveToStorage(CURRENT_PROJECT_KEY, technicalName);
+  } catch (error) {
+    console.error("Failed to set current project:", error);
+    showToast("Could not save the selected project.", "error");
+  }
 };
 
 /**
- * Add a new project to the list of saved projects.
- * Checks for duplicates based on the technical name.
- * Also sets the newly added project as the current project.
- *
- * @param {Object} project - The project object to add
- * @returns {boolean} - True if the project was added, false if it already existed
+ * Adds a new project to localStorage.
+ * Prevents duplicates and sets it as the active project.
+ * @param {Object} project - New project data
+ * @returns {boolean} True if added, false if duplicate or error
  */
 const addProject = (project) => {
-  const projects = getAllProjects();
+  try {
+    const projects = getAllProjects();
 
-  // Check if a project with the same technical name already exists
-  const alreadyExists = projects.some((p) => {
-    return p.technicalName === project.technicalName;
-  });
-
-  if (alreadyExists) {
-    showToast(
-      "A project with the same technical name already exists.",
-      "error"
+    const alreadyExists = projects.some(
+      (p) => p.technicalName === project.technicalName
     );
+
+    if (alreadyExists) {
+      showToast(
+        "A project with the same technical name already exists.",
+        "error"
+      );
+      return false;
+    }
+
+    projects.push(project);
+    saveToStorage(PROJECTS_KEY, projects);
+    setCurrentProject(project.technicalName);
+    showToast("Project added successfully.", "success");
+    return true;
+  } catch (error) {
+    console.error("Failed to add project:", error);
+    showToast("Error while adding the project.", "error");
     return false;
   }
-
-  // Add the new project and persist the updated list
-  projects.push(project);
-  saveToStorage(PROJECTS_KEY, projects);
-
-  // Set the new project as the current one
-  setCurrentProject(project.technicalName);
-
-  return true;
 };
 
+/**
+ * Deletes a project and unsets it if it was active.
+ * @param {string} projectId - The technical name of the project
+ */
+const deleteProject = (projectId) => {
+  try {
+    let projects = getAllProjects();
+    projects = projects.filter((p) => p.technicalName !== projectId);
+    saveToStorage(PROJECTS_KEY, projects);
+
+    if (getCurrentProject() === projectId) {
+      localStorage.removeItem(CURRENT_PROJECT_KEY);
+    }
+
+    showToast("Project deleted successfully.", "success");
+  } catch (error) {
+    console.error("Failed to delete project:", error);
+    showToast("Error while deleting the project.", "error");
+  }
+};
+
+/**
+ * Returns a predefined sample project structure.
+ * Useful for demonstration purposes.
+ * @returns {Object} The sample project
+ */
 const getSampleProjectTemplate = () => {
-  const sampleProject = {
+  return {
     name: "Sample Project",
     technicalName: "SampleProject",
     createdAt: new Date().toISOString(),
@@ -110,7 +153,6 @@ const getSampleProjectTemplate = () => {
       },
     ],
   };
-  return sampleProject;
 };
 
 export {
@@ -118,5 +160,6 @@ export {
   getCurrentProject,
   setCurrentProject,
   addProject,
+  deleteProject,
   getSampleProjectTemplate,
 };
