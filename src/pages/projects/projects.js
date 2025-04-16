@@ -4,10 +4,13 @@ import { loadPage } from "../../common/javascript/helper/navigation-helper";
 import {
   getAllProjects,
   setCurrentProject,
+  deleteProject,
 } from "../../common/javascript/helper/project-helper";
 import { showNewProjectModal } from "../modals/create-new-project-modal/create-new-project-modal";
 import { pageConfig } from "../../common/javascript/config/page-config";
 import { initPage } from "../../common/javascript/helper/page-init";
+import { showConfirmModal } from "../modals/confirm-modal/confirm-modal";
+import { showToast } from "../../common/javascript/helper/toast-helper";
 
 /**
  * Creates and returns an empty project card element.
@@ -109,18 +112,20 @@ const initProjectPage = () => {
       } else if (target.classList.contains("delete-project")) {
         const projectId = target.getAttribute("data-id");
 
-        const confirmed = confirm(
-          "Are you sure you want to delete this project? This action cannot be undone."
+        const confirmed = await showConfirmModal(
+          "Do you really want to delete this project?"
         );
+
+        console.log(confirmed);
 
         if (confirmed) {
           try {
             deleteProject(projectId);
             await loadPage("projects", pageConfig, initPage);
-            showToast("Project deleted successfully.", "success");
+            //showToast("Project deleted successfully.", "success");
           } catch (error) {
             console.error("Error deleting project:", error);
-            showToast("Failed to delete the project.", "error");
+            //showToast("Failed to delete the project.", "error");
           }
         }
       }
