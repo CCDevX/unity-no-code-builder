@@ -47,6 +47,23 @@ const setCurrentProject = (technicalName) => {
 };
 
 /**
+ * Retrieves a project object by its `technicalName`.
+ * @param {string} technicalName - The technical identifier of the project
+ * @returns {Object|null} The project object if found, otherwise null
+ */
+const getProjectByTechnicalName = (technicalName) => {
+  try {
+    if (!technicalName) return null;
+    const projects = getAllProjects();
+    return projects.find((p) => p.technicalName === technicalName) || null;
+  } catch (error) {
+    console.error("Failed to get project by technical name:", error);
+    showToast("Could not retrieve the project.", "error");
+    return null;
+  }
+};
+
+/**
  * Adds a new project to localStorage.
  * Prevents duplicates and sets it as the active project.
  * @param {Object} project - New project data
@@ -162,4 +179,5 @@ export {
   addProject,
   deleteProject,
   getSampleProjectTemplate,
+  getProjectByTechnicalName,
 };
