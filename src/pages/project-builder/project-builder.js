@@ -1,7 +1,12 @@
+import "./project-builder.scss";
+import "../../common/scss/component/_unity-components.scss";
 import {
   getAllProjects,
   getCurrentProject,
 } from "../../common/javascript/helper/project-helper";
+import { loadProjectState } from "./state-manager";
+import { initTabs } from "./tabs";
+import { initDragAndDrop } from "./dragdrop-handler";
 
 const initProjectBuilderPage = () => {
   const currentProject = getCurrentProject();
@@ -12,6 +17,13 @@ const initProjectBuilderPage = () => {
 
   updateProjectTitle(currentProject);
   loadProjectState(dropArea);
+  initTabs();
+  const createComponentWithSave = useAutoSaveOnCreate(
+    createComponent,
+    saveProjectState
+  );
+  initDragAndDrop(dropArea, dropIndicator, createComponentWithSave);
+  initDragAndDrop();
 };
 
 /**

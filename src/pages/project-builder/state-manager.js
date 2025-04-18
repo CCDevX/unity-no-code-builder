@@ -1,6 +1,7 @@
 import {
   getAllProjects,
   getCurrentProject,
+  getProjectByTechnicalName,
 } from "../../common/javascript/helper/project-helper";
 
 let selectedComponent = null;
@@ -81,6 +82,18 @@ const applySavedActions = (component, compState) => {
   component.dataset.debugMessage = compState.actions.debugMessage;
   component.dataset.customCode = compState.actions.customCode;
 };
+
+function applySavedProperties(component, compState) {
+  if (!compState.properties) return;
+
+  component.dataset.bold = compState.properties.bold;
+  component.dataset.text = compState.properties.text;
+
+  const textElement = component.querySelector(".unity-text, .unity-title");
+  if (textElement && compState.properties.bold) {
+    textElement.style.fontWeight = "bold";
+  }
+}
 
 const addSelectionEvents = (component, componentType) => {
   const innerElement = component.firstElementChild;

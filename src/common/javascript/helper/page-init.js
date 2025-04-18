@@ -1,5 +1,5 @@
 import { initHomePage } from "../../../pages/home/home";
-//import { initProjectBuilder } from "../../../pages/project-builder/project-builder";
+import { initProjectBuilderPage } from "../../../pages/project-builder/project-builder";
 import { initProjectPage } from "../../../pages/projects/projects";
 import { initSettingsPage } from "../../../pages/settings/settings";
 
@@ -41,12 +41,11 @@ const initPage = (pageName, params = {}) => {
       break;
 
     case "project-builder":
-      // Uncomment this when you implement the init function
-      // try {
-      //   initProjectBuilder();
-      // } catch (e) {
-      //   console.error(`Error initializing "project-builder" page:`, e);
-      // }
+      try {
+        initProjectBuilderPage();
+      } catch (e) {
+        console.error(`Error initializing "project-builder" page:`, e);
+      }
       break;
 
     default:
