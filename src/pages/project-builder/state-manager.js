@@ -104,4 +104,70 @@ const addSelectionEvents = (component, componentType) => {
   });
 };
 
-export { loadProjectState };
+const saveProjectState = (dropArea) => {
+  const currentProject = getCurrentProject();
+  if (!currentProject) return;
+
+  const components = Array.from(
+    dropArea.querySelectorAll(".preview-component")
+  ).map((comp) => extractComponentState(comp));
+
+  const projects = getAllProjects();
+  const projectIndex = projects.findIndex(
+    (p) => p.technicalName === currentProject
+  );
+
+  if (projectIndex !== -1) {
+    projects[projectIndex].components = components;
+    saveToStorage("projects", projects);
+  }
+};
+
+const extractComponentState = (comp) => {
+  return {
+    type: extractComponentType(comp),
+    content: comp.innerHTML,
+    styles: extractComponentStyles(comp),
+    properties: extractComponentProperties(comp),
+    actions: extractComponentActions(comp),
+  };
+};
+
+const extractComponentType = (comp) => {
+  return (
+    comp.className
+      .split(" ")
+      .find((cls) => cls.endsWith("-component"))
+      ?.replace("-component", "")
+      ?.replace("preview-", "") || "unknown"
+  );
+};
+
+const extractComponentProperties = (comp) => {
+  const isSelected = comp.classList.contains("selected");
+  const boldInput = document.getElementById("element-bold");
+  const textInput = document.getElementById("element-text");
+
+  return {
+    bold: isSelected
+      ? boldInput?.checked || false
+      : comp.dataset.bold === "true",
+    text: isSelected ? textInput?.value || "" : comp.dataset.text || "",
+  };
+};
+
+const extractComponentStyles = (comp) => ({
+  top: comp.style.top,
+  left: comp.style.left,
+  width: comp.style.width,
+  height: comp.style.height,
+});
+
+const extractComponentActions = (comp) => ({
+  type: comp.dataset.actionType || "",
+  url: comp.dataset.actionUrl || "",
+  debugMessage: comp.dataset.debugMessage || "",
+  customCode: comp.dataset.customCode || "",
+});
+
+export { loadProjectState, saveProjectState };
