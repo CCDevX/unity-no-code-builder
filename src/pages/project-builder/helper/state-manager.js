@@ -1,19 +1,28 @@
+import { saveToStorage } from "../../../common/javascript/helper/local-storage-helper.js";
 import {
   getAllProjects,
   getCurrentProject,
   getProjectByTechnicalName,
-} from "../../common/javascript/helper/project-helper";
+} from "../../../common/javascript/helper/project-helper.js";
+import {
+  makeComponentReorderable,
+  updateComponentPositions,
+  updateStyleEditor,
+} from "./component-manager.js";
 
 let selectedComponent = null;
+const dropArea = document.querySelector("#drop-area");
 
-const loadProjectState = (dropArea) => {
+const loadProjectState = () => {
   const currentProject = getCurrentProject();
   if (!currentProject) return;
 
+  const dropArea = document.querySelector("#drop-area");
   const projects = getAllProjects();
   const project = getProjectByTechnicalName(currentProject);
 
-  if (!project || !project.components) return;
+  if (!project || !project.components || project.components.length === 0)
+    return;
 
   clearEmptyState(dropArea);
 
@@ -22,7 +31,8 @@ const loadProjectState = (dropArea) => {
     if (!component) return;
 
     makeComponentReorderable(component);
-    addSelectionEvents(component, compState.type);
+    const detectedType = detectComponentType(compState);
+    addSelectionEvents(component, detectedType);
     dropArea.appendChild(component);
   });
 
@@ -35,6 +45,7 @@ const clearEmptyState = (dropArea) => {
 };
 
 const detectComponentType = (compState) => {
+  console.log("detect component : ", compState.type);
   if (compState.type !== "preview") {
     return compState.type;
   }
@@ -47,6 +58,7 @@ const detectComponentType = (compState) => {
   };
 
   for (const key in typeMap) {
+    console.log("detect component key ", typeMap[key]);
     if (compState.content.includes(key)) {
       return typeMap[key];
     }
@@ -112,18 +124,21 @@ const addSelectionEvents = (component, componentType) => {
 
     const deleteBtn = document.getElementById("delete-component");
     if (deleteBtn) deleteBtn.style.display = "flex";
-
+    console.log(componentType);
     updateStyleEditor(componentContainer, componentType);
   });
 };
 
-const saveProjectState = (dropArea) => {
+const saveProjectState = () => {
+  const dropArea = document.querySelector("#drop-area");
   const currentProject = getCurrentProject();
   if (!currentProject) return;
 
   const components = Array.from(
     dropArea.querySelectorAll(".preview-component")
   ).map((comp) => extractComponentState(comp));
+
+  console.log("extract component state : ", components);
 
   const projects = getAllProjects();
   const projectIndex = projects.findIndex(

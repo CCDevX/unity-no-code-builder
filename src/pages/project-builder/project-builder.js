@@ -4,9 +4,11 @@ import {
   getAllProjects,
   getCurrentProject,
 } from "../../common/javascript/helper/project-helper";
-import { loadProjectState } from "./state-manager";
-import { initTabs } from "./tabs";
-import { initDragAndDrop } from "./dragdrop-handler";
+import { loadProjectState } from "./helper/state-manager";
+import { initTabs } from "./helper/tabs";
+import { initDragAndDrop } from "./helper/dragdrop-handler";
+import { useAutoSaveOnCreate } from "./helper/builder-autosave-hooks";
+import { initComponentEvents } from "./helper/builder-events";
 
 const initProjectBuilderPage = () => {
   const currentProject = getCurrentProject();
@@ -18,12 +20,9 @@ const initProjectBuilderPage = () => {
   updateProjectTitle(currentProject);
   loadProjectState(dropArea);
   initTabs();
-  const createComponentWithSave = useAutoSaveOnCreate(
-    createComponent,
-    saveProjectState
-  );
+  const createComponentWithSave = useAutoSaveOnCreate();
   initDragAndDrop(dropArea, dropIndicator, createComponentWithSave);
-  initDragAndDrop();
+  initComponentEvents(dropArea);
 };
 
 /**

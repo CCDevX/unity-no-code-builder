@@ -1,3 +1,4 @@
+import { createComponent } from "./component-manager";
 import { saveProjectState } from "./state-manager";
 
 /**
@@ -6,7 +7,7 @@ import { saveProjectState } from "./state-manager";
  * @param {Function} saveProjectState - The function to call after creation
  * @returns {Function} A new createComponent function with auto-save
  */
-const useAutoSaveOnCreate = (createComponent, saveProjectState) => {
+const useAutoSaveOnCreate = () => {
   return (type, x, y) => {
     const component = createComponent(type, x, y);
     saveProjectState();
@@ -20,7 +21,7 @@ const useAutoSaveOnCreate = (createComponent, saveProjectState) => {
  * @param {Function} saveProjectState - The function to call after update
  * @returns {Function} A new updateComponentPositions function with auto-save
  */
-const useAutoSaveOnUpdate = (updateComponentPositions, saveProjectState) => {
+const useAutoSaveOnUpdate = (updateComponentPositions) => {
   return () => {
     updateComponentPositions();
     saveProjectState();
