@@ -1,5 +1,21 @@
+/**
+ * Initializes the export button by attaching the exportProject function.
+ * If the button or export function is not yet available, it retries after 100ms.
+ */
+const initExportButton = () => {
+  const exportButton = document.getElementById("export-project");
+
+  if (exportButton && window.exportProject) {
+    exportButton.addEventListener("click", window.exportProject);
+  } else {
+    setTimeout(initExportButton, 100);
+  }
+};
+
+export { initExportButton };
+
 // Exposer la fonction globalement
-window.exportProject = function () {
+exportProject = function () {
   const currentProject = localStorage.getItem("currentProject");
   if (!currentProject) {
     console.error("No project currently open");

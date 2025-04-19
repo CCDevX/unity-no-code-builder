@@ -9,7 +9,7 @@ import { initTabs } from "./helper/tabs";
 import { initDragAndDrop } from "./helper/dragdrop-handler";
 import { useAutoSaveOnCreate } from "./helper/builder-autosave-hooks";
 import { initComponentEvents } from "./helper/builder-events";
-
+import { initGroqHandler } from "./helper/groc-handler";
 const initProjectBuilderPage = () => {
   const currentProject = getCurrentProject();
   const projects = getAllProjects();
@@ -23,6 +23,7 @@ const initProjectBuilderPage = () => {
   const createComponentWithSave = useAutoSaveOnCreate();
   initDragAndDrop(dropArea, dropIndicator, createComponentWithSave);
   initComponentEvents(dropArea);
+  initGroqHandler();
 };
 
 /**
