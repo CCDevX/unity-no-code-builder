@@ -1,71 +1,76 @@
+import {
+  getCurrentProject,
+  getProjectByTechnicalName,
+} from "../../../common/javascript/helper/project-helper";
+
 /**
  * Initializes the export button by attaching the exportProject function.
- * If the button or export function is not yet available, it retries after 100ms.
+ * If the button is not yet available, it retries after 100ms.
  */
 const initExportButton = () => {
   const exportButton = document.getElementById("export-project");
 
-  if (exportButton && window.exportProject) {
-    exportButton.addEventListener("click", window.exportProject);
+  if (exportButton) {
+    console.log("init button : ", exportButton);
+    exportButton.addEventListener("click", exportProject);
   } else {
     setTimeout(initExportButton, 100);
   }
 };
 
-export { initExportButton };
+/**
+ * Deduces the real component type based on its HTML content.
+ * @param {Object} comp - The saved component object
+ * @returns {string|null} The real type ('text', 'button', 'input', 'helpbox') or null
+ */
+const getComponentRealType = (comp) => {
+  if (comp.content.includes("unity-text")) return "text";
+  if (comp.content.includes("unity-btn")) return "button";
+  if (comp.content.includes("unity-input")) return "input";
+  if (comp.content.includes("unity-helpbox")) return "helpbox";
+  return null;
+};
 
-// Exposer la fonction globalement
-exportProject = function () {
-  const currentProject = localStorage.getItem("currentProject");
+/**
+ * Exports the current project as a C# EditorWindow script for Unity.
+ * Reads the saved project from localStorage and generates a .cs file
+ * based on the components and their properties/actions.
+ */
+const exportProject = () => {
+  const currentProject = getCurrentProject();
   if (!currentProject) {
     console.error("No project currently open");
     return;
   }
 
-  const projects = JSON.parse(localStorage.getItem("projects") || "[]");
-  const project = projects.find((p) => p.technicalName === currentProject);
-
+  const project = getProjectByTechnicalName(currentProject);
   if (!project) {
-    console.error("Project not found");
+    console.error("Project not found : ", project);
     return;
   }
 
-  // Détecter le vrai type à partir du contenu HTML des composants
-  function getComponentRealType(comp) {
-    if (comp.content.includes("unity-text")) return "text";
-    if (comp.content.includes("unity-btn")) return "button";
-    if (comp.content.includes("unity-input")) return "input";
-    if (comp.content.includes("unity-helpbox")) return "helpbox";
-    return null;
-  }
-
-  // Générer le nom de la classe à partir du nom du projet
   const className = project.name.replace(/\s+/g, "") + "EditorWindow";
 
-  // Début du code C#
+  // Start building the C# file content
   let codeContent = `using UnityEngine;
 using UnityEditor;
 
 public class ${className} : EditorWindow
 {
-    // Variables pour stocker les états
     private Vector2 scrollPosition;
     private GUIStyle titleStyle;
 `;
 
-  // Déclarer les variables pour chaque composant
+  // Declare variables for inputs
   project.components.forEach((comp, index) => {
-    const realType = getComponentRealType(comp);
-    switch (realType) {
-      case "input":
-        codeContent += `    private string inputField${index} = "${
-          comp.properties?.text || ""
-        }";\n`;
-        break;
+    if (getComponentRealType(comp) === "input") {
+      codeContent += `    private string inputField${index} = "${
+        comp.properties?.text || ""
+      }";\n`;
     }
   });
 
-  // Ajouter le MenuItem
+  // Add Unity MenuItem and window initialization
   codeContent += `
     [MenuItem("Window/${project.name}")]
     public static void ShowWindow()
@@ -75,7 +80,6 @@ public class ${className} : EditorWindow
 
     private void OnGUI()
     {
-        // Initialisation du style du titre
         if (titleStyle == null)
         {
             titleStyle = new GUIStyle(EditorStyles.largeLabel);
@@ -86,10 +90,11 @@ public class ${className} : EditorWindow
         EditorGUILayout.Space(10);
 `;
 
-  // Générer le code pour chaque composant
+  // Loop through components and generate UI
   project.components.forEach((comp, index) => {
-    const realType = getComponentRealType(comp);
-    switch (realType) {
+    const type = getComponentRealType(comp);
+
+    switch (type) {
       case "text":
         codeContent += `        EditorGUILayout.LabelField("${
           comp.properties?.text || "Text"
@@ -108,22 +113,20 @@ public class ${className} : EditorWindow
         codeContent += `        if (GUILayout.Button("${
           comp.properties?.text || "Button"
         }")) {\n`;
-        if (comp.actions?.type) {
-          switch (comp.actions.type) {
-            case "DebugLog":
-              codeContent += `            Debug.Log("${
-                comp.actions.debugMessage || ""
-              }");\n`;
-              break;
-            case "OpenUrl":
-              codeContent += `            Application.OpenURL("${
-                comp.actions.url || ""
-              }");\n`;
-              break;
-            case "CustomCode":
-              codeContent += `            ${comp.actions.customCode || ""}\n`;
-              break;
-          }
+        switch (comp.actions?.type) {
+          case "DebugLog":
+            codeContent += `            Debug.Log("${
+              comp.actions.debugMessage || ""
+            }");\n`;
+            break;
+          case "OpenUrl":
+            codeContent += `            Application.OpenURL("${
+              comp.actions.url || ""
+            }");\n`;
+            break;
+          case "CustomCode":
+            codeContent += `            ${comp.actions.customCode || ""}\n`;
+            break;
         }
         codeContent += `        }\n`;
         break;
@@ -135,30 +138,23 @@ public class ${className} : EditorWindow
     }
   });
 
-  // Fermer le scrollview et la classe
+  // Close scroll view and class
   codeContent += `        EditorGUILayout.EndScrollView();
     }
 }`;
 
-  console.log("Generated C# Code:");
-  console.log(codeContent);
-
-  // Créer et télécharger le fichier
+  // Create and trigger download
   const fileName = `${className}.cs`;
   const blob = new Blob([codeContent], { type: "text/plain;charset=utf-8" });
-
-  // Créer un lien temporaire pour le téléchargement
   const downloadLink = document.createElement("a");
   downloadLink.href = URL.createObjectURL(blob);
   downloadLink.download = fileName;
 
-  // Ajouter le lien au document, cliquer dessus, puis le supprimer
   document.body.appendChild(downloadLink);
   downloadLink.click();
   document.body.removeChild(downloadLink);
 
-  // Libérer l'URL
-  setTimeout(() => {
-    URL.revokeObjectURL(downloadLink.href);
-  }, 100);
+  setTimeout(() => URL.revokeObjectURL(downloadLink.href), 100);
 };
+
+export { initExportButton };

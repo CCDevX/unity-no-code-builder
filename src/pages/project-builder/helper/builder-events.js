@@ -1,5 +1,9 @@
 import { saveProjectState } from "./state-manager";
 import { updateComponentPositions } from "./component-manager";
+import {
+  setSelectedComponent,
+  getSelectedComponent,
+} from "./selected-component";
 
 // Global variable to track the currently selected component
 let selectedComponent = null;
@@ -17,7 +21,7 @@ const handleDropAreaClick = (dropArea) => {
       .querySelectorAll(".preview-component")
       .forEach((comp) => comp.classList.remove("selected"));
 
-    selectedComponent = null;
+    setSelectedComponent(null);
 
     const deleteBtn = document.querySelector("#delete-component");
     const actionsTab = document.querySelector(
@@ -123,6 +127,7 @@ const handleApplyAction = () => {
   const applyActionBtn = document.getElementById("apply-action");
 
   applyActionBtn.addEventListener("click", () => {
+    let selectedComponent = getSelectedComponent();
     if (!selectedComponent) {
       alert("Please select a component first");
       return;
@@ -153,6 +158,7 @@ const handleApplyAction = () => {
  * Removes the action settings from the selected component.
  */
 const handleRemoveAction = () => {
+  let selectedComponent = getSelectedComponent();
   const actionTypeSelect = document.getElementById("action-type");
   const actionUrlInput = document.getElementById("action-url");
   const actionCodeInput = document.getElementById("action-code");
@@ -174,13 +180,6 @@ const handleRemoveAction = () => {
     removeActionBtn.style.display = "none";
     saveProjectState();
   });
-};
-
-/**
- * Updates the internal selected component reference.
- */
-const setSelectedComponent = (value) => {
-  selectedComponent = value;
 };
 
 /**

@@ -10,20 +10,21 @@ import { initDragAndDrop } from "./helper/dragdrop-handler";
 import { useAutoSaveOnCreate } from "./helper/builder-autosave-hooks";
 import { initComponentEvents } from "./helper/builder-events";
 import { initGroqHandler } from "./helper/groc-handler";
+import { initExportButton } from "./helper/builder-export";
+
 const initProjectBuilderPage = () => {
   const currentProject = getCurrentProject();
-  const projects = getAllProjects();
   const dropArea = document.querySelector("#drop-area");
-  const componentItems = document.querySelectorAll(".component-item");
   const dropIndicator = document.querySelector("#drop-indicator");
+  const createComponentWithSave = useAutoSaveOnCreate();
 
   updateProjectTitle(currentProject);
   loadProjectState(dropArea);
   initTabs();
-  const createComponentWithSave = useAutoSaveOnCreate();
   initDragAndDrop(dropArea, dropIndicator, createComponentWithSave);
   initComponentEvents(dropArea);
   initGroqHandler();
+  initExportButton();
 };
 
 /**

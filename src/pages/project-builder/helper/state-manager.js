@@ -9,8 +9,8 @@ import {
   updateComponentPositions,
   updateStyleEditor,
 } from "./component-manager.js";
+import { setSelectedComponent } from "./selected-component.js";
 
-let selectedComponent = null;
 const dropArea = document.querySelector("#drop-area");
 
 const loadProjectState = () => {
@@ -120,7 +120,8 @@ const addSelectionEvents = (component, componentType) => {
 
     const componentContainer = this.closest(".preview-component");
     componentContainer.classList.add("selected");
-    selectedComponent = componentContainer;
+
+    setSelectedComponent(componentContainer);
 
     const deleteBtn = document.getElementById("delete-component");
     if (deleteBtn) deleteBtn.style.display = "flex";
