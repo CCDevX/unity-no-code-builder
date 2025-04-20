@@ -1,23 +1,58 @@
 @use "sass:color";
 @use "../variables" as *;
 
-/* Unity components */
+/* --- Unity Components --- */
+
 .unity-btn {
   background-color: color.adjust($bg-secondary, $lightness: +10%);
   color: $text-primary;
-  padding: 0.5rem 2rem;
+  padding: 0.8rem 1.6rem;
   border: 0.1rem solid $border-color;
   width: 100%;
   border-radius: 0.3rem;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: color.adjust($bg-secondary, $lightness: +20%);
+    color: $accent-color;
+  }
 }
 
 .unity-input {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.8rem 1.2rem;
   background-color: $bg-elevated;
   border: 0.1rem solid color.adjust($border-color, $lightness: -10%);
-  border-style: inset;
+  border-radius: 0.3rem;
+  font-size: 1.4rem;
   color: $text-primary;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $accent-color;
+    background-color: $bg-elevated;
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+    opacity: 0.6;
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:hover {
+    -webkit-box-shadow: 0 0 0 1000px $bg-elevated inset !important;
+    -webkit-text-fill-color: $text-primary !important;
+  }
+}
+
+.unity-title {
+  font-size: 2rem;
+  color: $text-primary;
+  margin: 0;
 }
 
 .unity-text .unity-title {
@@ -25,16 +60,12 @@
   color: $text-primary;
 }
 
-.unity-title {
-  font-size: 2rem;
-}
-
 .unity-helpbox {
   display: flex;
   align-items: flex-start;
-  gap: 1.2rem;
-  padding: 0.5rem;
-  background-color: $bg-secondary;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: color.adjust($bg-secondary, $lightness: -5%);
   border: 0.1rem solid $border-color;
   border-radius: 0.4rem;
 }
@@ -52,16 +83,18 @@
   line-height: 1.4;
 }
 
+/* --- Disabled Form Group --- */
 .form-group.disabled {
   opacity: 0.5;
   pointer-events: none;
+
+  input,
+  label {
+    cursor: not-allowed;
+  }
 }
 
-.form-group.disabled input,
-.form-group.disabled label {
-  cursor: not-allowed;
-}
-
+/* --- Delete Button --- */
 .delete-component-btn {
   background: none;
   border: none;
@@ -74,9 +107,9 @@
   display: flex;
   align-items: center;
   opacity: 0.7;
-}
 
-.delete-component-btn:hover {
-  opacity: 1;
-  background-color: $error-hover;
+  &:hover {
+    opacity: 1;
+    background-color: $error-hover;
+  }
 }

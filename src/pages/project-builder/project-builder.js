@@ -32,17 +32,14 @@ const initProjectBuilderPage = () => {
  * @param {Object} project - The project object to use for updating the title.
  */
 const updateProjectTitle = (project) => {
+  console.log("project title : ", project);
   if (!project) return;
 
   const mainTitle = document.querySelector("#main-project-title");
-  if (mainTitle) {
-    mainTitle.textContent = project.name;
-    document.title = `${project.name} - Unity UI Builder`;
-  }
 
-  const titleInput = document.querySelector("#project-title-input");
-  if (titleInput) {
-    titleInput.value = project.name;
+  if (mainTitle) {
+    mainTitle.textContent = project;
+    document.title = `${project.name} - Unity UI Builder`;
   }
 };
 

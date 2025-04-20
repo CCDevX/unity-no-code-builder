@@ -17,13 +17,38 @@
     padding: 1rem;
     border-radius: 0.4rem;
     border: 0.1rem solid $border-color;
-    background: $bg-elevated;
-    color: $text-primary;
+    background: $bg-elevated !important;
+    color: $accent-color;
     font-size: 1.6rem;
+    transition: background-color 0.2s ease;
+
     &:focus {
       outline: none;
-      border-color: $accent-color;
+      border-color: $accent-hover;
       box-shadow: 0 0 0 0.2rem rgba(131, 103, 199, 0.2);
+      background: $bg-elevated !important;
+    }
+
+    &::placeholder {
+      color: $accent-hover;
+      opacity: 0.6;
+    }
+
+    &:active {
+      background: $bg-elevated !important;
+      color: $accent-hover;
+      opacity: 1;
+    }
+
+    // Corrige le style imposé par l'autofill (Chrome notamment)
+    &:-webkit-autofill,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:hover {
+      outline: none;
+      box-shadow: 0 0 0 1000px $bg-secondary inset !important;
+      -webkit-box-shadow: 0 0 0 1000px $bg-secondary inset !important;
+      -webkit-text-fill-color: $accent-color !important;
+      caret-color: $accent-color;
     }
   }
 }
