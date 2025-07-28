@@ -1,83 +1,134 @@
 @use "./variables" as *;
+
 .modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: $bg-secondary;
-  border-radius: 0.8rem;
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.3);
+  background: $bg-elevated;
+  border-radius: 1.2rem;
+  box-shadow: 0 0.6rem 2.2rem rgba(0, 0, 0, 0.24);
   z-index: 1001;
-  width: 90%;
-  max-width: 50rem;
+  width: 94vw;
+  max-width: 44rem;
+  min-width: 28rem;
+  animation: modal-fade-in 0.22s cubic-bezier(0.65, 0, 0.35, 1);
+
+  // Glassmorphism possible (optionnel)
+  backdrop-filter: blur(12px) saturate(1.15);
+  border: 1.5px solid rgba($border-color, 0.45);
+
   .modal-content {
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 2rem;
-      border-bottom: 0.1rem solid $border-color;
+    display: flex;
+    flex-direction: column;
+    border-radius: inherit;
+    overflow: hidden;
+  }
 
-      h2 {
-        margin: 0;
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.8rem 2.4rem;
+    border-bottom: 1px solid $border-color;
+    background: $bg-secondary;
+    font-size: 2rem;
+
+    h2,
+    h3,
+    .modal-title {
+      margin: 0;
+      color: $text-primary;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      font-size: 2.1rem;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 2.6rem;
+      cursor: pointer;
+      color: $text-secondary;
+      transition: color $transition-speed, transform $transition-speed;
+
+      &:hover,
+      &:focus-visible {
+        color: $accent-color;
+        transform: scale(1.13) rotate(7deg);
+        outline: none;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 2.2rem 2.4rem;
+    background: transparent;
+    color: $text-primary;
+
+    .form-group {
+      margin-bottom: 2.2rem;
+
+      &:last-child {
+        margin-bottom: 0;
       }
 
-      .close-modal {
-        background: none;
-        border: none;
-        font-size: 2.5rem;
-        cursor: pointer;
+      label {
+        display: block;
+        margin-bottom: 1rem;
         color: $text-secondary;
+        font-weight: 600;
       }
-    }
 
-    .modal-body {
-      padding: 2rem;
+      .form-control {
+        width: 100%;
+        padding: 1.2rem;
+        border-radius: 0.5rem;
+        border: 1.2px solid $border-color;
+        background: $bg-secondary;
+        color: $text-primary;
+        font-size: 1.6rem;
+        transition: border-color $transition-speed, box-shadow $transition-speed;
 
-      .form-group {
-        margin-bottom: 20px;
-        &last-child {
-          margin-bottom: 0;
-        }
-
-        label {
-          display: block;
-          margin-bottom: 0.8rem;
-          color: $text-secondary;
-        }
-
-        .form-control {
-          width: 100%;
-          padding: 1rem;
-          border-radius: 0.4rem;
-          border: 0.1rem solid $border-color;
-          background: $bg-elevated;
-          color: $text-primary;
-          font-size: 1.6rem;
-          &:focus {
-            outline: none;
-            border-color: $accent-color;
-            box-shadow: 0 0 0 0.2rem rgba(131, 103, 199, 0.2);
-          }
-        }
-
-        .technical-name {
-          padding: 1rem;
-          background: $bg-elevated;
-          border-radius: 0.4rem;
-          color: $accent-color;
-          font-family: monospace;
-          font-size: 1.6rem;
+        &:focus {
+          border-color: $accent-color;
+          box-shadow: 0 0 0 2px rgba($accent-color, 0.21);
+          outline: none;
         }
       }
-    }
 
-    .modal-footer {
-      padding: 1.5rem 2rem;
-      border-top: 0.1rem solid $border-color;
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
+      .technical-name {
+        padding: 1rem;
+        background: $bg-elevated;
+        border-radius: 0.4rem;
+        color: $accent-color;
+        font-family: monospace;
+        font-size: 1.6rem;
+        user-select: all;
+      }
     }
+  }
+
+  .modal-footer {
+    padding: 1.7rem 2.4rem;
+    border-top: 1px solid $border-color;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+    background: $bg-secondary;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+}
+
+// Animation d’apparition
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -56%) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
 }

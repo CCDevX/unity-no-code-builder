@@ -1,47 +1,121 @@
 @use "../../common/scss/variables" as *;
 
+.settings {
+  min-height: calc(100vh - 10rem); // header+footer
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 2.5rem;
+
+  h1 {
+    color: $accent-color;
+    font-size: 2.7rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+}
+
+.settings-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .form-group {
   background: $bg-elevated;
-  padding: 3rem;
-  border-radius: 0.5rem;
+  padding: 3rem 2.7rem;
+  border-radius: 1rem;
   box-shadow: $box-shadow;
-  max-width: 60rem;
-  margin: 3rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+
   label {
-    font-size: 2rem;
+    font-size: 1.48rem;
+    font-weight: 500;
+    color: $accent-color;
+    margin-bottom: 0.55rem;
   }
 }
 
 .form-control {
   width: 100%;
-  padding: 1.6rem;
-  font-size: 2.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid $border-color;
+  padding: 1.45rem;
+  font-size: 1.65rem;
+  border-radius: 0.6rem;
+  border: 1.2px solid $border-color;
   background: $bg-primary;
   color: $text-primary;
+  transition: border-color $transition-speed, box-shadow $transition-speed;
+
+  &::placeholder {
+    color: $text-secondary;
+    opacity: 0.8;
+  }
 
   &:focus {
     outline: none;
     border-color: $accent-color;
-    box-shadow: 0 0 0 2px rgba($accent-color, 0.2);
+    box-shadow: 0 0 0 2px rgba($accent-color, 0.13);
   }
 }
 
 .form-text {
-  font-size: 1.3rem;
+  font-size: 1.17rem;
   font-style: italic;
   color: $text-secondary;
-  margin: 1.6rem 0;
+  margin: 0.4rem 0 1.25rem 0;
   a {
-    text-decoration: none;
-    border-bottom: 0.1rem solid transparent;
+    color: $accent-color;
+    text-decoration: underline;
+    border-bottom: 1px solid transparent;
     transition: color $transition-speed, border-color $transition-speed;
 
     &:hover,
     &:focus {
-      border-color: $text-primary;
-      text-decoration: none;
+      color: $accent-hover;
+      border-color: $accent-color;
+      text-decoration: underline;
     }
+  }
+}
+
+.btn {
+  align-self: flex-end;
+  margin-top: 0.2rem;
+  padding: 1.15rem 2.7rem;
+  font-size: 1.23rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: background $transition-speed, color $transition-speed;
+}
+
+.btn-primary {
+  background: $accent-color;
+  color: #fff;
+  border: none;
+
+  &:hover,
+  &:focus {
+    background: $accent-hover;
+    color: #fff;
+  }
+}
+
+// Responsive
+@media (max-width: 700px) {
+  .settings-container {
+    max-width: 98vw;
+  }
+  .form-group {
+    padding: 1.2rem 0.5rem;
+    border-radius: 0.55rem;
+  }
+  .form-control {
+    font-size: 1.17rem;
+    padding: 1.05rem;
   }
 }

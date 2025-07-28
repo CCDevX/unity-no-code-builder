@@ -38,8 +38,9 @@ const updateProjectTitle = (project) => {
   const mainTitle = document.querySelector("#main-project-title");
 
   if (mainTitle) {
+    console.log(project);
     mainTitle.textContent = project;
-    document.title = `${project.name} - Unity UI Builder`;
+    document.title = `${project} - Unity UI Builder`;
   }
 };
 

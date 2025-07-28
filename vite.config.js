@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import path, { resolve } from "path";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 export default defineConfig({
   root: "./src",
@@ -7,8 +8,19 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "src"), // pour utiliser @/
       "@pages": path.resolve(__dirname, "src/pages"),
+      "@common": path.resolve(__dirname, "src/common"),
     },
   },
+  // plugins: [
+  //   viteStaticCopy({
+  //     targets: [
+  //       {
+  //         src: "pages",
+  //         dest: ".",
+  //       },
+  //     ],
+  //   }),
+  // ],
   build: {
     outDir: "../dist",
     emptyOutDir: true,

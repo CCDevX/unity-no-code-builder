@@ -63,15 +63,20 @@ const handleClickOnDropArea = (dropArea, setSelectedComponent) => {
  */
 const handleDeleteButton = () => {
   const deleteBtn = document.querySelector("#delete-component");
+  console.log("delete btn", deleteBtn);
   if (!deleteBtn) return;
 
   deleteBtn.addEventListener("click", () => {
-    if (
-      selectedComponent &&
-      confirm("Are you sure you want to delete this component?")
-    ) {
-      selectedComponent.remove();
-      selectedComponent = null;
+    let currentSelectedComponent = getSelectedComponent();
+
+    if (!currentSelectedComponent) {
+      console.log("No component selected");
+      return;
+    }
+    let response = confirm("Are you sure you want to delete this component?");
+    if (response) {
+      currentSelectedComponent.remove();
+      currentSelectedComponent = null;
       deleteBtn.style.display = "none";
       updateComponentPositions();
       saveProjectState();

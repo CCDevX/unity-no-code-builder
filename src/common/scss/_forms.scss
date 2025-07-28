@@ -1,37 +1,47 @@
+@use "sass:color";
 @use "./variables" as *;
 
 .form-group {
-  margin-bottom: 20px;
-  &last-child {
+  margin-bottom: 2rem;
+
+  &:last-child {
     margin-bottom: 0;
   }
 
   label {
     display: block;
     margin-bottom: 0.8rem;
-    color: $text-secondary;
+    color: $accent-color;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 1.4rem;
+    transition: color $transition-speed;
+    cursor: pointer;
   }
 
   .form-control {
     width: 100%;
-    padding: 1rem;
-    border-radius: 0.4rem;
-    border: 0.1rem solid $border-color;
+    padding: 1.1rem 1.2rem;
+    border-radius: 0.5rem;
+    border: 1.2px solid $border-color;
     background: $bg-elevated !important;
-    color: $accent-color;
+    color: $text-primary;
     font-size: 1.6rem;
-    transition: background-color 0.2s ease;
+    transition: background $transition-speed, border-color $transition-speed,
+      box-shadow $transition-speed, color $transition-speed;
 
     &:focus {
       outline: none;
       border-color: $accent-hover;
-      box-shadow: 0 0 0 0.2rem rgba(131, 103, 199, 0.2);
+      box-shadow: 0 0 0 2px rgba($accent-hover, 0.19);
       background: $bg-elevated !important;
+      color: $accent-hover;
     }
 
     &::placeholder {
-      color: $accent-hover;
-      opacity: 0.6;
+      color: $text-secondary;
+      opacity: 0.8;
+      font-style: italic;
     }
 
     &:active {
@@ -40,7 +50,7 @@
       opacity: 1;
     }
 
-    // Corrige le style imposé par l'autofill (Chrome notamment)
+    // Autofill Chrome
     &:-webkit-autofill,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:hover {
@@ -51,4 +61,31 @@
       caret-color: $accent-color;
     }
   }
+
+  // États pour validation JS (optionnel, ultra pro)
+  &.has-error .form-control {
+    border-color: $error;
+    color: $error;
+    background: color.adjust($error, $lightness: 34%, $alpha: -0.7);
+    box-shadow: 0 0 0 2px rgba($error, 0.13);
+  }
+
+  &.has-success .form-control {
+    border-color: $success;
+    color: $success;
+    background: color.adjust($success, $lightness: 28%, $alpha: -0.7);
+    box-shadow: 0 0 0 2px rgba($success, 0.13);
+  }
+}
+
+// Pour tous les inputs courants
+input.form-control,
+textarea.form-control,
+select.form-control {
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: $font-family;
+  resize: none;
+  // Pour les select :
+  background-image: none;
 }

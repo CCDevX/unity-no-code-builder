@@ -4,41 +4,54 @@
 /* --- Unity Components --- */
 
 .unity-btn {
-  background-color: color.adjust($bg-secondary, $lightness: +10%);
+  background: color.adjust($bg-secondary, $lightness: 10%);
   color: $text-primary;
-  padding: 0.8rem 1.6rem;
-  border: 0.1rem solid $border-color;
+  padding: 0.9rem 1.8rem;
+  border: 1.2px solid $border-color;
   width: 100%;
-  border-radius: 0.3rem;
-  font-weight: 600;
+  border-radius: 0.45rem;
+  font-weight: 700;
+  font-size: 1.5rem;
   text-align: center;
-  transition: all 0.2s ease;
+  letter-spacing: 0.01em;
+  transition: background $transition-speed, color $transition-speed,
+    box-shadow $transition-speed, transform $transition-speed;
 
-  &:hover {
-    background-color: color.adjust($bg-secondary, $lightness: +20%);
+  box-shadow: 0 0.12rem 0.6rem rgba(0, 0, 0, 0.07);
+
+  &:hover,
+  &:focus-visible {
+    background: color.adjust($bg-secondary, $lightness: 20%);
     color: $accent-color;
+    border-color: $accent-color;
+    box-shadow: 0 0.22rem 1.2rem rgba($accent-color, 0.09);
+    transform: scale(1.02);
+    outline: none;
   }
 }
 
 .unity-input {
   width: 100%;
-  padding: 0.8rem 1.2rem;
-  background-color: $bg-elevated;
-  border: 0.1rem solid color.adjust($border-color, $lightness: -10%);
-  border-radius: 0.3rem;
-  font-size: 1.4rem;
+  padding: 1rem 1.3rem;
+  background: $bg-elevated;
+  border: 1.2px solid color.adjust($border-color, $lightness: -10%);
+  border-radius: 0.45rem;
+  font-size: 1.5rem;
   color: $text-primary;
-  transition: border-color 0.2s ease;
+  transition: border-color $transition-speed, box-shadow $transition-speed;
 
   &:focus {
     outline: none;
     border-color: $accent-color;
-    background-color: $bg-elevated;
+    background: color.adjust($bg-elevated, $lightness: 7%);
+    color: $accent-hover;
+    box-shadow: 0 0 0 2px rgba($accent-color, 0.18);
   }
 
   &::placeholder {
     color: $text-secondary;
-    opacity: 0.6;
+    opacity: 0.75;
+    font-style: italic;
   }
 
   &:-webkit-autofill,
@@ -51,39 +64,43 @@
 
 .unity-title {
   font-size: 2rem;
-  color: $text-primary;
-  margin: 0;
+  color: $accent-color;
+  margin: 0 0 0.4rem 0;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
 .unity-text .unity-title {
-  margin: 0;
-  color: $text-primary;
+  margin: 0 0 0.2rem 0;
+  color: $accent-color;
 }
 
 .unity-helpbox {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  background-color: color.adjust($bg-secondary, $lightness: -5%);
-  border: 0.1rem solid $border-color;
-  border-radius: 0.4rem;
+  gap: 1.1rem;
+  padding: 1.1rem 1.6rem;
+  background: color.adjust($bg-secondary, $lightness: -5%);
+  border: 1.2px solid $border-color;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.12rem 0.45rem rgba($accent-color, 0.06);
 }
 
 .unity-helpbox-icon {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   color: $accent-color;
-  margin-top: 0.2rem;
+  margin-top: 0.15rem;
+  flex-shrink: 0;
 }
 
 .unity-helpbox-text {
   color: $text-primary;
   flex: 1;
   margin: 0;
-  line-height: 1.4;
+  font-size: 1.5rem;
+  line-height: 1.5;
 }
 
-/* --- Disabled Form Group --- */
 .form-group.disabled {
   opacity: 0.5;
   pointer-events: none;
@@ -101,15 +118,17 @@
   color: $error;
   font-size: 1.6rem;
   cursor: pointer;
-  padding: 0.8rem;
-  border-radius: 0.4rem;
-  transition: all 0.2s ease;
+  padding: 0.85rem;
+  border-radius: 0.45rem;
+  transition: background $transition-speed, opacity $transition-speed;
   display: flex;
   align-items: center;
-  opacity: 0.7;
+  opacity: 0.66;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     opacity: 1;
-    background-color: $error-hover;
+    background: color.adjust($error-hover, $alpha: -0.75);
+    outline: none;
   }
 }

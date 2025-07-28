@@ -1,45 +1,95 @@
+@use "sass:color";
 @use "./variables" as *;
 
 .btn {
-  padding: 1rem 1.5rem;
-  border-radius: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 1rem 1.6rem;
+  border-radius: 0.6rem;
   border: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-family: $font-family;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: background-color $transition-speed;
+  transition: background $transition-speed, color $transition-speed,
+    box-shadow $transition-speed, transform $transition-speed;
+
+  box-shadow: 0 0.18rem 0.8rem rgba(0, 0, 0, 0.07);
+
+  &:focus-visible {
+    outline: 2px solid $accent-hover;
+    outline-offset: 2px;
+    z-index: 1;
+  }
+
+  // Désactive le double tap zoom sur iOS
+  touch-action: manipulation;
+
   &-primary {
     background: $accent-color;
-    color: white;
-    &:hover {
+    color: $text-primary;
+    border: none;
+
+    &:hover,
+    &:focus-visible {
       background: $accent-hover;
+      color: $text-primary;
+      transform: translateY(-1.5px) scale(1.03);
+      box-shadow: 0 0.22rem 1.2rem rgba($accent-hover, 0.13);
     }
   }
 
   &-secondary {
     background: transparent;
-    border: 0.1rem solid $accent-color;
+    border: 1.5px solid $accent-color;
     color: $accent-color;
-    &:hover {
-      background: rgba(131, 103, 199, 0.2);
+
+    &:hover,
+    &:focus-visible {
+      background: color.adjust($accent-color, $alpha: -0.8);
+      color: $accent-hover;
+      border-color: $accent-hover;
+      box-shadow: 0 0.13rem 0.8rem rgba($accent-color, 0.08);
+      transform: scale(1.03);
     }
   }
 
   &-icon {
     background: none;
     border: none;
-    color: var(--text-secondary);
-    font-size: 2rem;
-    cursor: pointer;
-    width: 4rem;
-    height: 4rem;
+    color: $text-secondary;
+    font-size: 2.1rem;
+    width: 4.2rem;
+    height: 4.2rem;
     border-radius: 50%;
-    display: flex;
-    flex-direction: center;
+    display: inline-flex;
     align-items: center;
-    transition: background-color var(--transition-speed);
-    &:hover {
-      background-color: var(--bg-elevated);
-      color: var(--text-primary);
+    justify-content: center;
+    transition: background $transition-speed, color $transition-speed,
+      box-shadow $transition-speed;
+
+    &:hover,
+    &:focus-visible {
+      background: $bg-elevated;
+      color: $accent-color;
+      box-shadow: 0 0.12rem 0.5rem rgba($accent-color, 0.1);
+      outline: none;
     }
+  }
+
+  // Désactive les effets si désactivé
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.53;
+    pointer-events: none;
+    filter: grayscale(0.27);
+    background: $bg-elevated !important;
+    color: $text-secondary !important;
+    border-color: $border-color !important;
+    box-shadow: none !important;
+    transform: none !important;
   }
 }

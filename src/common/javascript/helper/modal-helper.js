@@ -13,8 +13,6 @@ const showModal = async (modalType) => {
       `./pages/modals/${modalType}/${modalType}.html`
     );
 
-    console.log(response.text);
-
     // If the response is not successful, throw an error
     if (!response.ok) throw new Error("Modal not found");
 

@@ -1,5 +1,11 @@
 @use "../../common/scss/variables" as *;
-
+h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 2;
+  margin: 0;
+  padding: 0;
+}
 .project-builder-container {
   margin-bottom: 4rem;
   .builder-layout {

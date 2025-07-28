@@ -3,29 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unity Plug-in Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <script
       src="https://kit.fontawesome.com/763e789067.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <title>Unity Plug-in Builder</title>
+    <link rel="stylesheet" href="./index.css" />
   </head>
   <body>
     <div class="container">
-      <!-- Sidebar menu area -->
-      <aside class="sidebar" id="sidebar">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar" aria-label="Main menu">
         <div class="sidebar-header">
-          <h2>Unity Builder</h2>
-          <button class="close-sidebar" id="close-sidebar">
+          <h2 class="sidebar-title">Unity Builder</h2>
+          <button
+            class="close-sidebar"
+            id="close-sidebar"
+            aria-label="Close sidebar"
+          >
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <nav class="menu">
+        <nav class="menu" role="navigation">
           <ul>
             <li>
               <a href="#" class="active" data-page="home"
@@ -34,7 +39,7 @@
             </li>
             <li>
               <a href="#" data-page="projects"
-                ><i class="fa-solid fa-diagram-project"></i> Project</a
+                ><i class="fa-solid fa-diagram-project"></i> Projects</a
               >
             </li>
             <li>
@@ -50,31 +55,37 @@
           </ul>
         </nav>
       </aside>
-      <!-- Main content area -->
-      <main class="content">
-        <header>
-          <button class="toggle-sidebar" id="toggle-sidebar">
+      <!-- Main Content -->
+      <main class="content" id="main-content">
+        <header class="main-header">
+          <button
+            class="toggle-sidebar"
+            id="toggle-sidebar"
+            aria-label="Open sidebar"
+          >
             <i class="fa-solid fa-bars"></i>
           </button>
           <div class="header-title" id="page-title">Dashboard</div>
+          <!-- Place for future user avatar/settings dropdown -->
         </header>
-        <div class="content-body" id="page-content">
-          <!-- Content will be loaded here dynamically -->
-        </div>
+        <section class="content-body" id="page-content">
+          <!-- Page content loaded here -->
+        </section>
         <footer class="footer">
           <div class="footer-content">
             <p>
               Developed by
-              <a href="https://github.com/CCDevX" target="_blank">CCDevX</a>
+              <a href="https://github.com/CCDevX" target="_blank" rel="noopener"
+                >CCDevX</a
+              >
             </p>
           </div>
         </footer>
       </main>
     </div>
-    <!-- Modal -->
+    <!-- Modal & Toast portals -->
     <div class="modal-container" id="modal-container"></div>
     <div class="modal-overlay" id="modal-overlay"></div>
-    <!-- Toast -->
     <div class="toast-container" id="toast-container"></div>
     <script type="module" src="./index.js"></script>
   </body>

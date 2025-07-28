@@ -1,37 +1,94 @@
 @use "../../common/scss/variables" as *;
 
 .help-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-size: 1.5rem;
-  line-height: 1.6;
-  color: $text-secondary;
-}
+  max-width: 820px;
+  margin: 2.5rem auto 0 auto;
+  padding: 2.4rem 2rem 2.2rem 2rem;
+  font-size: 1.58rem;
+  line-height: 1.7;
+  color: $text-primary;
+  background: transparent;
 
-.help-container ul {
-  //list-style-type: disc;
-  padding-left: 2rem;
-  margin-top: 1rem;
-}
+  h2 {
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    color: $accent-color;
+    letter-spacing: 0.01em;
+    text-align: center;
+  }
 
-.help-container h2 {
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-}
+  p {
+    margin-bottom: 1.35rem;
+    color: $text-secondary;
+    text-align: center;
+    font-size: 1.53rem;
+  }
 
-.help-container p {
-  margin-bottom: 1.2rem;
-}
+  ul {
+    padding-left: 0;
+    margin-top: 1.7rem;
+    list-style: none;
+  }
 
-.help-container li {
-  margin-bottom: 0.6rem;
+  li {
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+
+    // Icône (si tu utilises fontawesome)
+    .help-icon {
+      color: $accent-color;
+      font-size: 1.65rem;
+      flex-shrink: 0;
+      margin-top: 0.22rem;
+      opacity: 0.85;
+    }
+
+    strong {
+      font-weight: 600;
+      color: $text-primary;
+      margin-right: 0.22rem;
+      font-size: 1em;
+    }
+
+    span {
+      color: $text-secondary;
+      font-size: 1.43rem;
+      display: inline;
+      line-height: 1.6;
+    }
+
+    &:hover {
+      background: rgba($accent-color, 0.07);
+      border-radius: 0.6rem;
+      transition: background 0.17s;
+    }
+  }
+
+  // Responsive
+  @media (max-width: 700px) {
+    padding: 1.2rem 0.4rem;
+    font-size: 1.33rem;
+
+    h2 {
+      font-size: 1.65rem;
+    }
+    li {
+      font-size: 1.11em;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+    }
+  }
 }
 
 .coming-soon {
-  margin-top: 2rem;
-  font-size: 1.3rem;
+  margin-top: 2.2rem;
+  font-size: 1.23rem;
   font-style: italic;
-  color: $text-secondary;
+  color: $accent-color;
   text-align: center;
+  opacity: 0.88;
 }

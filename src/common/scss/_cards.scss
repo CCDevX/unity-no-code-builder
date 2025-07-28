@@ -1,15 +1,106 @@
+@use "sass:color";
 @use "./variables" as *;
 
-.card {
-  background: $bg-secondary;
-  border-radius: 0.8rem;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: $box-shadow;
+// Namespace ou module pour éviter les conflits
+.project-cards {
+  // Container principal
+  &-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    width: 100%;
+    justify-content: flex-start; // "start" n'est pas standard, utiliser flex-start
+
+    // Responsive : 1 card/ligne en mobile
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.3rem;
+    }
+  }
+
+  // Card individuelle
+  &-item {
+    // Layout de base
+    flex: 1 1 calc(50% - 1rem); // 2 colonnes avec gap pris en compte
+    min-width: 280px;
+    max-width: 480px;
+
+    // Styles visuels
+    background: $bg-elevated;
+    border-radius: 1.2rem;
+    padding: 2.2rem 2.4rem;
+    box-shadow: $box-shadow;
+    border: 1px solid rgba($border-color, 0.28);
+
+    // Glassmorphism (avec fallback)
+    @supports (backdrop-filter: blur(10px)) {
+      backdrop-filter: blur(10px) saturate(1.12);
+    }
+
+    // Transitions
+    transition: box-shadow $transition-speed, border-color $transition-speed,
+      transform $transition-speed, background $transition-speed;
+
+    // États interactifs
+    &:hover,
+    &:focus-within {
+      box-shadow: 0 0.7rem 2.2rem rgba(0, 0, 0, 0.15),
+        0 1.2rem 3rem rgba($accent-color, 0.08);
+      border-color: rgba($accent-color, 0.6);
+      transform: translateY(-2px);
+
+      @media (prefers-reduced-motion: no-preference) {
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      // Changement de background plus subtil
+      background: color.adjust($bg-elevated, $lightness: 3%);
+    }
+
+    // Mobile
+    @media (max-width: 900px) {
+      flex: 1 1 100%;
+      max-width: 100%;
+      min-width: auto;
+    }
+  }
 }
 
-.cards-container {
+// Alternative avec grid (plus prévisible pour les layouts)
+.project-cards-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
+  width: 100%;
+
+  @media (min-width: 901px) {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 1.3rem;
+  }
+
+  .project-cards-item {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    width: 100%;
+
+    @media (min-width: 901px) {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: 1.3rem;
+    }
+    // Mêmes styles que ci-dessus
+  }
 }

@@ -1,21 +1,314 @@
+@use "sass:color";
 @use "../../common/scss/variables" as *;
 
-.empty-project {
+// ---- WRAPPER & HEADER ----
+
+.project-builder-wrapper {
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  background: $bg-primary;
+
+  .project-builder-header {
+    max-width: 830px;
+    margin: 0 auto 2.2rem auto;
+    padding-top: 2.7rem;
+    text-align: center;
+
+    h1#main-project-title {
+      font-size: 2.7rem;
+      font-weight: 900;
+      color: $accent-color;
+      letter-spacing: 0.01em;
+      margin-bottom: 0.6rem;
+      line-height: 1.08;
+      text-shadow: 0 2px 18px rgba($accent-color, 0.05);
+    }
+    .project-builder-subtitle {
+      color: $text-secondary;
+      font-size: 1.18rem;
+      margin: 0 auto;
+      line-height: 1.5;
+      max-width: 540px;
+      opacity: 0.91;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+    }
+  }
+}
+
+// ---- BUILDER LAYOUT ----
+
+.project-builder-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.builder-layout {
+  display: flex;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+// ---- PANELS ----
+
+.builder-panel {
+  background: $bg-secondary;
+  border-radius: 1.1rem;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.09), $box-shadow;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  min-height: 12rem;
-  cursor: pointer;
-  transition: all var(--transition-speed);
+  min-width: 340px;
 
-  &:hover {
-    transform: scale(1.05);
+  &.builder-tools {
+    flex: 1 1 370px;
+    max-width: 380px;
+    min-width: 260px;
+    .builder-tabs {
+      margin-top: 1.2rem;
+
+      .tab-nav {
+        display: flex;
+        list-style: none;
+        border-bottom: 1.5px solid $border-color;
+        margin-bottom: 1.5rem;
+        padding-left: 0;
+        background: none;
+        .tab-item {
+          padding: 0.9rem 2rem 0.9rem 2rem;
+          cursor: pointer;
+          color: $text-secondary;
+          border: 1.5px solid transparent;
+          background: none;
+          border-bottom: none;
+          font-weight: 600;
+          font-size: 1.09rem;
+          border-top-left-radius: 0.4rem;
+          border-top-right-radius: 0.4rem;
+          margin-right: 0.15rem;
+          margin-bottom: -1.5px;
+          transition: color 0.16s, background 0.13s;
+          &:hover {
+            color: $accent-color;
+            background: $bg-elevated;
+          }
+          &.active {
+            color: $accent-color;
+            background: $bg-elevated;
+            border-color: $border-color $border-color $bg-elevated $border-color;
+            z-index: 2;
+          }
+        }
+      }
+      .tab-content {
+        .tab-pane {
+          display: none;
+          padding: 1.5rem 1.3rem 1.3rem 1.3rem;
+          background: $bg-elevated;
+          border-radius: 0 0 0.4rem 0.4rem;
+          min-height: 330px;
+          &.active {
+            display: block;
+          }
+        }
+        h3 {
+          margin-top: 0;
+          color: $accent-color;
+          font-size: 1.13rem;
+          font-weight: 800;
+          margin-bottom: 0.6rem;
+        }
+        p {
+          color: $text-secondary;
+          font-size: 1.02rem;
+          margin-bottom: 1.2rem;
+        }
+        .component-list {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.05rem;
+          margin-top: 0.7rem;
+          .component-item {
+            background: $bg-elevated;
+            border: 1.2px solid $border-color;
+            border-radius: 0.48rem;
+            padding: 1.05rem 0.7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: grab;
+            font-size: 1.01rem;
+            font-weight: 500;
+            transition: border-color 0.17s, background 0.15s, transform 0.12s;
+            user-select: none;
+            &:hover {
+              border-color: $accent-color;
+              background: color.adjust($bg-elevated, $lightness: +5%);
+              transform: translateY(-2px) scale(1.01);
+            }
+            i {
+              font-size: 2.2rem;
+              margin-bottom: 0.15rem;
+              color: $accent-color;
+            }
+            span {
+              font-size: 1rem;
+              color: $text-primary;
+              font-weight: 600;
+            }
+          }
+        }
+        .style-editor,
+        .actions-editor {
+          .form-group {
+            margin-bottom: 1.1rem;
+            label {
+              font-size: 1rem;
+              color: $text-primary;
+              font-weight: 600;
+            }
+            .form-control {
+              margin-top: 0.3rem;
+              font-size: 1rem;
+              background: $bg-primary;
+              color: $text-primary;
+              border-radius: 0.3rem;
+              border: 1.2px solid $border-color;
+              padding: 0.55rem 0.9rem;
+            }
+          }
+        }
+      }
+    }
   }
-  i {
-    font-size: 4rem;
-    color: var(--accent-color);
-    margin-bottom: 1.5rem;
+
+  &.builder-preview {
+    flex: 1.18 1 550px;
+    max-width: 700px;
+    min-width: 320px;
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: $bg-secondary;
+      padding: 1.3rem 2rem 1.1rem 2rem;
+      border-bottom: 1.5px solid $border-color;
+      h3 {
+        font-size: 1.14rem;
+        font-weight: 700;
+        color: $accent-color;
+        margin: 0;
+      }
+      .preview-actions {
+        display: flex;
+        gap: 0.6rem;
+        align-items: center;
+        .btn {
+          font-size: 1.01rem;
+        }
+      }
+    }
+    .preview-container {
+      flex-grow: 1;
+      padding: 1.8rem 1.7rem 1.3rem 1.7rem;
+      background: $bg-elevated;
+      min-height: 430px;
+      .drop-area {
+        min-height: 410px;
+        height: fit-content;
+        border: 2.2px dashed $border-color;
+        border-radius: 0.7rem;
+        position: relative;
+        background-color: $bg-primary;
+        transition: all 0.23s;
+        padding-bottom: 3rem;
+        .empty-state {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          color: $text-secondary;
+          i {
+            font-size: 2.5rem;
+            color: $accent-color;
+            margin-bottom: 1rem;
+          }
+          p {
+            font-size: 1.11rem;
+            opacity: 0.91;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ---- DRAG & PREVIEW ----
+
+.drop-indicator {
+  position: absolute;
+  pointer-events: none;
+  width: 15px;
+  height: 15px;
+  background: $accent-color;
+  border-radius: 50%;
+  z-index: 999;
+  box-shadow: 0 0 0 4px rgba($accent-color, 0.1);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.15s, transform 0.18s;
+  &.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.preview-component.selected {
+  box-shadow: 0 0 0 2px $accent-color, 0 0 8px rgba($accent-color, 0.19);
+  z-index: 10;
+}
+
+// ---- RESPONSIVE ----
+
+@media (max-width: 1000px) {
+  .builder-layout {
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 98vw;
+    .builder-panel {
+      min-width: 0;
+      max-width: 100vw;
+    }
+  }
+  .builder-panel.builder-tools,
+  .builder-panel.builder-preview {
+    max-width: 100vw;
+  }
+  .project-builder-header {
+    padding-top: 1.5rem;
+  }
+}
+@media (max-width: 650px) {
+  .project-builder-header h1#main-project-title {
+    font-size: 1.35rem;
+  }
+  .project-builder-header .project-builder-subtitle {
+    font-size: 0.97rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .builder-panel {
+    min-width: 0;
+  }
+  .builder-tabs .tab-item {
+    font-size: 0.93rem;
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
   }
 }
