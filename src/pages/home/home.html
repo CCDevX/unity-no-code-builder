@@ -1,84 +1,42 @@
-<div class="home-wrapper">
-  <h1>Unity Plug-in Builder</h1>
-  <div class="cards-layout">
-    <div class="card main-card">
-      <div class="main-card-content">
-        <h2>Commencer un nouveau projet</h2>
-        <p>
-          Créez des plug-ins Unity puissants en quelques clics grâce à notre
-          plateforme no-code intuitive.<br />
-          Que vous soyez débutant ou développeur expérimenté, Unity Plug-in
-          Builder vous permet de concevoir, personnaliser et déployer vos
-          extensions sans aucune ligne de code.<br />
-          Glissez, déposez, paramétrez et exportez : gagnez un temps précieux
-          pour vos projets, tout en gardant le contrôle sur la qualité et la
-          sécurité.<br />
-          Démarrez dès maintenant et repoussez les limites de la créativité sur
-          Unity, sans la moindre complexité technique.
-        </p>
-      </div>
-      <button class="btn btn-primary" id="create-project-button">
-        Créer un projet
-      </button>
-    </div>
-    <div class="side-cards">
-      <div class="card card-side">
-        <h3>Exemple</h3>
-        <p>
-          Testez toutes les fonctionnalités avec un projet d’exemple prêt à
-          l’emploi.
-        </p>
-        <button class="btn btn-secondary" id="sample-project-button">
-          Voir le projet
-        </button>
-      </div>
-      <div class="card card-side">
-        <h3>Ressources</h3>
-        <p>
-          Découvrez notre documentation, nos tutoriels et de nombreux conseils
-          pour accélérer vos créations Unity.
-        </p>
-        <button class="btn btn-secondary" id="view-resources-button">
-          Voir les ressources
-        </button>
-      </div>
-    </div>
+<h1>Générateur de Plugins Unity</h1>
+<div class="card">
+  <h2>Démarrer un nouveau projet</h2>
+  <p>
+    Créez des plugins Unity puissants sans effort grâce à notre plateforme
+    no-code.
+  </p>
+  <button
+    class="btn btn-primary"
+    id="create-project-button"
+    data-action="view-sample"
+  >
+    Créer un projet
+  </button>
+</div>
+<div class="cards-container">
+  <div class="card">
+    <h3>Exemple</h3>
+    <p>Ouvrir le projet d'exemple.</p>
+    <button
+      class="btn btn-secondary"
+      id="sample-project-button"
+      data-action="view-resources"
+    >
+      Voir le projet
+    </button>
   </div>
-
-  <!-- SECTION AVANTAGES -->
-  <div class="features-section">
-    <h2>Pourquoi choisir Unity Plug-in Builder ?</h2>
-    <div class="features-list">
-      <div class="feature-item">
-        <i class="fa-solid fa-plug"></i>
-        <div>
-          <h3>No-code total</h3>
-          <p>
-            Créez des plug-ins Unity sans écrire une ligne de code. Glissez,
-            déposez, personnalisez.
-          </p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <i class="fa-solid fa-share-from-square"></i>
-        <div>
-          <h3>Export facile</h3>
-          <p>
-            Un clic pour exporter et utiliser votre plug-in dans vos projets
-            Unity.
-          </p>
-        </div>
-      </div>
-      <div class="feature-item">
-        <i class="fa-solid fa-shield-halved"></i>
-        <div>
-          <h3>Sécurité &amp; RGPD</h3>
-          <p>
-            Vos données restent privées, aucune revente, conformité européenne
-            garantie.
-          </p>
-        </div>
-      </div>
-    </div>
+  <div class="card menu">
+    <h3>Ressources</h3>
+    <p>
+      Explorez notre documentation et nos tutoriels pour vous aider dans votre
+      projet.
+    </p>
+    <button
+      class="btn btn-secondary"
+      id="view-resources-button"
+      data-action="view-resources"
+    >
+      Voir les ressources
+    </button>
   </div>
 </div>

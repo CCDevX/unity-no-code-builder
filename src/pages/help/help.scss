@@ -1,94 +1,393 @@
 @use "../../common/scss/variables" as *;
 
 .help-container {
-  max-width: 820px;
-  margin: 2.5rem auto 0 auto;
-  padding: 2.4rem 2rem 2.2rem 2rem;
-  font-size: 1.58rem;
-  line-height: 1.7;
-  color: $text-primary;
-  background: transparent;
+  max-width: 95rem;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  background: linear-gradient(
+    135deg,
+    $bg-primary 0%,
+    darken($bg-primary, 2%) 100%
+  );
+  min-height: 100vh;
 
-  h2 {
-    font-size: 2.3rem;
-    font-weight: 700;
-    margin-bottom: 1.2rem;
-    color: $accent-color;
-    letter-spacing: 0.01em;
+  // Titre principal
+  h1 {
     text-align: center;
+    font-size: 3.6rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: 5rem;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8rem;
+      height: 0.4rem;
+      background: linear-gradient(
+        90deg,
+        $accent-color,
+        lighten($accent-color, 15%)
+      );
+      border-radius: 0.2rem;
+    }
+
+    &::before {
+      content: "📚";
+      display: block;
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
   }
 
-  p {
-    margin-bottom: 1.35rem;
+  // Sous-titre de bienvenue
+  h2 {
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+
+    &::before {
+      content: "👋";
+      margin-right: 1rem;
+      font-size: 2.4rem;
+    }
+  }
+
+  // Paragraphes d'introduction
+  > p {
+    font-size: 1.8rem;
+    line-height: 1.7;
     color: $text-secondary;
     text-align: center;
-    font-size: 1.53rem;
+    margin-bottom: 4rem;
+    max-width: 70rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem;
+    background: rgba($accent-color, 0.05);
+    border-radius: 1rem;
+    border-left: 0.4rem solid $accent-color;
   }
+}
 
-  ul {
-    padding-left: 0;
-    margin-top: 1.7rem;
-    list-style: none;
-  }
+// Container pour les instructions
+.instructions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40rem, 1fr));
+  gap: 3rem;
+  margin: 4rem 0;
+}
+
+// Liste des instructions stylisée
+.help-container ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(45rem, 1fr));
+  gap: 2.5rem;
 
   li {
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 1.1rem;
+    background: $bg-elevated;
+    padding: 3rem;
+    border-radius: 1.2rem;
+    box-shadow: $box-shadow, 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    transition: all $transition-speed ease;
+    overflow: hidden;
 
-    // Icône (si tu utilises fontawesome)
-    .help-icon {
-      color: $accent-color;
-      font-size: 1.65rem;
-      flex-shrink: 0;
-      margin-top: 0.22rem;
-      opacity: 0.85;
-    }
-
-    strong {
-      font-weight: 600;
-      color: $text-primary;
-      margin-right: 0.22rem;
-      font-size: 1em;
-    }
-
-    span {
-      color: $text-secondary;
-      font-size: 1.43rem;
-      display: inline;
-      line-height: 1.6;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0.4rem;
+      background: linear-gradient(
+        90deg,
+        $accent-color,
+        lighten($accent-color, 20%)
+      );
     }
 
     &:hover {
-      background: rgba($accent-color, 0.07);
-      border-radius: 0.6rem;
-      transition: background 0.17s;
+      transform: translateY(-0.5rem);
+      box-shadow: $box-shadow, 0 12px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    // Icônes pour chaque étape
+    &:nth-child(1)::after {
+      content: "🚀";
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2.4rem;
+      opacity: 0.7;
+    }
+
+    &:nth-child(2)::after {
+      content: "📋";
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2.4rem;
+      opacity: 0.7;
+    }
+
+    &:nth-child(3)::after {
+      content: "🛠️";
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2.4rem;
+      opacity: 0.7;
+    }
+
+    &:nth-child(4)::after {
+      content: "📦";
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      font-size: 2.4rem;
+      opacity: 0.7;
+    }
+
+    strong {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      color: $accent-color;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba($accent-color, 0.2);
+    }
+
+    // Contenu de chaque instruction
+    font-size: 1.6rem;
+    line-height: 1.7;
+    color: $text-secondary;
+    margin-bottom: 0;
+    padding-right: 5rem; // Espace pour l'icône
+  }
+}
+
+// Section "Coming Soon"
+.coming-soon {
+  margin-top: 6rem;
+  padding: 3rem;
+  background: linear-gradient(
+    135deg,
+    rgba($accent-color, 0.1) 0%,
+    rgba($accent-color, 0.05) 100%
+  );
+  border-radius: 1.2rem;
+  text-align: center;
+  border: 1px solid rgba($accent-color, 0.2);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.3rem;
+    background: linear-gradient(
+      90deg,
+      $accent-color,
+      lighten($accent-color, 20%)
+    );
+  }
+
+  em {
+    font-size: 1.8rem;
+    color: $text-primary;
+    font-weight: 500;
+    position: relative;
+
+    &::before {
+      content: "⏳";
+      margin-right: 1rem;
+      font-size: 2rem;
     }
   }
 
-  // Responsive
-  @media (max-width: 700px) {
-    padding: 1.2rem 0.4rem;
-    font-size: 1.33rem;
+  // Animation subtile
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -100%;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba($accent-color, 0.5),
+      transparent
+    );
+    animation: shimmer 3s infinite;
+  }
+}
 
-    h2 {
-      font-size: 1.65rem;
-    }
-    li {
-      font-size: 1.11em;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.2rem;
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+// Section FAQ (pour usage futur)
+.faq-section {
+  margin-top: 6rem;
+
+  h3 {
+    font-size: 2.4rem;
+    color: $text-primary;
+    text-align: center;
+    margin-bottom: 3rem;
+
+    &::before {
+      content: "❓";
+      margin-right: 1rem;
     }
   }
 }
 
-.coming-soon {
-  margin-top: 2.2rem;
-  font-size: 1.23rem;
-  font-style: italic;
-  color: $accent-color;
-  text-align: center;
-  opacity: 0.88;
+.faq-item {
+  background: $bg-elevated;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: $box-shadow;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  .faq-question {
+    padding: 2rem 3rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: $text-primary;
+    cursor: pointer;
+    background: rgba($accent-color, 0.05);
+    transition: background $transition-speed ease;
+
+    &:hover {
+      background: rgba($accent-color, 0.1);
+    }
+
+    &::after {
+      content: "+";
+      float: right;
+      font-size: 2rem;
+      transition: transform $transition-speed ease;
+    }
+
+    &.active::after {
+      transform: rotate(45deg);
+    }
+  }
+
+  .faq-answer {
+    padding: 0 3rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: all $transition-speed ease;
+
+    &.active {
+      padding: 2rem 3rem;
+      max-height: 20rem;
+    }
+
+    p {
+      font-size: 1.5rem;
+      line-height: 1.6;
+      color: $text-secondary;
+      margin: 0;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .help-container ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .help-container {
+    padding: 2rem 1.5rem;
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 3rem;
+
+      &::before {
+        font-size: 3rem;
+      }
+    }
+
+    h2 {
+      font-size: 2.2rem;
+    }
+
+    > p {
+      font-size: 1.6rem;
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+    }
+  }
+
+  .help-container ul li {
+    padding: 2.5rem 2rem;
+
+    strong {
+      font-size: 1.8rem;
+    }
+
+    font-size: 1.4rem;
+    padding-right: 4rem;
+  }
+
+  .coming-soon {
+    padding: 2rem;
+    margin-top: 4rem;
+
+    em {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .help-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .help-container ul {
+    gap: 2rem;
+
+    li {
+      padding: 2rem 1.5rem;
+      padding-right: 3.5rem;
+
+      strong {
+        font-size: 1.6rem;
+      }
+
+      font-size: 1.3rem;
+    }
+  }
 }

@@ -1,261 +1,477 @@
-@use "sass:color";
 @use "../../common/scss/variables" as *;
+@use "sass:color";
 
-// Wrapper principal
-.home-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3.2rem 1.5rem 5rem 1.5rem;
-
-  h1 {
-    color: $accent-color;
-    font-size: 2.9rem;
-    font-weight: 800;
-    margin-bottom: 2.7rem;
-    letter-spacing: 0.01em;
-    text-align: center;
-  }
-}
-
-// Disposition principale
-.cards-layout {
-  display: flex;
-  gap: 2.7rem;
-  align-items: stretch;
-  justify-content: center;
-
-  // Mobile = colonne
-  @media (max-width: 950px) {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-}
-
-// Carte principale (grande)
-.main-card {
-  flex: 1.18 1 390px;
-  max-width: 440px;
-  min-width: 290px;
+// Container principal de la page home
+.home-container {
+  min-height: 100vh;
+  padding: 4rem 2rem;
   background: linear-gradient(
-    102deg,
-    color.adjust($bg-elevated, $lightness: +6%) 67%,
-    color.adjust($bg-elevated, $lightness: +13%) 100%
-  );
-  border-radius: 1.15rem;
-  box-shadow: 0 8px 36px rgba($accent-color, 0.13), $box-shadow;
-  border: 2px solid color.adjust($bg-elevated, $lightness: +14%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2.7rem 2.5rem 2.1rem 2.5rem;
-  gap: 1.3rem;
-  align-items: flex-start;
+      135deg,
+      $bg-primary 0%,
+      color.adjust($bg-primary, $lightness: -2%) 100%
+    ),
+    radial-gradient(
+      circle at 30% 20%,
+      rgba($accent-color, 0.04) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 80%,
+      rgba($accent-color, 0.02) 0%,
+      transparent 50%
+    );
   position: relative;
 
-  .main-card-content {
-    flex: 1;
-    h2 {
-      font-size: 1.72rem;
-      font-weight: 700;
-      color: $accent-color;
-      margin-bottom: 0.8rem;
-    }
-    p {
-      color: $text-secondary;
-      font-size: 1.21rem;
-      margin-bottom: 0.8rem;
-      line-height: 1.5;
-    }
-  }
-
-  .btn {
-    margin-top: 0.7rem;
-    min-width: 150px;
-    width: 100%;
-    font-size: 1.09rem;
-    font-weight: 600;
-  }
-}
-
-// Cartes secondaires (à droite)
-.side-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-  min-width: 250px;
-  max-width: 340px;
-  flex: 0.8 1 270px;
-
-  @media (max-width: 950px) {
-    flex-direction: row;
-    gap: 1rem;
-    max-width: 100%;
-    .card-side {
-      min-width: 0;
-    }
-  }
-  @media (max-width: 700px) {
-    flex-direction: column;
-    gap: 1rem;
+  // Effet de particules en arrière-plan
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(
+        circle at 20% 30%,
+        rgba($accent-color, 0.06) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 80% 70%,
+        rgba($accent-color, 0.04) 1px,
+        transparent 1px
+      );
+    background-size: 60px 60px, 90px 90px;
+    opacity: 0.4;
+    pointer-events: none;
+    animation: float-particles 25s ease-in-out infinite;
   }
 }
 
-// Style des cartes secondaires
-.card-side {
-  background: linear-gradient(
-    120deg,
-    color.adjust($bg-elevated, $lightness: +2%) 70%,
-    color.adjust($bg-elevated, $lightness: +9%) 100%
-  );
-  border-radius: 1rem;
-  box-shadow: 0 2px 16px rgba($accent-color, 0.09), $box-shadow;
-  border: 1.2px solid color.adjust($bg-elevated, $lightness: +10%);
-  padding: 2.2rem 1.5rem 1.7rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  min-width: 230px;
-  min-height: 180px;
+// Titre principal
+h1 {
+  text-align: center;
+  font-size: 4.5rem;
+  font-weight: 900;
+  color: $text-primary;
+  margin-bottom: 6rem;
+  position: relative;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-  h3 {
-    color: $accent-color;
-    font-size: 1.19rem;
-    font-weight: 700;
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.01em;
-  }
-  p {
-    color: $text-secondary;
-    font-size: 1.05rem;
-    margin-bottom: 1.2rem;
-    line-height: 1.5;
-    flex: 1;
+  // Icône Unity
+  &::before {
+    content: "⚡";
+    display: block;
+    font-size: 5rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    filter: drop-shadow(0 4px 12px rgba($accent-color, 0.3));
+    animation: pulse-glow 4s ease-in-out infinite;
   }
 
-  .btn {
-    min-width: 120px;
-    width: 100%;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-top: auto;
-  }
-}
-
-// Effet hover sur toutes les cartes
-.card,
-.main-card,
-.card-side {
-  transition: box-shadow 0.15s, border-color 0.14s, background 0.17s,
-    transform 0.13s;
-  &:hover,
-  &:focus-within {
-    box-shadow: 0 16px 48px rgba($accent-color, 0.16), $box-shadow;
-    border-color: $accent-color;
-    transform: translateY(-3px) scale(1.013);
+  // Barre de soulignement animée
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12rem;
+    height: 0.5rem;
     background: linear-gradient(
-      108deg,
-      color.adjust($bg-elevated, $lightness: +11%) 60%,
-      color.adjust($bg-elevated, $lightness: +17%) 100%
+      90deg,
+      transparent 0%,
+      $accent-color 20%,
+      color.adjust($accent-color, $lightness: 20%) 50%,
+      $accent-color 80%,
+      transparent 100%
     );
-    z-index: 2;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 12px rgba($accent-color, 0.5);
+    animation: shimmer-line 3s ease-in-out infinite;
   }
 }
 
-// Responsive petits écrans
-@media (max-width: 600px) {
-  .main-card,
-  .card-side {
-    padding: 1.2rem 1rem 1rem 1rem;
-    border-radius: 0.9rem;
-    .btn {
-      width: 100%;
+// Carte principale
+.card {
+  background: linear-gradient(
+    145deg,
+    $bg-elevated 0%,
+    color.adjust($bg-elevated, $lightness: 3%) 100%
+  );
+  padding: 4rem;
+  border-radius: 2rem;
+  box-shadow: $box-shadow, 0 15px 50px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  max-width: 80rem;
+  margin: 0 auto 5rem auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-speed ease;
+  backdrop-filter: blur(10px);
+
+  // Bordure supérieure dégradée
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.6rem;
+    background: linear-gradient(
+      90deg,
+      $accent-color 0%,
+      color.adjust($accent-color, $lightness: 25%) 30%,
+      color.adjust($accent-color, $lightness: 15%) 70%,
+      $accent-color 100%
+    );
+    background-size: 200% 100%;
+    animation: gradient-shift 4s ease-in-out infinite;
+  }
+
+  // Effet de brillance au survol
+  &::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.08) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    transition: all 0.8s ease;
+    opacity: 0;
+  }
+
+  &:hover {
+    transform: translateY(-1rem) scale(1.02);
+    box-shadow: $box-shadow, 0 25px 70px rgba(0, 0, 0, 0.18),
+      0 0 0 1px rgba($accent-color, 0.15);
+
+    &::after {
+      opacity: 1;
+      transform: rotate(45deg) translate(60%, 60%);
     }
   }
-}
-
-.features-section {
-  max-width: 950px;
-  margin: 3rem auto 0 auto;
-  padding: 0 1rem 3rem 1rem;
 
   h2 {
+    font-size: 3.2rem;
+    font-weight: 800;
     color: $text-primary;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 2.1rem;
-    text-align: left;
-    letter-spacing: 0;
-  }
-}
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
 
-.features-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2.3rem;
-}
-
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 1.25rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid $border-color;
-
-  &:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  i {
-    font-size: 1.5rem;
-    margin-top: 0.1rem;
-    color: $accent-color;
-    flex-shrink: 0;
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
+    &::before {
+      content: "🚀";
+      margin-right: 1.5rem;
+      font-size: 2.8rem;
+      filter: drop-shadow(0 2px 6px rgba($accent-color, 0.4));
+    }
   }
 
   h3 {
-    color: $accent-color;
-    font-size: 1.13rem;
-    font-weight: 600;
-    margin: 0 0 0.16rem 0;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: 1.5rem;
+    text-align: center;
+
+    // Icônes pour chaque carte
+    &::before {
+      display: block;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 2px 4px rgba($accent-color, 0.3));
+    }
   }
+
   p {
+    font-size: 1.8rem;
+    line-height: 1.7;
     color: $text-secondary;
-    font-size: 1.07rem;
-    margin: 0;
-    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 50rem;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
-// Responsive
-@media (max-width: 700px) {
-  .features-section {
-    max-width: 99vw;
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
+// Container des cartes secondaires
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(35rem, 1fr));
+  gap: 3rem;
+  max-width: 120rem;
+  margin: 0 auto;
+
+  .card {
+    margin: 0;
+    max-width: none;
+    padding: 3.5rem;
+
+    // Icônes spécifiques pour chaque carte
+    &:first-child h3::before {
+      content: "📋";
+    }
+
+    &:last-child h3::before {
+      content: "📚";
+    }
+
+    // Effet hover différent pour les cartes secondaires
+    &:hover {
+      transform: translateY(-0.8rem) scale(1.03);
+    }
+  }
+}
+
+// Styles des boutons
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 4rem;
+  font-size: 1.8rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: all $transition-speed ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  min-width: 18rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+  // Effet ripple
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    transition: all 0.8s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  &:hover::before {
+    width: 400px;
+    height: 400px;
+  }
+
+  &:active {
+    transform: translateY(0.2rem) scale(0.98);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba($accent-color, 0.3),
+      0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Bouton principal
+.btn-primary {
+  background: linear-gradient(
+    145deg,
+    $accent-color 0%,
+    color.adjust($accent-color, $lightness: -5%) 50%,
+    color.adjust($accent-color, $lightness: -12%) 100%
+  );
+  color: white;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba($accent-color, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  &::after {
+    content: "✨";
+    margin-left: 1.2rem;
+    font-size: 1.6rem;
+    opacity: 0.9;
+  }
+
+  &:hover {
+    background: linear-gradient(
+      145deg,
+      color.adjust($accent-color, $lightness: 8%) 0%,
+      $accent-color 50%,
+      color.adjust($accent-color, $lightness: -8%) 100%
+    );
+    box-shadow: 0 12px 35px rgba($accent-color, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transform: translateY(-0.4rem) scale(1.05);
+  }
+}
+
+// Bouton secondaire
+.btn-secondary {
+  background: linear-gradient(
+    145deg,
+    color.adjust($bg-elevated, $lightness: 10%) 0%,
+    $bg-elevated 50%,
+    color.adjust($bg-elevated, $lightness: -5%) 100%
+  );
+  color: $text-primary;
+  border: 2px solid rgba($accent-color, 0.3);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  &::after {
+    content: "→";
+    margin-left: 1rem;
+    font-size: 1.8rem;
+    opacity: 0.8;
+    transition: transform $transition-speed ease;
+  }
+
+  &:hover {
+    background: linear-gradient(
+      145deg,
+      color.adjust($bg-elevated, $lightness: 15%) 0%,
+      color.adjust($bg-elevated, $lightness: 5%) 50%,
+      $bg-elevated 100%
+    );
+    border-color: rgba($accent-color, 0.5);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba($accent-color, 0.2);
+    transform: translateY(-0.3rem) scale(1.03);
+
+    &::after {
+      transform: translateX(0.5rem);
+    }
+  }
+}
+
+// Animations
+@keyframes float-particles {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(1deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 4px 12px rgba($accent-color, 0.3));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 6px 18px rgba($accent-color, 0.5));
+  }
+}
+
+@keyframes shimmer-line {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    padding: 2.5rem 1.5rem;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+    margin-bottom: 4rem;
+
+    &::before {
+      font-size: 4rem;
+    }
+  }
+
+  .card {
+    padding: 3rem 2.5rem;
+    margin-bottom: 3rem;
+
     h2 {
-      font-size: 1.2rem;
+      font-size: 2.6rem;
     }
-  }
-  .features-list {
-    gap: 1.15rem;
-  }
-  .feature-item {
-    gap: 0.6rem;
-    i {
-      font-size: 1.05rem;
-    }
+
     h3 {
-      font-size: 1.01rem;
+      font-size: 2rem;
     }
+
     p {
-      font-size: 0.97rem;
+      font-size: 1.6rem;
     }
+  }
+
+  .btn {
+    width: 100%;
+    padding: 2.2rem;
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-container {
+    padding: 2rem 1rem;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    margin-bottom: 3rem;
+  }
+
+  .card {
+    padding: 2.5rem 2rem;
+    border-radius: 1.5rem;
+
+    h2 {
+      font-size: 2.2rem;
+    }
+
+    h3 {
+      font-size: 1.8rem;
+    }
+
+    p {
+      font-size: 1.4rem;
+    }
+  }
+
+  .btn {
+    padding: 2rem;
+    font-size: 1.4rem;
+    min-width: auto;
   }
 }

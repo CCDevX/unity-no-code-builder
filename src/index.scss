@@ -10,7 +10,7 @@
 @use "./common/scss/toast" as *;
 @use "sass:color";
 
-// index.scss
+// index.scss - Version corrigée
 
 body,
 html {
@@ -20,18 +20,19 @@ html {
 
 .container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh; // Changé de height à min-height pour plus de flexibilité
 
   .sidebar {
     width: $sidebar-width;
     background: $bg-secondary;
-    height: 100%;
+    height: 100vh; // Hauteur fixe pour la sidebar
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100;
     transition: transform $transition-speed, box-shadow $transition-speed;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.11);
+    overflow-y: auto; // Ajout pour permettre le scroll si besoin
 
     @supports (backdrop-filter: blur(8px)) {
       background: rgba(42, 53, 70, 0.84);
@@ -48,6 +49,10 @@ html {
       justify-content: space-between;
       padding: 2rem;
       border-bottom: 1px solid $border-color;
+      position: sticky;
+      top: 0;
+      background: inherit; // Pour éviter la transparence lors du scroll
+      z-index: 1;
 
       .sidebar-title {
         color: $accent-color;
@@ -55,6 +60,7 @@ html {
         font-weight: 700;
         letter-spacing: 0.02em;
       }
+
       .close-sidebar {
         display: none;
         background: none;
@@ -62,20 +68,25 @@ html {
         font-size: 2.1rem;
         color: $text-secondary;
         cursor: pointer;
+
         @include sm {
           display: block;
         }
+
         &:hover {
           color: $accent-hover;
         }
       }
     }
+
     .menu ul {
       list-style: none;
       padding: 1.2rem 0;
       margin: 0;
+
       li {
         margin-bottom: 0.3rem;
+
         a {
           font-size: 1.7rem;
           display: flex;
@@ -86,17 +97,21 @@ html {
           border-radius: 0.7rem;
           transition: background $transition-speed, color $transition-speed,
             border-left $transition-speed;
+          border-left: 0.4rem solid transparent; // Évite le décalage lors du hover
+
           i {
             margin-right: 1rem;
             width: 2.4rem;
             text-align: center;
           }
+
           &:hover,
           &.active {
             background: color.adjust($bg-elevated, $lightness: 4%);
             color: $text-primary;
-            border-left: 0.4rem solid $accent-color;
+            border-left-color: $accent-color;
           }
+
           &.active {
             font-weight: 600;
             box-shadow: inset 0 0 0.5rem rgba($accent-color, 0.18);
@@ -104,6 +119,7 @@ html {
         }
       }
     }
+
     &.active {
       @include sm {
         transform: translateX(0);
@@ -119,6 +135,7 @@ html {
     min-width: 0;
     min-height: 100vh;
     transition: margin-left $transition-speed;
+
     @include sm {
       margin-left: 0;
     }
@@ -133,7 +150,7 @@ html {
       padding: 0 2rem;
       position: sticky;
       top: 0;
-      z-index: 99;
+      z-index: 90; // Réduit pour éviter les conflits avec la sidebar
 
       .toggle-sidebar {
         display: none;
@@ -143,13 +160,17 @@ html {
         color: $accent-color;
         margin-right: 1.5rem;
         cursor: pointer;
+        padding: 0.5rem; // Zone de clic plus grande
+
         @include sm {
           display: block;
         }
+
         &:hover {
           color: $accent-hover;
         }
       }
+
       .header-title {
         font-size: 2rem;
         font-weight: 600;
@@ -158,43 +179,73 @@ html {
       }
     }
 
-    // PAGE BODY (grid = centrage vertical naturel)
+    // CONTENT BODY - Version plus flexible
     .content-body {
-      display: grid;
-      grid-template-rows: 1fr auto 1fr;
-      flex: 1 1 0;
-      min-height: 0;
-      padding: 2.4rem 2.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 2.4rem;
       background: transparent;
+      overflow-y: auto; // Permet le scroll du contenu
 
-      @media (max-width: 700px) {
-        padding: 1.2rem 0.4rem;
+      @media (max-width: 900px) {
+        padding: 2rem 1.6rem;
       }
 
-      // La carte centrale : help, form, etc.
-      > .help-container {
-        grid-row: 2;
+      @media (max-width: 600px) {
+        padding: 1.6rem 1.2rem;
+      }
+
+      // Classes utilitaires pour différents layouts
+      &.centered-content {
+        display: grid;
+        place-items: center;
+        min-height: calc(
+          100vh - #{$header-height} - 80px
+        ); // 80px pour le footer approx.
+      }
+
+      &.full-width {
+        padding: 0;
+      }
+
+      // Container générique pour le contenu
+      .page-container {
+        width: 100%;
+        max-width: 1200px;
         margin: 0 auto;
+      }
+
+      // Pour les pages qui nécessitent un centrage (comme help)
+      .centered-card {
         max-width: 740px;
         width: 100%;
-        // plus de max-height, plus de overflow-y ici !
+        margin: 0 auto;
       }
     }
 
     .footer {
-      padding: 2rem 0;
+      padding: 2rem;
       text-align: center;
       border-top: 1px solid $border-color;
-      margin-top: auto;
+      background: $bg-primary; // Fond pour éviter la transparence
+
       .footer-content {
         color: $text-secondary;
         font-size: 1.5rem;
+
+        p {
+          margin: 0;
+        }
+
         a {
           color: $accent-color;
           text-decoration: none;
           transition: color $transition-speed;
+
           &:hover {
             color: $accent-hover;
+            text-decoration: underline;
           }
         }
       }
@@ -202,10 +253,25 @@ html {
   }
 }
 
-// Modals et toast
-.modal-container {
+// Overlay pour mobile quand la sidebar est ouverte
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
   display: none;
+
+  @include sm {
+    &.active {
+      display: block;
+    }
+  }
 }
+
+// Modals et toast (simplifiés)
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -215,4 +281,8 @@ html {
   background: rgba(0, 0, 0, 0.5);
   z-index: 1000;
   display: none;
+
+  &.active {
+    display: block;
+  }
 }

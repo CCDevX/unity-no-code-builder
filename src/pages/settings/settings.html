@@ -1,21 +1,23 @@
 <section class="settings">
-  <h1>Paramètres</h1>
+  <h1>Settings</h1>
   <div class="settings-container">
     <div class="form-group">
-      <label for="groq-api-key">Clé API Groq</label>
+      <label for="groq-api-key">Groq API Key</label>
       <input
-        type="text"
+        type="password"
         id="groq-api-key"
         class="form-control"
-        placeholder="Entrez votre clé API Groq"
+        placeholder="gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+        autocomplete="off"
+        spellcheck="false"
       />
       <p class="form-text">
-        Vous n'avez pas encore de clé API Groq ?
+        Don't have a Groq API key?
         <a href="https://console.groq.com" target="_blank" rel="noopener">
-          Obtenez-en une ici
+          Get one here
         </a>
       </p>
-      <button id="save-key" class="btn btn-primary">Enregistrer</button>
+      <button id="save-key" class="btn btn-primary">Save API Key</button>
     </div>
   </div>
 </section>
