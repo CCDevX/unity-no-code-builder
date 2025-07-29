@@ -1,12 +1,6 @@
-# ⚡ Unity Plugin Builder
+#  Unity Plugin Builder
 
 <div align="center">
-
-![Unity Plugin Builder](https://img.shields.io/badge/Unity-Plugin%20Builder-007acc?style=for-the-badge&logo=unity&logoColor=white)
-![Version](https://img.shields.io/badge/version-2.1.0-brightgreen?style=for-the-badge)
-![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)
-![Netlify Status](https://img.shields.io/netlify/6c4c9c4e-12a3-4c3d-9f4d-1234567890ab?style=for-the-badge)
-
 **Un générateur de plugins Unity moderne et intuitif**
 
 [ Demo Live](https://unity-plugin-builder-ccdevx.netlify.app/) • [📖 Documentation](#documentation) • [ Report Bug](https://github.com/CCDevX/unity-plugin-builder/issues) • [ Feature Request](https://github.com/CCDevX/unity-plugin-builder/issues)
