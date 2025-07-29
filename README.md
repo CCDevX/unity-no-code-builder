@@ -170,6 +170,4 @@ L'application suit une architecture modulaire avec :
 
 **Développé avec par [CCDevX](https://github.com/CCDevX)**
 
-[⬆ Retour en haut](#-unity-plugin-builder)
-
 </div>
