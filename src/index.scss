@@ -10,7 +10,136 @@
 @use "./common/scss/toast" as *;
 @use "sass:color";
 
-// index.scss - Version corrigée
+// ==========================================
+// SCROLLBARS CUSTOM - Design moderne
+// ==========================================
+
+// Support pour Firefox (scrollbar-color et scrollbar-width)
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba($accent-color, 0.7) rgba($bg-secondary, 0.3);
+}
+
+// Scrollbars pour WebKit (Chrome, Safari, Edge)
+*::-webkit-scrollbar {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba($bg-secondary, 0.2);
+  border-radius: 1rem;
+  margin: 0.2rem;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba($accent-color, 0.8) 0%,
+    rgba($accent-color, 0.6) 50%,
+    rgba($accent-color, 0.8) 100%
+  );
+  border-radius: 1rem;
+  border: 0.2rem solid transparent;
+  background-clip: content-box;
+  transition: all 0.3s ease;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    $accent-color 0%,
+    color.adjust($accent-color, $lightness: -10%) 50%,
+    $accent-color 100%
+  );
+  transform: scale(1.1);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(
+    180deg,
+    color.adjust($accent-color, $lightness: 10%) 0%,
+    $accent-color 50%,
+    color.adjust($accent-color, $lightness: 10%) 100%
+  );
+}
+
+*::-webkit-scrollbar-corner {
+  background: rgba($bg-secondary, 0.2);
+}
+
+// Scrollbars spéciales pour la sidebar
+.sidebar {
+  scrollbar-color: rgba($accent-color, 0.5) rgba($bg-primary, 0.3);
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 0.8rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($bg-primary, 0.3);
+    border-radius: 0.4rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgba($accent-color, 0.6) 0%,
+      rgba($accent-color, 0.4) 100%
+    );
+    border-radius: 0.4rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgba($accent-color, 0.8) 0%,
+      rgba($accent-color, 0.6) 100%
+    );
+  }
+}
+
+// Scrollbars pour le contenu principal
+.content-body {
+  scrollbar-color: rgba($accent-color, 0.6) rgba($bg-elevated, 0.3);
+  scrollbar-width: auto;
+
+  &::-webkit-scrollbar {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($bg-elevated, 0.3);
+    border-radius: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      135deg,
+      rgba($accent-color, 0.7) 0%,
+      rgba($accent-color, 0.5) 50%,
+      rgba($accent-color, 0.7) 100%
+    );
+    border-radius: 0.5rem;
+    border: 0.1rem solid rgba($bg-primary, 0.2);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      135deg,
+      rgba($accent-color, 0.9) 0%,
+      rgba($accent-color, 0.7) 50%,
+      rgba($accent-color, 0.9) 100%
+    );
+    box-shadow: 0 0 0.8rem rgba($accent-color, 0.3);
+  }
+}
+
+// ==========================================
+// Styles principaux du site
+// ==========================================
 
 body,
 html {
@@ -252,6 +381,99 @@ html {
     }
   }
 }
+
+// ==========================================
+// SCROLLBARS SPÉCIALISÉES
+// ==========================================
+
+// Scrollbars pour les modales
+.modal-container {
+  scrollbar-color: rgba($accent-color, 0.6) rgba($bg-secondary, 0.2);
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($bg-secondary, 0.2);
+    border-radius: 0.4rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($accent-color, 0.6);
+    border-radius: 0.4rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba($accent-color, 0.8);
+  }
+}
+
+// Scrollbars pour les cards avec overflow
+.card {
+  &::-webkit-scrollbar {
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($bg-primary, 0.2);
+    border-radius: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($accent-color, 0.5);
+    border-radius: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba($accent-color, 0.7);
+  }
+}
+
+// Scrollbars minimales pour les inputs et textareas
+input,
+textarea,
+select {
+  scrollbar-color: rgba($accent-color, 0.4) rgba($bg-secondary, 0.1);
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($bg-secondary, 0.1);
+    border-radius: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($accent-color, 0.4);
+    border-radius: 0.25rem;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba($accent-color, 0.6);
+  }
+}
+
+// Animation pour les scrollbars actives
+@keyframes scroll-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0.5rem rgba($accent-color, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 1rem rgba($accent-color, 0.4);
+  }
+}
+
+// ==========================================
+// Fin des styles principaux
+// ==========================================
 
 // Overlay pour mobile quand la sidebar est ouverte
 .sidebar-overlay {

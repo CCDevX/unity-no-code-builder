@@ -1,134 +1,588 @@
 @use "sass:color";
 @use "../variables" as *;
 
-/* --- Unity Components --- */
+/* ==========================================
+   UNITY COMPONENTS - VERSION MODERNE
+   ========================================== */
 
+// BOUTON UNITY
 .unity-btn {
-  background: color.adjust($bg-secondary, $lightness: 10%);
+  background: linear-gradient(
+    145deg,
+    color.adjust($bg-secondary, $lightness: 12%) 0%,
+    color.adjust($bg-secondary, $lightness: 8%) 50%,
+    color.adjust($bg-secondary, $lightness: 5%) 100%
+  );
   color: $text-primary;
-  padding: 0.9rem 1.8rem;
-  border: 1.2px solid $border-color;
+  padding: 1.2rem 2rem;
+  border: 2px solid rgba($accent-color, 0.2);
   width: 100%;
-  border-radius: 0.45rem;
+  border-radius: 1rem;
   font-weight: 700;
   font-size: 1.5rem;
   text-align: center;
-  letter-spacing: 0.01em;
-  transition: background $transition-speed, color $transition-speed,
-    box-shadow $transition-speed, transform $transition-speed;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-speed ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
 
-  box-shadow: 0 0.12rem 0.6rem rgba(0, 0, 0, 0.07);
+  // Effet de brillance
+  &::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    opacity: 0;
+  }
+
+  // Effet ripple
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba($accent-color, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
+  }
 
   &:hover,
   &:focus-visible {
-    background: color.adjust($bg-secondary, $lightness: 20%);
+    background: linear-gradient(
+      145deg,
+      color.adjust($bg-secondary, $lightness: 18%) 0%,
+      color.adjust($bg-secondary, $lightness: 12%) 50%,
+      color.adjust($bg-secondary, $lightness: 8%) 100%
+    );
     color: $accent-color;
-    border-color: $accent-color;
-    box-shadow: 0 0.22rem 1.2rem rgba($accent-color, 0.09);
-    transform: scale(1.02);
+    border-color: rgba($accent-color, 0.6);
+    box-shadow: 0 8px 25px rgba($accent-color, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 0 3px rgba($accent-color, 0.1);
+    transform: translateY(-0.3rem) scale(1.02);
     outline: none;
+    text-shadow: 0 0 10px rgba($accent-color, 0.3);
+
+    &::before {
+      opacity: 1;
+      transform: rotate(45deg) translate(60%, 60%);
+    }
+
+    &::after {
+      width: 300px;
+      height: 300px;
+    }
+  }
+
+  &:active {
+    transform: translateY(-0.1rem) scale(0.98);
+    box-shadow: 0 4px 15px rgba($accent-color, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  // État focus pour l'accessibilité
+  &:focus-visible {
+    outline: 3px solid rgba($accent-color, 0.4);
+    outline-offset: 2px;
   }
 }
 
+// INPUT UNITY
 .unity-input {
   width: 100%;
-  padding: 1rem 1.3rem;
-  background: $bg-elevated;
-  border: 1.2px solid color.adjust($border-color, $lightness: -10%);
-  border-radius: 0.45rem;
+  padding: 1.5rem 1.8rem;
+  background: linear-gradient(
+    145deg,
+    $bg-elevated 0%,
+    color.adjust($bg-elevated, $lightness: 3%) 100%
+  );
+  border: 2px solid rgba($accent-color, 0.15);
+  border-radius: 1rem;
   font-size: 1.5rem;
   color: $text-primary;
-  transition: border-color $transition-speed, box-shadow $transition-speed;
+  font-family: inherit;
+  position: relative;
+  transition: all $transition-speed ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06), 0 2px 8px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(5px);
+
+  &::placeholder {
+    color: $text-secondary;
+    opacity: 0.7;
+    font-style: italic;
+    transition: opacity $transition-speed ease;
+  }
+
+  &:hover {
+    border-color: rgba($accent-color, 0.3);
+    background: linear-gradient(
+      145deg,
+      color.adjust($bg-elevated, $lightness: 2%) 0%,
+      color.adjust($bg-elevated, $lightness: 5%) 100%
+    );
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06),
+      0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-0.1rem);
+
+    &::placeholder {
+      opacity: 0.9;
+    }
+  }
 
   &:focus {
     outline: none;
     border-color: $accent-color;
-    background: color.adjust($bg-elevated, $lightness: 7%);
-    color: $accent-hover;
-    box-shadow: 0 0 0 2px rgba($accent-color, 0.18);
+    background: linear-gradient(
+      145deg,
+      color.adjust($bg-elevated, $lightness: 5%) 0%,
+      color.adjust($bg-elevated, $lightness: 8%) 100%
+    );
+    color: $text-primary;
+    box-shadow: 0 0 0 4px rgba($accent-color, 0.15),
+      0 8px 25px rgba($accent-color, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(-0.2rem) scale(1.01);
+
+    &::placeholder {
+      opacity: 0.5;
+      transform: translateY(-2px);
+    }
   }
 
-  &::placeholder {
-    color: $text-secondary;
-    opacity: 0.75;
-    font-style: italic;
-  }
-
+  // Auto-fill pour Chrome
   &:-webkit-autofill,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:hover {
-    -webkit-box-shadow: 0 0 0 1000px $bg-elevated inset !important;
+    -webkit-box-shadow: 0 0 0 1000px color.adjust($bg-elevated, $lightness: 5%)
+      inset !important;
     -webkit-text-fill-color: $text-primary !important;
+    transition: background-color 5000s ease-in-out 0s;
   }
 }
 
+// TITRE UNITY
 .unity-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: $accent-color;
-  margin: 0 0 0.4rem 0;
-  font-weight: 700;
-  letter-spacing: 0.01em;
+  margin: 0 0 1rem 0;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  position: relative;
+  text-shadow: 0 2px 4px rgba($accent-color, 0.2);
+
+  // Effet de glow subtil
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -0.5rem;
+    right: -0.5rem;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba($accent-color, 0.1) 50%,
+      transparent 100%
+    );
+    border-radius: 0.5rem;
+    opacity: 0;
+    transition: opacity $transition-speed ease;
+    z-index: -1;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  // Icône décorative optionnelle
+  &.with-icon {
+    &::after {
+      content: "⭐";
+      margin-left: 0.8rem;
+      font-size: 1.6rem;
+      opacity: 0.7;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+  }
 }
 
 .unity-text .unity-title {
-  margin: 0 0 0.2rem 0;
+  margin: 0 0 0.8rem 0;
+  font-size: 2rem;
   color: $accent-color;
 }
 
+// HELPBOX UNITY
 .unity-helpbox {
   display: flex;
   align-items: flex-start;
-  gap: 1.1rem;
-  padding: 1.1rem 1.6rem;
-  background: color.adjust($bg-secondary, $lightness: -5%);
-  border: 1.2px solid $border-color;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.12rem 0.45rem rgba($accent-color, 0.06);
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(
+    135deg,
+    rgba($accent-color, 0.08) 0%,
+    rgba($accent-color, 0.04) 50%,
+    rgba($accent-color, 0.02) 100%
+  );
+  border: 2px solid rgba($accent-color, 0.2);
+  border-left: 0.5rem solid $accent-color;
+  border-radius: 1.2rem;
+  position: relative;
+  overflow: hidden;
+  transition: all $transition-speed ease;
+  box-shadow: 0 4px 15px rgba($accent-color, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+
+  // Effet de particules en arrière-plan
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(
+        circle at 20% 20%,
+        rgba($accent-color, 0.1) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 80% 80%,
+        rgba($accent-color, 0.05) 1px,
+        transparent 1px
+      );
+    background-size: 30px 30px, 50px 50px;
+    opacity: 0.3;
+    pointer-events: none;
+    animation: float-particles 15s ease-in-out infinite;
+  }
+
+  &:hover {
+    background: linear-gradient(
+      135deg,
+      rgba($accent-color, 0.12) 0%,
+      rgba($accent-color, 0.06) 50%,
+      rgba($accent-color, 0.03) 100%
+    );
+    border-color: rgba($accent-color, 0.4);
+    box-shadow: 0 8px 25px rgba($accent-color, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    transform: translateY(-0.2rem) scale(1.01);
+  }
 }
 
 .unity-helpbox-icon {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   color: $accent-color;
-  margin-top: 0.15rem;
+  margin-top: 0.2rem;
   flex-shrink: 0;
+  position: relative;
+  filter: drop-shadow(0 2px 4px rgba($accent-color, 0.3));
+  animation: pulse-icon 3s ease-in-out infinite;
+
+  // Effet de halo
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(
+      circle,
+      rgba($accent-color, 0.2) 0%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity $transition-speed ease;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
 }
 
 .unity-helpbox-text {
   color: $text-primary;
   flex: 1;
   margin: 0;
-  font-size: 1.5rem;
-  line-height: 1.5;
-}
+  font-size: 1.6rem;
+  line-height: 1.7;
+  font-weight: 500;
+  position: relative;
 
-.form-group.disabled {
-  opacity: 0.5;
-  pointer-events: none;
+  // Amélioration de la lisibilité
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
-  input,
-  label {
-    cursor: not-allowed;
+  // Style pour les liens dans le texte
+  a {
+    color: color.adjust($accent-color, $lightness: 10%);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: all $transition-speed ease;
+
+    &:hover {
+      border-bottom-color: color.adjust($accent-color, $lightness: 10%);
+      text-shadow: 0 0 8px rgba($accent-color, 0.4);
+    }
   }
 }
 
-/* --- Delete Button --- */
+// FORM GROUP DISABLED
+.form-group.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  position: relative;
+
+  &::after {
+    content: "🔒";
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.4rem;
+    opacity: 0.6;
+    z-index: 10;
+  }
+
+  input,
+  label,
+  .unity-btn {
+    cursor: not-allowed;
+    filter: grayscale(50%);
+  }
+}
+
+// BOUTON DE SUPPRESSION MODERNE
 .delete-component-btn {
-  background: none;
-  border: none;
-  color: $error;
+  background: linear-gradient(
+    135deg,
+    rgba(231, 76, 60, 0.1) 0%,
+    rgba(231, 76, 60, 0.05) 100%
+  );
+  border: 2px solid rgba(231, 76, 60, 0.2);
+  color: #e74c3c;
   font-size: 1.6rem;
   cursor: pointer;
-  padding: 0.85rem;
-  border-radius: 0.45rem;
-  transition: background $transition-speed, opacity $transition-speed;
+  padding: 1rem 1.2rem;
+  border-radius: 1rem;
+  transition: all $transition-speed ease;
   display: flex;
   align-items: center;
-  opacity: 0.66;
+  justify-content: center;
+  opacity: 0.7;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+
+  // Effet ripple pour la suppression
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(231, 76, 60, 0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.6s ease;
+  }
+
+  i {
+    transition: transform $transition-speed ease;
+  }
 
   &:hover,
   &:focus-visible {
     opacity: 1;
-    background: color.adjust($error-hover, $alpha: -0.75);
+    background: linear-gradient(
+      135deg,
+      rgba(231, 76, 60, 0.15) 0%,
+      rgba(231, 76, 60, 0.08) 100%
+    );
+    border-color: rgba(231, 76, 60, 0.5);
+    color: color.adjust(#e74c3c, $lightness: 10%);
     outline: none;
+    box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2),
+      0 0 0 3px rgba(231, 76, 60, 0.1);
+    transform: translateY(-0.2rem) scale(1.05);
+
+    &::before {
+      width: 100px;
+      height: 100px;
+    }
+
+    i {
+      transform: scale(1.1) rotate(5deg);
+    }
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.95);
+  }
+}
+
+// ==========================================
+// ANIMATIONS
+// ==========================================
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pulse-icon {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 2px 4px rgba($accent-color, 0.3));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 8px rgba($accent-color, 0.4));
+  }
+}
+
+@keyframes float-particles {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+// ==========================================
+// ÉTATS SPÉCIAUX
+// ==========================================
+
+// Composant en cours de chargement
+.unity-component.loading {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba($accent-color, 0.2) 50%,
+      transparent 100%
+    );
+    animation: loading-shimmer 2s ease-in-out infinite;
+  }
+}
+
+@keyframes loading-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+// Composant avec erreur
+.unity-component.error {
+  .unity-input,
+  .unity-btn {
+    border-color: rgba(231, 76, 60, 0.5);
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.1);
+  }
+}
+
+// Composant avec succès
+.unity-component.success {
+  .unity-input,
+  .unity-btn {
+    border-color: rgba(46, 204, 113, 0.5);
+    box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.1);
+  }
+}
+
+// ==========================================
+// RESPONSIVE DESIGN
+// ==========================================
+
+@media (max-width: 768px) {
+  .unity-btn {
+    padding: 1rem 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .unity-input {
+    padding: 1.2rem 1.5rem;
+    font-size: 1.4rem;
+  }
+
+  .unity-title {
+    font-size: 2rem;
+  }
+
+  .unity-helpbox {
+    padding: 1.5rem 2rem;
+    gap: 1.2rem;
+
+    .unity-helpbox-icon {
+      font-size: 2rem;
+    }
+
+    .unity-helpbox-text {
+      font-size: 1.5rem;
+    }
+  }
+
+  .delete-component-btn {
+    padding: 0.8rem 1rem;
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .unity-btn {
+    padding: 0.8rem 1.2rem;
+    font-size: 1.3rem;
+  }
+
+  .unity-input {
+    padding: 1rem 1.2rem;
+    font-size: 1.3rem;
+  }
+
+  .unity-helpbox {
+    padding: 1.2rem 1.5rem;
   }
 }

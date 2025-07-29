@@ -1,12 +1,12 @@
-<h1 id="main-project-title">Loading project...</h1>
+<h1 id="main-project-title">Chargement du projet...</h1>
 <div class="project-builder-container">
   <div class="builder-layout">
-    <!-- Left -->
+    <!-- Panneau gauche -->
     <div class="builder-panel builder-tools">
       <div class="builder-tabs">
         <ul class="tab-nav">
-          <li class="tab-item active" data-target="components">Components</li>
-          <li class="tab-item" data-target="styles">Properties</li>
+          <li class="tab-item active" data-target="components">Composants</li>
+          <li class="tab-item" data-target="styles">Propriétés</li>
           <li class="tab-item" data-target="actions" style="display: none">
             Actions
           </li>
@@ -14,8 +14,8 @@
 
         <div class="tab-content">
           <div id="components" class="tab-pane active">
-            <h3>UI Components</h3>
-            <p>Drag components to your layout.</p>
+            <h3>Composants UI</h3>
+            <p>Glissez les composants vers votre interface.</p>
             <div class="component-list">
               <div
                 class="component-item"
@@ -23,7 +23,7 @@
                 data-component-type="text"
               >
                 <i class="fas fa-font"></i>
-                <span>Text</span>
+                <span>Texte</span>
               </div>
               <div
                 class="component-item"
@@ -31,7 +31,7 @@
                 data-component-type="input"
               >
                 <i class="fas fa-keyboard"></i>
-                <span>Input</span>
+                <span>Saisie</span>
               </div>
               <div
                 class="component-item"
@@ -39,7 +39,7 @@
                 data-component-type="button"
               >
                 <i class="fas fa-square"></i>
-                <span>Button</span>
+                <span>Bouton</span>
               </div>
               <div
                 class="component-item"
@@ -47,49 +47,49 @@
                 data-component-type="helpbox"
               >
                 <i class="fas fa-info-circle"></i>
-                <span>HelpBox</span>
+                <span>Aide</span>
               </div>
             </div>
           </div>
           <div id="styles" class="tab-pane">
-            <h3>Style & Properties</h3>
-            <p>Customize the appearance of selected element.</p>
+            <h3>Styles et Propriétés</h3>
+            <p>Personnalisez l'apparence de l'élément sélectionné.</p>
             <div class="style-editor">
               <div
                 class="form-group"
                 style="display: flex; align-items: center"
               >
                 <label for="element-bold" style="margin-right: 10px"
-                  >Bold</label
+                  >Gras</label
                 >
                 <input type="checkbox" id="element-bold" class="form-control" />
               </div>
               <div class="form-group">
-                <label for="element-text">Text</label>
+                <label for="element-text">Texte</label>
                 <input
                   type="text"
                   id="element-text"
                   class="form-control"
-                  placeholder="Text"
+                  placeholder="Texte"
                 />
               </div>
             </div>
           </div>
           <div id="actions" class="tab-pane">
             <h3>Actions</h3>
-            <p>Configure component actions on click</p>
+            <p>Configurez les actions du composant au clic</p>
             <div class="actions-editor">
               <div class="form-group">
-                <label for="action-type">Action Type</label>
+                <label for="action-type">Type d'Action</label>
                 <select id="action-type" class="form-control">
-                  <option value="">Select an action...</option>
-                  <option value="OpenUrl">Open URL</option>
+                  <option value="">Sélectionnez une action...</option>
+                  <option value="OpenUrl">Ouvrir URL</option>
                   <option value="DebugLog">Debug.Log</option>
-                  <option value="CustomCode">Custom C# Code</option>
+                  <option value="CustomCode">Code C# personnalisé</option>
                 </select>
               </div>
               <div class="form-group action-params" style="display: none">
-                <label for="action-params">Parameters</label>
+                <label for="action-params">Paramètres</label>
                 <input
                   type="text"
                   id="action-url"
@@ -100,7 +100,7 @@
                   id="action-code"
                   class="form-control"
                   style="display: none; height: 150px; font-family: monospace"
-                  placeholder="Enter your C# code here..."
+                  placeholder="Entrez votre code C# ici..."
                 ></textarea>
                 <div
                   class="prompt-container"
@@ -110,27 +110,27 @@
                     type="text"
                     id="code-prompt"
                     class="form-control"
-                    placeholder="Generate code with Groq"
+                    placeholder="Générer du code avec Groq"
                   />
                   <button
                     id="generate-code"
                     class="btn btn-primary"
                     style="margin-top: 5px"
                   >
-                    Generate
+                    Générer
                   </button>
                 </div>
               </div>
               <div class="form-group">
                 <button id="apply-action" class="btn btn-primary">
-                  Apply Action
+                  Appliquer l'Action
                 </button>
                 <button
                   id="remove-action"
                   class="btn btn-secondary"
                   style="display: none"
                 >
-                  Remove Action
+                  Supprimer l'Action
                 </button>
               </div>
             </div>
@@ -139,13 +139,13 @@
       </div>
     </div>
 
-    <!-- Right -->
+    <!-- Panneau droit -->
     <div class="builder-panel builder-preview">
       <div class="preview-header">
-        <h3>Builder</h3>
+        <h3>Constructeur</h3>
         <div class="preview-actions">
           <button id="export-project" class="btn btn-secondary">
-            <i class="fas fa-file-export"></i> Export
+            <i class="fas fa-file-export"></i> Exporter
           </button>
           <button
             id="delete-component"
@@ -160,7 +160,9 @@
         <div id="drop-area" class="drop-area">
           <div class="empty-state">
             <i class="fas fa-arrow-left"></i>
-            <p>Drag components from the left panel and drop them here</p>
+            <p>
+              Glissez les composants du panneau de gauche et déposez-les ici
+            </p>
           </div>
         </div>
       </div>
@@ -168,5 +170,5 @@
   </div>
 </div>
 
-<!-- Add drop indicator element -->
+<!-- Indicateur de dépôt -->
 <div id="drop-indicator" class="drop-indicator"></div>
