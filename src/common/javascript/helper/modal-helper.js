@@ -1,3 +1,10 @@
+/**
+ * Dynamically loads and displays a modal window based on the given type.
+ * @param {string} modalType - The name of the modal file (without .html extension).
+ */
+// Ajouter cet import en haut du fichier
+import { showToast } from "./toast-helper.js";
+
 // Select DOM elements for the modal container and overlay
 const modalContainer = document.querySelector("#modal-container");
 const modalOverlay = document.querySelector("#modal-overlay");
@@ -14,7 +21,9 @@ const showModal = async (modalType) => {
     );
 
     // If the response is not successful, throw an error
-    if (!response.ok) throw new Error("Modal not found");
+    if (!response.ok) {
+      throw new Error(`Modal "${modalType}" not found (${response.status})`);
+    }
 
     // Inject the fetched HTML into the modal container
     modalContainer.innerHTML = await response.text();
@@ -26,8 +35,14 @@ const showModal = async (modalType) => {
     // Allow closing the modal by clicking outside of it (on the overlay)
     modalOverlay.addEventListener("click", hideModal);
   } catch (error) {
-    // Log any error that occurred while loading the modal
+    // Log the error for debugging
     console.error("Error loading modal:", error);
+
+    // Show user-friendly error message
+    showToast(`Impossible de charger la fenêtre "${modalType}"`, "error");
+
+    // Make sure modal stays hidden if it failed to load
+    hideModal();
   }
 };
 
@@ -35,9 +50,14 @@ const showModal = async (modalType) => {
  * Hides the modal and clears its content from the DOM.
  */
 const hideModal = () => {
-  modalContainer.innerHTML = ""; // Remove modal content
-  modalContainer.style.display = "none"; // Hide the modal container
-  modalOverlay.style.display = "none"; // Hide the overlay
+  if (modalContainer) {
+    modalContainer.innerHTML = ""; // Remove modal content
+    modalContainer.style.display = "none"; // Hide the modal container
+  }
+
+  if (modalOverlay) {
+    modalOverlay.style.display = "none"; // Hide the overlay
+  }
 };
 
 export { showModal, hideModal };

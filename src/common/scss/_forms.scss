@@ -1,8 +1,13 @@
 @use "sass:color";
 @use "./variables" as *;
 
+/* ==========================================
+   FORMS MODERNES PREMIUM
+   ========================================== */
+
 .form-group {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
 
   &:last-child {
     margin-bottom: 0;
@@ -10,82 +15,378 @@
 
   label {
     display: block;
-    margin-bottom: 0.8rem;
-    color: $accent-color;
-    font-weight: 600;
+    margin-bottom: 1rem;
+    color: $text-primary;
+    font-weight: 700;
     letter-spacing: 0.02em;
-    font-size: 1.4rem;
-    transition: color $transition-speed;
+    font-size: 1.5rem;
+    transition: all $transition-speed ease;
     cursor: pointer;
+    position: relative;
+
+    &.with-icon {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+
+      &::before {
+        content: attr(data-icon);
+        font-size: 1.6rem;
+        color: $accent-color;
+        filter: drop-shadow(0 1px 2px rgba($accent-color, 0.3));
+      }
+    }
+
+    &.required::after {
+      content: " *";
+      color: #e74c3c;
+      font-weight: 600;
+    }
+
+    &:hover {
+      color: $accent-color;
+      transform: translateY(-0.1rem);
+    }
   }
 
   .form-control {
     width: 100%;
-    padding: 1.1rem 1.2rem;
-    border-radius: 0.5rem;
-    border: 1.2px solid $border-color;
-    background: $bg-elevated !important;
+    padding: 1.6rem 2rem;
+    border-radius: 1.2rem;
+    border: 2px solid rgba($border-color, 0.6);
+    background: linear-gradient(
+      145deg,
+      $bg-elevated 0%,
+      color.adjust($bg-elevated, $lightness: 2%) 100%
+    );
     color: $text-primary;
     font-size: 1.6rem;
-    transition: background $transition-speed, border-color $transition-speed,
-      box-shadow $transition-speed, color $transition-speed;
-
-    &:focus {
-      outline: none;
-      border-color: $accent-hover;
-      box-shadow: 0 0 0 2px rgba($accent-hover, 0.19);
-      background: $bg-elevated !important;
-      color: $accent-hover;
-    }
+    font-family: $font-family;
+    font-weight: 500;
+    transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06),
+      0 1px 2px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(8px);
 
     &::placeholder {
       color: $text-secondary;
-      opacity: 0.8;
+      opacity: 0.7;
       font-style: italic;
+      font-weight: 400;
+      transition: all $transition-speed ease;
+    }
+
+    &:hover:not(:focus) {
+      border-color: rgba($accent-color, 0.4);
+      background: linear-gradient(
+        145deg,
+        color.adjust($bg-elevated, $lightness: 1%) 0%,
+        color.adjust($bg-elevated, $lightness: 4%) 100%
+      );
+      transform: translateY(-0.1rem);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06),
+        0 4px 12px rgba(0, 0, 0, 0.08);
+
+      &::placeholder {
+        opacity: 0.9;
+        transform: translateY(-1px);
+      }
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $accent-color;
+      background: linear-gradient(
+        145deg,
+        color.adjust($bg-elevated, $lightness: 3%) 0%,
+        color.adjust($bg-elevated, $lightness: 6%) 100%
+      );
+      color: $text-primary;
+      transform: translateY(-0.2rem) scale(1.01);
+      box-shadow: 0 0 0 4px rgba($accent-color, 0.15),
+        0 8px 25px rgba($accent-color, 0.12),
+        inset 0 2px 4px rgba(0, 0, 0, 0.06);
+
+      &::placeholder {
+        opacity: 0.5;
+        transform: translateY(-2px);
+      }
     }
 
     &:active {
-      background: $bg-elevated !important;
-      color: $accent-hover;
-      opacity: 1;
+      transform: translateY(-0.1rem) scale(1.005);
     }
 
-    // Autofill Chrome
     &:-webkit-autofill,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:hover {
-      outline: none;
-      box-shadow: 0 0 0 1000px $bg-secondary inset !important;
-      -webkit-box-shadow: 0 0 0 1000px $bg-secondary inset !important;
-      -webkit-text-fill-color: $accent-color !important;
-      caret-color: $accent-color;
+      -webkit-box-shadow: 0 0 0 1000px
+          color.adjust($bg-elevated, $lightness: 3%) inset,
+        0 0 0 4px rgba($accent-color, 0.15) !important;
+      -webkit-text-fill-color: $text-primary !important;
+      caret-color: $accent-color !important;
+      transition: all $transition-speed ease;
+      border-color: $accent-color !important;
     }
   }
 
-  // États pour validation JS (optionnel, ultra pro)
-  &.has-error .form-control {
-    border-color: $error;
-    color: $error;
-    background: color.adjust($error, $lightness: 34%, $alpha: -0.7);
-    box-shadow: 0 0 0 2px rgba($error, 0.13);
+  textarea.form-control {
+    resize: vertical;
+    min-height: 12rem;
+    line-height: 1.6;
+    font-family: inherit;
+
+    &:focus {
+      min-height: 15rem;
+    }
   }
 
-  &.has-success .form-control {
-    border-color: $success;
-    color: $success;
-    background: color.adjust($success, $lightness: 28%, $alpha: -0.7);
-    box-shadow: 0 0 0 2px rgba($success, 0.13);
-  }
-}
+  select.form-control {
+    cursor: pointer;
+    padding-right: 4rem;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='#{color.adjust($accent-color, $lightness: 20%)}' d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.5rem center;
+    background-size: 1.6rem;
 
-// Pour tous les inputs courants
-input.form-control,
-textarea.form-control,
-select.form-control {
-  appearance: none;
-  -webkit-appearance: none;
-  font-family: $font-family;
-  resize: none;
-  // Pour les select :
-  background-image: none;
+    &:focus {
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='#{$accent-color}' d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    }
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    appearance: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    margin: 0 1rem 0 0;
+    background: linear-gradient(
+      145deg,
+      $bg-elevated 0%,
+      color.adjust($bg-elevated, $lightness: 3%) 100%
+    );
+    border: 2px solid rgba($accent-color, 0.3);
+    cursor: pointer;
+    transition: all $transition-speed ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    vertical-align: middle;
+
+    &::before {
+      content: "";
+      position: absolute;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    &:hover {
+      border-color: rgba($accent-color, 0.6);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba($accent-color, 0.15);
+    }
+
+    &:checked {
+      background: linear-gradient(
+        145deg,
+        $accent-color 0%,
+        color.adjust($accent-color, $lightness: -10%) 100%
+      );
+      border-color: $accent-color;
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba($accent-color, 0.3),
+        0 0 0 2px rgba($accent-color, 0.2);
+
+      &::before {
+        opacity: 1;
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid $accent-color;
+      outline-offset: 2px;
+    }
+  }
+
+  input[type="checkbox"] {
+    border-radius: 0.6rem;
+
+    &::before {
+      content: "";
+      width: 0.6rem;
+      height: 1.1rem;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) scale(0);
+    }
+
+    &:checked::before {
+      transform: rotate(45deg) scale(1);
+    }
+  }
+
+  input[type="radio"] {
+    border-radius: 50%;
+
+    &::before {
+      content: "";
+      width: 0.8rem;
+      height: 0.8rem;
+      background: white;
+      border-radius: 50%;
+      transform: scale(0);
+    }
+
+    &:checked::before {
+      transform: scale(1);
+    }
+  }
+
+  .checkbox-label,
+  .radio-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    transition: all $transition-speed ease;
+
+    &:hover {
+      color: $accent-color;
+      transform: translateX(0.3rem);
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &.has-error {
+    .form-control {
+      border-color: #e74c3c;
+      background: linear-gradient(
+        145deg,
+        rgba(#e74c3c, 0.05) 0%,
+        rgba(#e74c3c, 0.02) 100%
+      );
+      box-shadow: 0 0 0 2px rgba(#e74c3c, 0.15),
+        inset 0 2px 4px rgba(#e74c3c, 0.05);
+
+      &:focus {
+        box-shadow: 0 0 0 4px rgba(#e74c3c, 0.2), 0 4px 15px rgba(#e74c3c, 0.15);
+      }
+    }
+
+    label {
+      color: #e74c3c;
+    }
+
+    .error-message {
+      display: block;
+      margin-top: 0.8rem;
+      color: #e74c3c;
+      font-size: 1.3rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: shake 0.5s ease-in-out;
+
+      &::before {
+        content: "⚠️";
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  &.has-success {
+    .form-control {
+      border-color: #2ecc71;
+      background: linear-gradient(
+        145deg,
+        rgba(#2ecc71, 0.05) 0%,
+        rgba(#2ecc71, 0.02) 100%
+      );
+      box-shadow: 0 0 0 2px rgba(#2ecc71, 0.15),
+        inset 0 2px 4px rgba(#2ecc71, 0.05);
+
+      &:focus {
+        box-shadow: 0 0 0 4px rgba(#2ecc71, 0.2), 0 4px 15px rgba(#2ecc71, 0.15);
+      }
+    }
+
+    label {
+      color: #2ecc71;
+    }
+
+    .success-message {
+      display: block;
+      margin-top: 0.8rem;
+      color: #2ecc71;
+      font-size: 1.3rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      animation: bounce-in 0.5s ease;
+
+      &::before {
+        content: "✅";
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  &.disabled,
+  &:has(.form-control:disabled) {
+    opacity: 0.6;
+    pointer-events: none;
+
+    .form-control {
+      background: color.adjust($bg-elevated, $lightness: -5%);
+      border-color: rgba($border-color, 0.3);
+      color: $text-secondary;
+      cursor: not-allowed;
+    }
+
+    label {
+      color: $text-secondary;
+      cursor: not-allowed;
+    }
+  }
+
+  &.loading {
+    position: relative;
+
+    .form-control {
+      background: linear-gradient(
+        90deg,
+        $bg-elevated 25%,
+        color.adjust($bg-elevated, $lightness: 3%) 50%,
+        $bg-elevated 75%
+      );
+      background-size: 200% 100%;
+      animation: loading-shimmer 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 2rem;
+      width: 2rem;
+      height: 2rem;
+      border: 2px solid rgba($accent-color, 0.3);
+      border-top: 2px solid $accent-color;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      transform: translateY(-50%);
+    }
+  }
 }

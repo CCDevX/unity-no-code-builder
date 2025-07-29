@@ -12,7 +12,7 @@ h1 {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &::before {
-    content: "🔧";
+    content: "";
     display: block;
     font-size: 3rem;
     margin-bottom: 1rem;
@@ -251,7 +251,7 @@ h1 {
           margin-bottom: 1rem;
 
           &::before {
-            content: "⚙️";
+            content: "";
             margin-right: 1rem;
             font-size: 1.8rem;
             opacity: 0.8;
@@ -380,7 +380,7 @@ h1 {
       color: $text-primary;
 
       &::before {
-        content: "🎨";
+        content: "";
         margin-right: 1rem;
         font-size: 1.8rem;
         opacity: 0.8;

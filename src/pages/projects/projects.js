@@ -78,14 +78,9 @@ const renderProjects = (projects, projectList) => {
  * and setting up event listeners for user interactions.
  */
 const initProjectPage = () => {
-  const projectsCreateButton = document.querySelector("#create-project-btn");
   const emptyProject = document.querySelector(".empty-project");
   const projects = getAllProjects();
   const projectList = document.querySelector(".cards-container");
-
-  if (projectsCreateButton) {
-    projectsCreateButton.addEventListener("click", showNewProjectModal);
-  }
 
   if (emptyProject) {
     emptyProject.addEventListener("click", showNewProjectModal);

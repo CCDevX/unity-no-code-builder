@@ -1,6 +1,6 @@
 @use "sass:color";
 @use "./variables" as *;
-
+@use "./media-queries" as *;
 // ==========================================
 // STYLES DE BASE MODERNES
 // ==========================================
@@ -56,6 +56,233 @@ body {
     pointer-events: none;
     z-index: -1;
     animation: subtle-float 20s ease-in-out infinite;
+  }
+}
+
+// ==========================================
+// HEADER MODERNE AVEC GLASSMORPHISM
+// ==========================================
+
+.main-header {
+  height: $header-height;
+  background: linear-gradient(
+    135deg,
+    $bg-secondary 0%,
+    color.adjust($bg-secondary, $lightness: 3%) 50%,
+    color.adjust($bg-secondary, $lightness: -2%) 100%
+  );
+
+  // Glassmorphism moderne
+  backdrop-filter: blur(12px) saturate(1.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  // Ombres sophistiquées
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // Changé pour mieux répartir
+  padding: 0 3rem; // Plus d'espace
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  transition: all $transition-speed ease;
+
+  // Barre supérieure colorée subtile
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.2rem;
+    background: linear-gradient(
+      90deg,
+      $accent-color 0%,
+      color.adjust($accent-color, $lightness: 20%) 50%,
+      $accent-color 100%
+    );
+    opacity: 0.7;
+  }
+
+  // Effet au scroll (optionnel)
+  &.scrolled {
+    background: linear-gradient(
+      135deg,
+      color.adjust($bg-secondary, $lightness: -2%) 0%,
+      $bg-secondary 50%,
+      color.adjust($bg-secondary, $lightness: 1%) 100%
+    );
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 12px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .toggle-sidebar {
+    display: none;
+    background: linear-gradient(
+      135deg,
+      rgba($accent-color, 0.1) 0%,
+      rgba($accent-color, 0.05) 100%
+    );
+    border: 1px solid rgba($accent-color, 0.2);
+    border-radius: 0.8rem;
+    color: $accent-color;
+    font-size: 1.8rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+    position: relative;
+    overflow: hidden;
+
+    // Effet de brillance
+    &::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 70%
+      );
+      transform: rotate(45deg) translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        rgba($accent-color, 0.15) 0%,
+        rgba($accent-color, 0.08) 100%
+      );
+      border-color: rgba($accent-color, 0.4);
+      color: color.adjust($accent-color, $lightness: 10%);
+      transform: translateY(-0.1rem) scale(1.05);
+      box-shadow: 0 4px 12px rgba($accent-color, 0.2);
+
+      &::before {
+        transform: rotate(45deg) translateX(100%);
+      }
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    @include sm {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .header-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: $text-primary;
+    position: relative;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    // Effet de glow subtil
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -0.3rem;
+      left: 0;
+      width: 0;
+      height: 0.2rem;
+      background: $accent-color;
+      border-radius: 0.1rem;
+      transition: width $transition-speed ease;
+    }
+
+    // Animation du trait au hover (optionnel)
+    &:hover::after {
+      width: 100%;
+    }
+  }
+
+  // Section droite pour futurs éléments (avatar, notifications, etc.)
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    // Style pour les futurs boutons d'action
+    .header-action-btn {
+      background: rgba($accent-color, 0.1);
+      border: 1px solid rgba($accent-color, 0.2);
+      border-radius: 50%;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $accent-color;
+      cursor: pointer;
+      transition: all $transition-speed ease;
+      position: relative;
+
+      &:hover {
+        background: rgba($accent-color, 0.15);
+        border-color: rgba($accent-color, 0.4);
+        transform: translateY(-0.2rem) scale(1.1);
+        box-shadow: 0 4px 12px rgba($accent-color, 0.2);
+      }
+
+      // Badge de notification (pour futur usage)
+      &.has-notification::after {
+        content: "";
+        position: absolute;
+        top: 0.2rem;
+        right: 0.2rem;
+        width: 0.8rem;
+        height: 0.8rem;
+        background: #e74c3c;
+        border-radius: 50%;
+        border: 2px solid $bg-secondary;
+      }
+    }
+  }
+}
+
+// Animation d'entrée
+@keyframes header-slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.main-header {
+  animation: header-slide-down 0.6s ease;
+}
+
+// Responsive amélioré
+@media (max-width: 768px) {
+  .main-header {
+    padding: 0 2rem;
+
+    .header-title {
+      font-size: 1.9rem;
+    }
+
+    .header-actions {
+      gap: 1rem;
+
+      .header-action-btn {
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+    }
   }
 }
 
@@ -256,6 +483,491 @@ p {
       color: color.adjust($accent-color, $lightness: 10%);
       border-bottom-color: color.adjust($accent-color, $lightness: 10%);
       text-shadow: 0 0 8px rgba($accent-color, 0.3);
+    }
+  }
+}
+
+// ==========================================
+// HEADER MODERNE ULTRA-PREMIUM
+// ==========================================
+
+.main-header {
+  height: $header-height;
+  background: linear-gradient(
+    135deg,
+    rgba($bg-secondary, 0.95) 0%,
+    rgba(color.adjust($bg-secondary, $lightness: 5%), 0.92) 25%,
+    rgba(color.adjust($bg-secondary, $lightness: 2%), 0.9) 75%,
+    rgba($bg-secondary, 0.95) 100%
+  );
+
+  // Glassmorphism ultra-moderne
+  backdrop-filter: blur(20px) saturate(1.8) brightness(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8) brightness(1.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+  // Système d'ombres multicouches sophistiqué
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.08),
+    0 32px 64px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Barre supérieure dégradée dynamique
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.3rem;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba($accent-color, 0.6) 5%,
+      $accent-color 25%,
+      color.adjust($accent-color, $lightness: 15%) 50%,
+      $accent-color 75%,
+      rgba($accent-color, 0.6) 95%,
+      transparent 100%
+    );
+    background-size: 300% 100%;
+    animation: aurora-flow 8s ease-in-out infinite;
+    opacity: 0.8;
+  }
+
+  // Effet de particules lumineuses en arrière-plan
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(
+        circle at 20% 50%,
+        rgba($accent-color, 0.03) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 80% 50%,
+        rgba($accent-color, 0.02) 1px,
+        transparent 1px
+      ),
+      radial-gradient(
+        circle at 40% 20%,
+        rgba(255, 255, 255, 0.02) 1px,
+        transparent 1px
+      );
+    background-size: 60px 60px, 90px 90px, 40px 40px;
+    opacity: 0.4;
+    pointer-events: none;
+    animation: float-particles 15s ease-in-out infinite;
+  }
+
+  // État au scroll avec transition fluide
+  &.scrolled {
+    background: linear-gradient(
+      135deg,
+      rgba(color.adjust($bg-secondary, $lightness: -3%), 0.98) 0%,
+      rgba($bg-secondary, 0.95) 50%,
+      rgba(color.adjust($bg-secondary, $lightness: 1%), 0.92) 100%
+    );
+    backdrop-filter: blur(25px) saturate(2) brightness(1.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 12px 40px rgba(0, 0, 0, 0.1),
+      0 32px 80px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    &::before {
+      height: 0.2rem;
+      opacity: 1;
+      animation-duration: 6s;
+    }
+  }
+
+  // Bouton toggle sidebar ultra-moderne
+  .toggle-sidebar {
+    display: none;
+    background: linear-gradient(
+      135deg,
+      rgba($accent-color, 0.12) 0%,
+      rgba($accent-color, 0.08) 50%,
+      rgba($accent-color, 0.05) 100%
+    );
+    border: 1.5px solid rgba($accent-color, 0.25);
+    border-radius: 1.2rem;
+    color: $accent-color;
+    font-size: 1.8rem;
+    padding: 1.2rem;
+    cursor: pointer;
+    transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba($accent-color, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+    // Effet de brillance en diagonale
+    &::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.12) 50%,
+        transparent 70%
+      );
+      transform: rotate(45deg) translateX(-150%);
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    // Effet de pulsation au centre
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: radial-gradient(
+        circle,
+        rgba($accent-color, 0.3) 0%,
+        rgba($accent-color, 0.1) 50%,
+        transparent 100%
+      );
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.6s ease;
+    }
+
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        rgba($accent-color, 0.2) 0%,
+        rgba($accent-color, 0.15) 50%,
+        rgba($accent-color, 0.1) 100%
+      );
+      border-color: rgba($accent-color, 0.5);
+      color: color.adjust($accent-color, $lightness: 15%);
+      transform: translateY(-0.2rem) scale(1.08);
+      box-shadow: 0 8px 25px rgba($accent-color, 0.25),
+        0 0 0 4px rgba($accent-color, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+      &::before {
+        transform: rotate(45deg) translateX(150%);
+      }
+
+      &::after {
+        width: 80px;
+        height: 80px;
+      }
+    }
+
+    &:active {
+      transform: translateY(0) scale(1.02);
+      transition: transform 0.1s ease;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 8px 25px rgba($accent-color, 0.25),
+        0 0 0 4px rgba($accent-color, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  // Titre du header avec effet sophistiqué
+  .header-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: $text-primary;
+    position: relative;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 20px rgba($accent-color, 0.1);
+    transition: all $transition-speed ease;
+
+    // Effet de glow subtil mais visible
+    &::before {
+      content: "";
+      position: absolute;
+      top: -10%;
+      left: -5%;
+      right: -5%;
+      bottom: -10%;
+      background: radial-gradient(
+        ellipse at center,
+        rgba($accent-color, 0.08) 0%,
+        rgba($accent-color, 0.04) 50%,
+        transparent 100%
+      );
+      border-radius: 1rem;
+      opacity: 0;
+      transition: opacity $transition-speed ease;
+      z-index: -1;
+    }
+
+    // Ligne décorative animée
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -0.4rem;
+      left: 50%;
+      width: 0;
+      height: 0.25rem;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        $accent-color 25%,
+        color.adjust($accent-color, $lightness: 20%) 50%,
+        $accent-color 75%,
+        transparent 100%
+      );
+      border-radius: 0.125rem;
+      transform: translateX(-50%);
+      transition: width $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px rgba($accent-color, 0.5);
+    }
+
+    &:hover {
+      color: color.adjust($text-primary, $lightness: 5%);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
+        0 0 30px rgba($accent-color, 0.2);
+      cursor: pointer;
+
+      &::before {
+        opacity: 1;
+      }
+
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+
+  // Section droite pour actions futures
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    // Animation d'apparition séquentielle
+    > * {
+      animation: fade-slide-in 0.8s ease forwards;
+      opacity: 0;
+      transform: translateY(1rem) scale(0.9);
+
+      @for $i from 1 through 5 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.15}s;
+        }
+      }
+    }
+
+    // Style pour futurs boutons d'action
+    .header-action-btn {
+      background: linear-gradient(
+        135deg,
+        rgba($accent-color, 0.1) 0%,
+        rgba($accent-color, 0.05) 100%
+      );
+      border: 1px solid rgba($accent-color, 0.2);
+      border-radius: 50%;
+      width: 4.5rem;
+      height: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $accent-color;
+      cursor: pointer;
+      transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba($accent-color, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba($accent-color, 0.1) 50%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        opacity: 0;
+        transition: opacity $transition-speed ease;
+        z-index: -1;
+      }
+
+      &:hover {
+        background: linear-gradient(
+          135deg,
+          rgba($accent-color, 0.18) 0%,
+          rgba($accent-color, 0.12) 100%
+        );
+        border-color: rgba($accent-color, 0.4);
+        color: color.adjust($accent-color, $lightness: 10%);
+        transform: translateY(-0.3rem) scale(1.15);
+        box-shadow: 0 8px 25px rgba($accent-color, 0.2),
+          0 0 0 3px rgba($accent-color, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+        &::before {
+          opacity: 1;
+        }
+      }
+
+      &:active {
+        transform: translateY(-0.1rem) scale(1.1);
+      }
+
+      // Badge de notification moderne
+      &.has-notification::after {
+        content: "";
+        position: absolute;
+        top: 0.3rem;
+        right: 0.3rem;
+        width: 1rem;
+        height: 1rem;
+        background: linear-gradient(135deg, #ff4757, #ff3742);
+        border-radius: 50%;
+        border: 2px solid $bg-secondary;
+        box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3),
+          0 0 0 2px rgba(255, 71, 87, 0.1);
+        animation: notification-pulse 2s ease-in-out infinite;
+      }
+    }
+
+    @media (max-width: 768px) {
+      gap: 1.5rem;
+
+      .header-action-btn {
+        width: 4rem;
+        height: 4rem;
+      }
+    }
+  }
+}
+
+// Animation d'entrée spectaculaire
+@keyframes header-grand-entrance {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  50% {
+    transform: translateY(-20%);
+    opacity: 0.7;
+    backdrop-filter: blur(10px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    backdrop-filter: blur(20px);
+  }
+}
+
+.main-header {
+  animation: header-grand-entrance 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Animations pour les effets du header
+@keyframes aurora-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float-particles {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translateY(-2px) rotate(1deg);
+    opacity: 0.6;
+  }
+  66% {
+    transform: translateY(1px) rotate(-0.5deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes notification-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+// Responsive design avancé
+@media (max-width: 768px) {
+  .main-header {
+    padding: 0 2rem;
+    height: calc($header-height - 0.5rem);
+
+    .header-title {
+      font-size: 2rem;
+    }
+
+    .header-actions {
+      gap: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .main-header {
+    padding: 0 1.5rem;
+
+    .header-title {
+      font-size: 1.8rem;
+    }
+
+    .toggle-sidebar {
+      padding: 1rem;
+      font-size: 1.6rem;
     }
   }
 }

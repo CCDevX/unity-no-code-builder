@@ -4,10 +4,8 @@ import {
   setSelectedComponent,
   getSelectedComponent,
 } from "./selected-component";
-
-// Global variable to track the currently selected component
-let selectedComponent = null;
-
+import { showConfirmModal } from "../../modals/confirm-modal/confirm-modal";
+import { showToast } from "../../../common/javascript/helper/toast-helper";
 /**
  * Handles full deselection of components and UI cleanup
  * when clicking on empty space in the drop area.
@@ -65,15 +63,16 @@ const handleDeleteButton = () => {
   const deleteBtn = document.querySelector("#delete-component");
   console.log("delete btn", deleteBtn);
   if (!deleteBtn) return;
-
   deleteBtn.addEventListener("click", () => {
     let currentSelectedComponent = getSelectedComponent();
-
     if (!currentSelectedComponent) {
-      console.log("No component selected");
+      showToast("Aucun composant sélectionné", "error");
       return;
     }
-    let response = confirm("Are you sure you want to delete this component?");
+
+    let response = showConfirmModal(
+      "Êtes-vous sûr de vouloir supprimer ce composant ?"
+    );
     if (response) {
       currentSelectedComponent.remove();
       currentSelectedComponent = null;

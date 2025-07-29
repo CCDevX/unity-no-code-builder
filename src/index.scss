@@ -354,27 +354,492 @@ html {
     }
 
     .footer {
-      padding: 2rem;
-      text-align: center;
-      border-top: 1px solid $border-color;
-      background: $bg-primary; // Fond pour éviter la transparence
+      position: relative;
+      background: linear-gradient(
+        135deg,
+        rgba($bg-secondary, 0.95) 0%,
+        rgba(color.adjust($bg-secondary, $lightness: 3%), 0.92) 25%,
+        rgba(color.adjust($bg-secondary, $lightness: 1%), 0.9) 75%,
+        rgba($bg-secondary, 0.95) 100%
+      );
+
+      // Glassmorphism sophistiqué
+      backdrop-filter: blur(20px) saturate(1.6) brightness(1.05);
+      -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1.05);
+
+      // Bordure supérieure élégante
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+      // Système d'ombres inversées
+      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.12),
+        0 -8px 32px rgba(0, 0, 0, 0.08), 0 -32px 64px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+
+      padding: 3rem 2rem 2rem 2rem;
+      margin-top: auto; // Assure que le footer reste en bas
+      transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+
+      // Barre supérieure dégradée comme le header
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 0.25rem;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba($accent-color, 0.4) 10%,
+          $accent-color 25%,
+          color.adjust($accent-color, $lightness: 15%) 50%,
+          $accent-color 75%,
+          rgba($accent-color, 0.4) 90%,
+          transparent 100%
+        );
+        background-size: 300% 100%;
+        animation: aurora-flow-reverse 10s ease-in-out infinite;
+        opacity: 0.7;
+      }
+
+      // Effet de particules lumineuses subtiles
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(
+            circle at 15% 30%,
+            rgba($accent-color, 0.02) 1px,
+            transparent 1px
+          ),
+          radial-gradient(
+            circle at 85% 70%,
+            rgba($accent-color, 0.015) 1px,
+            transparent 1px
+          ),
+          radial-gradient(
+            circle at 50% 20%,
+            rgba(255, 255, 255, 0.015) 1px,
+            transparent 1px
+          );
+        background-size: 80px 80px, 120px 120px, 60px 60px;
+        opacity: 0.3;
+        pointer-events: none;
+        animation: float-particles-slow 20s ease-in-out infinite;
+      }
 
       .footer-content {
-        color: $text-secondary;
-        font-size: 1.5rem;
+        max-width: 140rem;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        position: relative;
+        z-index: 2;
 
-        p {
-          margin: 0;
+        // Section principale avec informations
+        .footer-main {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.5rem;
+          text-align: center;
+
+          // Logo/titre avec effet premium
+          .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+
+            .brand-icon {
+              font-size: 2.8rem;
+              background: linear-gradient(
+                135deg,
+                $accent-color 0%,
+                color.adjust($accent-color, $lightness: 20%) 100%
+              );
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              filter: drop-shadow(0 2px 4px rgba($accent-color, 0.3));
+              animation: pulse-glow-brand 4s ease-in-out infinite;
+            }
+
+            .brand-text {
+              font-size: 2rem;
+              font-weight: 800;
+              color: $text-primary;
+              letter-spacing: 0.02em;
+              text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+          }
+
+          // Texte copyright principal
+          .copyright-text {
+            font-size: 1.6rem;
+            color: $text-secondary;
+            font-weight: 500;
+            line-height: 1.6;
+            margin: 0;
+            opacity: 0.9;
+            transition: opacity $transition-speed ease;
+
+            &:hover {
+              opacity: 1;
+            }
+
+            // Lien développeur avec effet sophistiqué
+            .developer-link {
+              color: $accent-color;
+              text-decoration: none;
+              font-weight: 700;
+              position: relative;
+              padding: 0.3rem 0.8rem;
+              border-radius: 0.6rem;
+              transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+              display: inline-block;
+
+              &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(
+                  135deg,
+                  rgba($accent-color, 0.1) 0%,
+                  rgba($accent-color, 0.05) 100%
+                );
+                border-radius: 0.6rem;
+                transform: scale(0);
+                transition: transform $transition-speed
+                  cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: -1;
+              }
+
+              &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 0.2rem;
+                background: linear-gradient(
+                  90deg,
+                  transparent 0%,
+                  $accent-color 50%,
+                  transparent 100%
+                );
+                border-radius: 0.1rem;
+                transform: translateX(-50%);
+                transition: width $transition-speed ease;
+              }
+
+              &:hover {
+                color: color.adjust($accent-color, $lightness: 15%);
+                transform: translateY(-0.2rem);
+                text-shadow: 0 0 10px rgba($accent-color, 0.3);
+
+                &::before {
+                  transform: scale(1);
+                }
+
+                &::after {
+                  width: 100%;
+                }
+              }
+
+              // Icône GitHub avec animation
+              .github-icon {
+                margin-left: 0.5rem;
+                font-size: 1.4rem;
+                transition: transform $transition-speed ease;
+              }
+
+              &:hover .github-icon {
+                transform: rotate(15deg) scale(1.1);
+              }
+            }
+          }
         }
 
-        a {
-          color: $accent-color;
-          text-decoration: none;
-          transition: color $transition-speed;
+        // Section liens sociaux/actions (optionnelle)
+        .footer-actions {
+          display: flex;
+          align-items: center;
+          gap: 2rem;
+          margin-top: 1rem;
 
-          &:hover {
-            color: $accent-hover;
-            text-decoration: underline;
+          .action-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(
+              135deg,
+              rgba($accent-color, 0.1) 0%,
+              rgba($accent-color, 0.05) 100%
+            );
+            border: 1px solid rgba($accent-color, 0.2);
+            border-radius: 50%;
+            color: $accent-color;
+            text-decoration: none;
+            font-size: 1.6rem;
+            transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            backdrop-filter: blur(5px);
+
+            &::before {
+              content: "";
+              position: absolute;
+              inset: -2px;
+              background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba($accent-color, 0.1) 50%,
+                transparent 70%
+              );
+              border-radius: 50%;
+              opacity: 0;
+              transition: opacity $transition-speed ease;
+              z-index: -1;
+            }
+
+            &:hover {
+              background: linear-gradient(
+                135deg,
+                rgba($accent-color, 0.18) 0%,
+                rgba($accent-color, 0.12) 100%
+              );
+              border-color: rgba($accent-color, 0.4);
+              color: color.adjust($accent-color, $lightness: 10%);
+              transform: translateY(-0.3rem) scale(1.1);
+              box-shadow: 0 6px 20px rgba($accent-color, 0.2),
+                0 0 0 3px rgba($accent-color, 0.1);
+
+              &::before {
+                opacity: 1;
+              }
+            }
+
+            &:active {
+              transform: translateY(-0.1rem) scale(1.05);
+            }
+          }
+        }
+
+        // Séparateur décoratif
+        .footer-divider {
+          width: 100%;
+          max-width: 60rem;
+          height: 1px;
+          background: linear-gradient(
+            90deg,
+            transparent 0%,
+            rgba($accent-color, 0.3) 20%,
+            rgba($accent-color, 0.6) 50%,
+            rgba($accent-color, 0.3) 80%,
+            transparent 100%
+          );
+          margin: 1rem 0;
+          position: relative;
+
+          &::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: $accent-color;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba($accent-color, 0.5);
+            animation: pulse-dot 3s ease-in-out infinite;
+          }
+        }
+
+        // Version/build info (optionnelle)
+        .footer-meta {
+          font-size: 1.3rem;
+          color: color.adjust($text-secondary, $lightness: -15%);
+          opacity: 0.7;
+          text-align: center;
+          margin-top: 0.5rem;
+          font-weight: 400;
+
+          .version-badge {
+            display: inline-block;
+            background: rgba($accent-color, 0.1);
+            color: $accent-color;
+            padding: 0.3rem 0.8rem;
+            border-radius: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            border: 1px solid rgba($accent-color, 0.2);
+            transition: all $transition-speed ease;
+
+            &:hover {
+              background: rgba($accent-color, 0.15);
+              border-color: rgba($accent-color, 0.3);
+              transform: scale(1.05);
+            }
+          }
+        }
+      }
+    }
+
+    // Animations pour le footer
+    @keyframes aurora-flow-reverse {
+      0%,
+      100% {
+        background-position: 100% 50%;
+      }
+      50% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes float-particles-slow {
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.3;
+      }
+      33% {
+        transform: translateY(-1px) rotate(0.5deg);
+        opacity: 0.4;
+      }
+      66% {
+        transform: translateY(0.5px) rotate(-0.3deg);
+        opacity: 0.35;
+      }
+    }
+
+    @keyframes pulse-glow-brand {
+      0%,
+      100% {
+        filter: drop-shadow(0 2px 4px rgba($accent-color, 0.3));
+        transform: scale(1);
+      }
+      50% {
+        filter: drop-shadow(0 4px 8px rgba($accent-color, 0.4));
+        transform: scale(1.02);
+      }
+    }
+
+    @keyframes pulse-dot {
+      0%,
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.3);
+        opacity: 0.7;
+      }
+    }
+
+    // ==========================================
+    // RESPONSIVE DESIGN POUR LE FOOTER
+    // ==========================================
+
+    @media (max-width: 768px) {
+      .footer {
+        padding: 2.5rem 1.5rem 2rem 1.5rem;
+
+        .footer-content {
+          .footer-main {
+            .footer-brand {
+              .brand-icon {
+                font-size: 2.4rem;
+              }
+
+              .brand-text {
+                font-size: 1.8rem;
+              }
+            }
+
+            .copyright-text {
+              font-size: 1.4rem;
+
+              .developer-link {
+                .github-icon {
+                  font-size: 1.2rem;
+                }
+              }
+            }
+          }
+
+          .footer-actions {
+            gap: 1.5rem;
+
+            .action-link {
+              width: 3.5rem;
+              height: 3.5rem;
+              font-size: 1.4rem;
+            }
+          }
+
+          .footer-meta {
+            font-size: 1.2rem;
+
+            .version-badge {
+              font-size: 1rem;
+              padding: 0.2rem 0.6rem;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 480px) {
+      .footer {
+        padding: 2rem 1rem 1.5rem 1rem;
+
+        .footer-content {
+          gap: 1.5rem;
+
+          .footer-main {
+            gap: 1rem;
+
+            .footer-brand {
+              flex-direction: column;
+              gap: 0.5rem;
+
+              .brand-icon {
+                font-size: 2rem;
+              }
+
+              .brand-text {
+                font-size: 1.6rem;
+              }
+            }
+
+            .copyright-text {
+              font-size: 1.3rem;
+              line-height: 1.5;
+            }
+          }
+
+          .footer-actions {
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+          }
+
+          .footer-divider {
+            max-width: 40rem;
           }
         }
       }
