@@ -9,29 +9,28 @@
 
 **Un générateur de plugins Unity moderne et intuitif**
 
-[🚀 Demo Live](https://unity-plugin-builder-ccdevx.netlify.app/) • [📖 Documentation](#documentation) • [🐛 Report Bug](https://github.com/CCDevX/unity-plugin-builder/issues) • [💡 Feature Request](https://github.com/CCDevX/unity-plugin-builder/issues)
+[ Demo Live](https://unity-plugin-builder-ccdevx.netlify.app/) • [📖 Documentation](#documentation) • [ Report Bug](https://github.com/CCDevX/unity-plugin-builder/issues) • [ Feature Request](https://github.com/CCDevX/unity-plugin-builder/issues)
 
 </div>
 
 ---
 
-## 🌟 Aperçu
+## Aperçu
 
 Unity Plugin Builder est une application web moderne qui permet de créer des plugins Unity EditorWindow sans écrire une seule ligne de code. Grâce à une interface intuitive de glisser-déposer, vous pouvez concevoir visuellement votre plugin et l'exporter directement en C#.
 
-### ✨ Fonctionnalités principales
+### Fonctionnalités principales
 
-- 🎨 **Interface moderne** avec glassmorphism et animations fluides
-- 🖱️ **Glisser-déposer** pour placer les composants UI
-- 🎯 **Aperçu en temps réel** de votre plugin
-- 📝 **Composants Unity** : Texte, Boutons, Inputs, HelpBox
-- ⚙️ **Actions configurables** : Debug.Log, OpenURL, Code C# personnalisé
-- 🤖 **Génération AI** de code C# avec Groq
-- 💾 **Sauvegarde locale** de vos projets
-- 📱 **Design responsive** pour tous les appareils
-- 🌙 **Thème sombre** premium
+- **Interface moderne** avec glassmorphism et animations fluides
+- **Glisser-déposer** pour placer les composants UI
+- **Aperçu en temps réel** de votre plugin
+- **Composants Unity** : Texte, Boutons, Inputs, HelpBox
+- **Actions configurables** : Debug.Log, OpenURL, Code C# personnalisé
+- **Génération AI** de code C# avec Groq
+- **Sauvegarde locale** de vos projets
+- **Design responsive** pour tous les appareils
 
-## 🛠️ Technologies utilisées
+## Technologies utilisées
 
 <div align="center">
 
@@ -50,7 +49,7 @@ Unity Plugin Builder est une application web moderne qui permet de créer des pl
 - **AI Integration** : Groq API pour la génération de code
 - **Storage** : LocalStorage pour la persistance côté client
 
-## 🚀 Installation & Développement
+## Installation & Développement
 
 ### Prérequis
 
@@ -88,7 +87,7 @@ npm run lint         # Lint du code
 npm run format       # Formate le code avec Prettier
 ```
 
-## 📖 Documentation
+## Documentation
 
 ### Structure du projet
 
@@ -127,97 +126,51 @@ L'application suit une architecture modulaire avec :
 3. **Configurer les propriétés** : Modifiez le texte, styles et actions
 4. **Exporter** : Téléchargez le fichier C# généré pour Unity
 
-## 🎯 Fonctionnalités actuelles
+## Fonctionnalités actuelles
 
 ### Composants UI
-- ✅ **Text** : Affichage de texte avec options de formatage
-- ✅ **Button** : Boutons avec actions configurables
-- ✅ **Input Field** : Champs de saisie texte
-- ✅ **Help Box** : Messages d'information Unity
+- **Text** : Affichage de texte avec options de formatage
+- **Button** : Boutons avec actions configurables
+- **Input Field** : Champs de saisie texte
+- **Help Box** : Messages d'information Unity
 
 ### Actions
-- ✅ **Debug.Log** : Affichage de messages dans la console
-- ✅ **Open URL** : Ouverture d'URLs externes
-- ✅ **Custom C#** : Code C# personnalisé avec génération AI
+- **Debug.Log** : Affichage de messages dans la console
+- **Open URL** : Ouverture d'URLs externes
+- **Custom C#** : Code C# personnalisé avec génération AI
 
 ### Gestion de projets
-- ✅ **Création/suppression** de projets
-- ✅ **Sauvegarde automatique**
-- ✅ **Export C# EditorWindow**
-- ✅ **Projet d'exemple inclus**
+- **Création/suppression** de projets
+- **Sauvegarde automatique**
+- **Export C# EditorWindow**
+- **Projet d'exemple inclus**
 
-## 🗺️ Roadmap
+## Roadmap
 
-### Version 2.2.0 (À venir)
-- 🔄 **Nouveaux composants** : Slider, Dropdown, Toggle, Image
-- 🎨 **Thèmes personnalisables**
-- 📊 **Analytics d'utilisation**
-- 🔗 **Partage de projets par URL**
+### Version 2.0.0 (À venir)
+- **Nouveaux composants** : Slider, Dropdown, Toggle, Image
+- **Thèmes personnalisables**
+- **Analytics d'utilisation**
+- **Partage de projets par URL**
 
 ### Version 3.0.0 (Planifié)
-- 🗄️ **Base de données** : Sauvegarde cloud avec authentification
-- 👥 **Collaboration** : Partage et travail en équipe
-- 🎮 **Templates avancés** : Bibliothèque de templates prêts à l'emploi
-- 🔧 **API REST** : Intégration avec Unity Package Manager
-- 📱 **App mobile** : Version mobile native
+- **Base de données** : Sauvegarde cloud avec authentification
+- **Collaboration** : Partage et travail en équipe
+- **Templates avancés** : Bibliothèque de templates prêts à l'emploi
+- **API REST** : Intégration avec Unity Package Manager
+- **App mobile** : Version mobile native
 
 ### Améliorations continues
-- 🎯 **UX/UI** : Amélioration continue de l'interface
-- ⚡ **Performance** : Optimisations et mise en cache
-- 🌍 **i18n** : Support multilingue
-- ♿ **Accessibilité** : Conformité WCAG 2.1
+- **UX/UI** : Amélioration continue de l'interface
+- **Performance** : Optimisations et mise en cache
+- **i18n** : Support multilingue
+- **Accessibilité** : Conformité WCAG 2.1
 
-## 🤝 Contribution
+## Remerciements
 
-Les contributions sont les bienvenues ! Voici comment vous pouvez aider :
-
-1. 🍴 Fork le projet
-2. 🌿 Créez votre branche (`git checkout -b feature/AmazingFeature`)
-3. 💻 Committez vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. 📤 Push vers la branche (`git push origin feature/AmazingFeature`)
-5. 🔄 Ouvrez une Pull Request
-
-### Guidelines de contribution
-
-- Suivez le style de code existant
-- Ajoutez des tests pour les nouvelles fonctionnalités
-- Documentez les changements dans le README
-- Utilisez des commits conventionnels
-
-## 📝 License
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
-
-## 🙏 Remerciements
-
-- 🎨 **Design** : Inspiré par les meilleures pratiques UI/UX modernes
-- 🤖 **AI** : Intégration Groq pour la génération de code
-- 🎮 **Unity** : Pour leur incroyable moteur de jeu
-- 🌐 **Community** : Tous les développeurs qui utilisent et contribuent
-
-## 📊 Statistiques
-
-<div align="center">
-
-![GitHub stars](https://img.shields.io/github/stars/CCDevX/unity-plugin-builder?style=social)
-![GitHub forks](https://img.shields.io/github/forks/CCDevX/unity-plugin-builder?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/CCDevX/unity-plugin-builder?style=social)
-
-</div>
-
-## 📱 Screenshots
-
-### Interface principale
-*[Ajouter capture d'écran de l'interface principale]*
-
-### Éditeur visuel
-*[Ajouter capture d'écran de l'éditeur avec drag & drop]*
-
-### Export C#
-*[Ajouter capture d'écran du code généré]*
-
----
-
+- **AI** : Intégration Groq pour la génération de code
+- **Unity** : Pour leur incroyable moteur de jeu
+  
 <div align="center">
 
 **Développé avec par [CCDevX](https://github.com/CCDevX)**
