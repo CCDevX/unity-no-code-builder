@@ -3,35 +3,37 @@
 @use "sass:color";
 
 .home-container {
-  min-height: 70vh;
-  padding: 4rem 2rem;
+  min-height: auto; // Laisse la hauteur s'adapter au contenu
+  padding: 3rem 2rem 4rem 2rem; // Padding plus naturel
   background-color: $bg-primary;
   color: $text-primary;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6rem;
+  gap: 4rem; // Réduit l'espacement
 
   h1 {
     font-size: 3.6rem;
     font-weight: 800;
     text-align: center;
     color: $text-primary;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem; // Réduit la marge
   }
 
   .home-card {
     background-color: $bg-secondary;
-    padding: 2rem;
+    padding: 2rem; // Padding standard
     border-radius: 1rem;
     flex: 1;
     text-align: center;
     box-shadow: none;
     border: 1px solid $border-color;
-    max-width: 40rem;
+    max-width: 40rem; // Taille standard
+    min-height: 14rem; // Hauteur minimale réduite
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 
     h2,
     h3 {
@@ -41,9 +43,11 @@
     }
 
     p {
-      font-size: 1.4rem;
+      font-size: 1.4rem; // Taille standard
       color: $text-secondary;
       margin-bottom: 2rem;
+      line-height: 1.6;
+      flex-grow: 1;
     }
 
     .btn-primary,
@@ -52,10 +56,11 @@
       margin-left: auto;
       margin-right: auto;
       font-weight: 600;
-      font-size: 1.4rem;
-      padding: 1rem 2rem;
+      font-size: 1.4rem; // Taille standard
+      padding: 1rem 2rem; // Padding standard
       border-radius: 0.6rem;
       transition: all $transition-speed ease;
+      flex-shrink: 0;
     }
 
     .btn-primary {
@@ -83,8 +88,8 @@
     @extend .home-card;
     background-color: $bg-elevated;
     max-width: 70rem;
-    max-height: 20rem;
-    padding: 3rem;
+    max-height: 20rem; // Hauteur plus compacte
+    padding: 3rem; // Padding standard
 
     h2 {
       font-size: 2.4rem;
@@ -92,11 +97,12 @@
 
     p {
       font-size: 1.6rem;
+      line-height: 1.6;
     }
 
     .btn-primary {
       font-size: 1.6rem;
-      padding: 1.2rem 2.4rem;
+      padding: 1.2rem 2.4rem; // Padding standard
       border-radius: 0.8rem;
     }
   }
@@ -104,7 +110,7 @@
   .cards-container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2rem; // Espacement réduit
     width: 100%;
     max-width: 90rem;
     align-items: center;
@@ -113,20 +119,105 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: stretch;
+      gap: 2.5rem; // Espacement réduit sur desktop aussi
     }
   }
 
+  // Corrections responsive
   @include sm {
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.5rem 3rem 1.5rem; // Padding réduit
+    gap: 3rem; // Espacement réduit
 
     h1 {
       font-size: 3rem;
     }
+
+    .main-card {
+      max-height: none; // Retire la contrainte de hauteur sur mobile
+      padding: 2.5rem 2rem; // Réduit le padding
+
+      h2 {
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      p {
+        font-size: 1.5rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .btn-primary {
+        font-size: 1.5rem;
+        padding: 1.2rem 2rem;
+        width: 100%; // Bouton pleine largeur sur mobile
+        max-width: 25rem; // Avec une largeur max raisonnable
+      }
+    }
+
+    .home-card {
+      padding: 2rem 1.5rem;
+      max-width: 35rem;
+
+      h3 {
+        font-size: 1.8rem;
+      }
+
+      p {
+        font-size: 1.3rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn-secondary {
+        width: 100%;
+        max-width: 20rem;
+        font-size: 1.3rem;
+      }
+    }
   }
 
   @include xs {
+    padding: 1.5rem 1rem 2rem 1rem; // Padding très réduit
+    gap: 2.5rem; // Espacement minimal
+
     h1 {
       font-size: 2.6rem;
+    }
+
+    .main-card {
+      padding: 2rem 1.5rem;
+
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.4rem;
+        margin-bottom: 2rem;
+      }
+
+      .btn-primary {
+        font-size: 1.4rem;
+        padding: 1rem 1.5rem;
+      }
+    }
+
+    .home-card {
+      padding: 1.5rem;
+      max-width: none; // Utilise toute la largeur disponible
+
+      h3 {
+        font-size: 1.7rem;
+      }
+
+      p {
+        font-size: 1.2rem;
+      }
+
+      .btn-secondary {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+      }
     }
   }
 }

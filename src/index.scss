@@ -145,16 +145,33 @@
     z-index: 100;
 
     .toggle-sidebar {
+      // Style de base - visible par défaut
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: none;
       border: none;
       font-size: 2rem;
       color: $accent-color;
       cursor: pointer;
       margin-right: 1.5rem;
-      transition: color $transition-speed;
+      padding: 0.8rem;
+      border-radius: 0.8rem;
+      transition: all $transition-speed ease;
 
       &:hover {
         color: $accent-hover;
+        background: rgba($accent-color, 0.1);
+        transform: translateY(-0.1rem) scale(1.05);
+      }
+
+      &:active {
+        transform: scale(0.95);
+      }
+
+      // Sur desktop, on peut le cacher si on veut (optionnel)
+      @include lg {
+        // display: none; // Décommentez si vous voulez cacher sur desktop
       }
     }
 
