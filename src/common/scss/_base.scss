@@ -1,46 +1,40 @@
 @use "sass:color";
 @use "./variables" as *;
 @use "./media-queries" as *;
-// ==========================================
-// STYLES DE BASE MODERNES
-// ==========================================
+@use "./keyframes" as *;
 
 body {
   font-family: $font-family, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen, Ubuntu, sans-serif;
   background: linear-gradient(
       135deg,
-      $bg-primary 0%,
-      color.adjust($bg-primary, $lightness: -1%) 100%
+      $bg-primary,
+      color.adjust($bg-primary, $lightness: -1%)
     ),
     radial-gradient(
       circle at 20% 80%,
-      rgba($accent-color, 0.02) 0%,
+      rgba($accent-color, 0.02),
       transparent 50%
     ),
     radial-gradient(
       circle at 80% 20%,
-      rgba($accent-color, 0.01) 0%,
+      rgba($accent-color, 0.01),
       transparent 50%
     );
   background-attachment: fixed;
   color: $text-primary;
-  line-height: 1.7;
   font-size: 1.6rem;
-  min-height: 100vh;
-  letter-spacing: 0.01em;
+  line-height: 1.7;
   font-weight: 400;
+  letter-spacing: 0.01em;
+  min-height: 100vh;
   overflow-x: hidden;
   position: relative;
 
-  // Effet de texture subtile
   &::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background-image: radial-gradient(
         circle at 25% 25%,
         rgba($accent-color, 0.015) 1px,
@@ -59,124 +53,35 @@ body {
   }
 }
 
-// ==========================================
-// HEADER MODERNE AVEC GLASSMORPHISM
-// ==========================================
-
 .main-header {
   height: $header-height;
   background: linear-gradient(
     135deg,
-    $bg-secondary 0%,
-    color.adjust($bg-secondary, $lightness: 3%) 50%,
-    color.adjust($bg-secondary, $lightness: -2%) 100%
+    $bg-secondary,
+    color.adjust($bg-secondary, $lightness: 3%),
+    color.adjust($bg-secondary, $lightness: -2%)
   );
-
-  // Glassmorphism moderne
   backdrop-filter: blur(12px) saturate(1.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-  // Ombres sophistiquées
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
   display: flex;
   align-items: center;
-  justify-content: space-between; // Changé pour mieux répartir
-  padding: 0 3rem; // Plus d'espace
+  justify-content: space-between;
+  padding: 0 3rem;
   position: sticky;
   top: 0;
   z-index: 90;
   transition: all $transition-speed ease;
 
-  // Barre supérieure colorée subtile
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0.2rem;
-    background: linear-gradient(
-      90deg,
-      $accent-color 0%,
-      color.adjust($accent-color, $lightness: 20%) 50%,
-      $accent-color 100%
-    );
-    opacity: 0.7;
-  }
-
-  // Effet au scroll (optionnel)
   &.scrolled {
     background: linear-gradient(
       135deg,
-      color.adjust($bg-secondary, $lightness: -2%) 0%,
-      $bg-secondary 50%,
-      color.adjust($bg-secondary, $lightness: 1%) 100%
+      color.adjust($bg-secondary, $lightness: -2%),
+      $bg-secondary,
+      color.adjust($bg-secondary, $lightness: 1%)
     );
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 12px 40px rgba(0, 0, 0, 0.1);
-  }
-
-  .toggle-sidebar {
-    display: none;
-    background: linear-gradient(
-      135deg,
-      rgba($accent-color, 0.1) 0%,
-      rgba($accent-color, 0.05) 100%
-    );
-    border: 1px solid rgba($accent-color, 0.2);
-    border-radius: 0.8rem;
-    color: $accent-color;
-    font-size: 1.8rem;
-    padding: 1rem;
-    cursor: pointer;
-    transition: all $transition-speed ease;
-    position: relative;
-    overflow: hidden;
-
-    // Effet de brillance
-    &::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.1) 50%,
-        transparent 70%
-      );
-      transform: rotate(45deg) translateX(-100%);
-      transition: transform 0.6s ease;
-    }
-
-    &:hover {
-      background: linear-gradient(
-        135deg,
-        rgba($accent-color, 0.15) 0%,
-        rgba($accent-color, 0.08) 100%
-      );
-      border-color: rgba($accent-color, 0.4);
-      color: color.adjust($accent-color, $lightness: 10%);
-      transform: translateY(-0.1rem) scale(1.05);
-      box-shadow: 0 4px 12px rgba($accent-color, 0.2);
-
-      &::before {
-        transform: rotate(45deg) translateX(100%);
-      }
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-
-    @include sm {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
   }
 
   .header-title {
@@ -187,7 +92,6 @@ body {
     position: relative;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-    // Effet de glow subtil
     &::after {
       content: "";
       position: absolute;
@@ -200,19 +104,16 @@ body {
       transition: width $transition-speed ease;
     }
 
-    // Animation du trait au hover (optionnel)
     &:hover::after {
       width: 100%;
     }
   }
 
-  // Section droite pour futurs éléments (avatar, notifications, etc.)
   .header-actions {
     display: flex;
     align-items: center;
     gap: 1.5rem;
 
-    // Style pour les futurs boutons d'action
     .header-action-btn {
       background: rgba($accent-color, 0.1);
       border: 1px solid rgba($accent-color, 0.2);
@@ -234,7 +135,6 @@ body {
         box-shadow: 0 4px 12px rgba($accent-color, 0.2);
       }
 
-      // Badge de notification (pour futur usage)
       &.has-notification::after {
         content: "";
         position: absolute;
@@ -242,32 +142,57 @@ body {
         right: 0.2rem;
         width: 0.8rem;
         height: 0.8rem;
-        background: #e74c3c;
+        background: $error;
         border-radius: 50%;
         border: 2px solid $bg-secondary;
       }
     }
   }
-}
 
-// Animation d'entrée
-@keyframes header-slide-down {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
+  .toggle-sidebar {
+    display: none;
+    border-radius: 0.8rem;
+    background: linear-gradient(
+      135deg,
+      rgba($accent-color, 0.1),
+      rgba($accent-color, 0.05)
+    );
+    border: 1px solid rgba($accent-color, 0.2);
+    color: $accent-color;
+    font-size: 1.8rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+
+    &:hover {
+      background: linear-gradient(
+        135deg,
+        rgba($accent-color, 0.15),
+        rgba($accent-color, 0.08)
+      );
+      border-color: rgba($accent-color, 0.4);
+      color: color.adjust($accent-color, $lightness: 10%);
+      transform: translateY(-0.1rem) scale(1.05);
+      box-shadow: 0 4px 12px rgba($accent-color, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    @include sm {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+}
+
+@include sm {
+  body {
+    font-size: 1.4rem;
   }
-}
 
-.main-header {
-  animation: header-slide-down 0.6s ease;
-}
-
-// Responsive amélioré
-@media (max-width: 768px) {
   .main-header {
     padding: 0 2rem;
 
@@ -282,1174 +207,6 @@ body {
         width: 3.5rem;
         height: 3.5rem;
       }
-    }
-  }
-}
-
-// ==========================================
-// TYPOGRAPHIE MODERNE
-// ==========================================
-
-h1 {
-  margin-bottom: 3rem;
-  font-weight: 800;
-  font-size: 3.6rem;
-  letter-spacing: 0.02em;
-  color: $accent-color; // Couleur par défaut toujours visible
-  position: relative;
-  text-shadow: 0 2px 4px rgba($accent-color, 0.2);
-  line-height: 1.2;
-
-  // Effet gradient OPTIONNEL seulement pour les titres avec classe .gradient
-  &.gradient {
-    background: linear-gradient(
-      135deg,
-      $accent-color 0%,
-      color.adjust($accent-color, $lightness: 15%) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-
-    // Fallback robuste pour navigateurs qui ne supportent pas background-clip
-    @supports not (-webkit-background-clip: text) {
-      color: $accent-color;
-      text-shadow: 0 2px 4px rgba($accent-color, 0.3);
-    }
-  }
-
-  // Effet de glow au hover sur les titres interactifs
-  &.interactive {
-    cursor: pointer;
-    transition: all $transition-speed ease;
-
-    &:hover {
-      transform: translateY(-0.2rem);
-      text-shadow: 0 6px 15px rgba($accent-color, 0.4);
-
-      &::after {
-        opacity: 1;
-        transform: scaleX(1);
-      }
-    }
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -0.5rem;
-      left: 0;
-      width: 100%;
-      height: 0.3rem;
-      background: linear-gradient(
-        90deg,
-        $accent-color,
-        color.adjust($accent-color, $lightness: 20%)
-      );
-      border-radius: 0.2rem;
-      opacity: 0;
-      transform: scaleX(0);
-      transition: all $transition-speed ease;
-    }
-  }
-}
-
-h2 {
-  margin-bottom: 2.5rem;
-  font-weight: 700;
-  font-size: 3rem;
-  letter-spacing: 0.015em;
-  color: $text-primary;
-  position: relative;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  line-height: 1.3;
-
-  // Accent subtil
-  &::before {
-    content: "";
-    position: absolute;
-    left: -1rem;
-    top: 0;
-    bottom: 0;
-    width: 0.4rem;
-    background: linear-gradient(
-      180deg,
-      $accent-color 0%,
-      color.adjust($accent-color, $lightness: -10%) 100%
-    );
-    border-radius: 0.2rem;
-    opacity: 0.7;
-  }
-}
-
-h3 {
-  margin-bottom: 2rem;
-  font-weight: 600;
-  font-size: 2.4rem;
-  color: $text-primary;
-  position: relative;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  line-height: 1.4;
-
-  // Point accent coloré
-  &::before {
-    content: "●";
-    color: $accent-color;
-    margin-right: 1rem;
-    font-size: 1.2rem;
-    opacity: 0.8;
-    filter: drop-shadow(0 1px 2px rgba($accent-color, 0.3));
-  }
-}
-
-h4 {
-  margin-bottom: 1.5rem;
-  font-weight: 600;
-  font-size: 2rem;
-  color: $text-primary;
-  line-height: 1.4;
-}
-
-h5 {
-  margin-bottom: 1.2rem;
-  font-weight: 600;
-  font-size: 1.8rem;
-  color: $text-primary;
-  line-height: 1.4;
-}
-
-h6 {
-  margin-bottom: 1rem;
-  font-weight: 600;
-  font-size: 1.6rem;
-  color: $text-secondary;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  line-height: 1.4;
-}
-
-p {
-  margin-bottom: 2rem;
-  color: $text-secondary;
-  font-size: 1.6rem;
-  line-height: 1.7;
-  font-weight: 400;
-
-  // Amélioration de la lisibilité
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  // Style pour les paragraphes avec accent
-  &.accent {
-    color: $text-primary;
-    font-weight: 500;
-    padding: 1.5rem 2rem;
-    background: linear-gradient(
-      135deg,
-      rgba($accent-color, 0.05) 0%,
-      rgba($accent-color, 0.02) 100%
-    );
-    border-left: 0.4rem solid $accent-color;
-    border-radius: 0.5rem;
-    position: relative;
-
-    &::before {
-      content: "💡";
-      position: absolute;
-      left: -1.5rem;
-      top: 1.5rem;
-      background: $accent-color;
-      color: white;
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      box-shadow: 0 2px 8px rgba($accent-color, 0.3);
-    }
-  }
-
-  // Liens dans les paragraphes
-  a {
-    color: $accent-color;
-    text-decoration: none;
-    font-weight: 500;
-    border-bottom: 1px solid transparent;
-    transition: all $transition-speed ease;
-
-    &:hover {
-      color: color.adjust($accent-color, $lightness: 10%);
-      border-bottom-color: color.adjust($accent-color, $lightness: 10%);
-      text-shadow: 0 0 8px rgba($accent-color, 0.3);
-    }
-  }
-}
-
-// ==========================================
-// HEADER MODERNE ULTRA-PREMIUM
-// ==========================================
-
-.main-header {
-  height: $header-height;
-  background: linear-gradient(
-    135deg,
-    rgba($bg-secondary, 0.95) 0%,
-    rgba(color.adjust($bg-secondary, $lightness: 5%), 0.92) 25%,
-    rgba(color.adjust($bg-secondary, $lightness: 2%), 0.9) 75%,
-    rgba($bg-secondary, 0.95) 100%
-  );
-
-  // Glassmorphism ultra-moderne
-  backdrop-filter: blur(20px) saturate(1.8) brightness(1.1);
-  -webkit-backdrop-filter: blur(20px) saturate(1.8) brightness(1.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-
-  // Système d'ombres multicouches sophistiqué
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 8px 32px rgba(0, 0, 0, 0.08),
-    0 32px 64px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 3rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-
-  // Barre supérieure dégradée dynamique
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0.3rem;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba($accent-color, 0.6) 5%,
-      $accent-color 25%,
-      color.adjust($accent-color, $lightness: 15%) 50%,
-      $accent-color 75%,
-      rgba($accent-color, 0.6) 95%,
-      transparent 100%
-    );
-    background-size: 300% 100%;
-    animation: aurora-flow 8s ease-in-out infinite;
-    opacity: 0.8;
-  }
-
-  // Effet de particules lumineuses en arrière-plan
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: radial-gradient(
-        circle at 20% 50%,
-        rgba($accent-color, 0.03) 1px,
-        transparent 1px
-      ),
-      radial-gradient(
-        circle at 80% 50%,
-        rgba($accent-color, 0.02) 1px,
-        transparent 1px
-      ),
-      radial-gradient(
-        circle at 40% 20%,
-        rgba(255, 255, 255, 0.02) 1px,
-        transparent 1px
-      );
-    background-size: 60px 60px, 90px 90px, 40px 40px;
-    opacity: 0.4;
-    pointer-events: none;
-    animation: float-particles 15s ease-in-out infinite;
-  }
-
-  // État au scroll avec transition fluide
-  &.scrolled {
-    background: linear-gradient(
-      135deg,
-      rgba(color.adjust($bg-secondary, $lightness: -3%), 0.98) 0%,
-      rgba($bg-secondary, 0.95) 50%,
-      rgba(color.adjust($bg-secondary, $lightness: 1%), 0.92) 100%
-    );
-    backdrop-filter: blur(25px) saturate(2) brightness(1.15);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 12px 40px rgba(0, 0, 0, 0.1),
-      0 32px 80px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-
-    &::before {
-      height: 0.2rem;
-      opacity: 1;
-      animation-duration: 6s;
-    }
-  }
-
-  // Bouton toggle sidebar ultra-moderne
-  .toggle-sidebar {
-    display: none;
-    background: linear-gradient(
-      135deg,
-      rgba($accent-color, 0.12) 0%,
-      rgba($accent-color, 0.08) 50%,
-      rgba($accent-color, 0.05) 100%
-    );
-    border: 1.5px solid rgba($accent-color, 0.25);
-    border-radius: 1.2rem;
-    color: $accent-color;
-    font-size: 1.8rem;
-    padding: 1.2rem;
-    cursor: pointer;
-    transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba($accent-color, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-    // Effet de brillance en diagonale
-    &::before {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.12) 50%,
-        transparent 70%
-      );
-      transform: rotate(45deg) translateX(-150%);
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    // Effet de pulsation au centre
-    &::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      background: radial-gradient(
-        circle,
-        rgba($accent-color, 0.3) 0%,
-        rgba($accent-color, 0.1) 50%,
-        transparent 100%
-      );
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      transition: all 0.6s ease;
-    }
-
-    &:hover {
-      background: linear-gradient(
-        135deg,
-        rgba($accent-color, 0.2) 0%,
-        rgba($accent-color, 0.15) 50%,
-        rgba($accent-color, 0.1) 100%
-      );
-      border-color: rgba($accent-color, 0.5);
-      color: color.adjust($accent-color, $lightness: 15%);
-      transform: translateY(-0.2rem) scale(1.08);
-      box-shadow: 0 8px 25px rgba($accent-color, 0.25),
-        0 0 0 4px rgba($accent-color, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-
-      &::before {
-        transform: rotate(45deg) translateX(150%);
-      }
-
-      &::after {
-        width: 80px;
-        height: 80px;
-      }
-    }
-
-    &:active {
-      transform: translateY(0) scale(1.02);
-      transition: transform 0.1s ease;
-    }
-
-    &:focus-visible {
-      outline: none;
-      box-shadow: 0 8px 25px rgba($accent-color, 0.25),
-        0 0 0 4px rgba($accent-color, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    }
-
-    @media (max-width: 768px) {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-  }
-
-  // Titre du header avec effet sophistiqué
-  .header-title {
-    font-size: 2.4rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-    color: $text-primary;
-    position: relative;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 0 20px rgba($accent-color, 0.1);
-    transition: all $transition-speed ease;
-
-    // Effet de glow subtil mais visible
-    &::before {
-      content: "";
-      position: absolute;
-      top: -10%;
-      left: -5%;
-      right: -5%;
-      bottom: -10%;
-      background: radial-gradient(
-        ellipse at center,
-        rgba($accent-color, 0.08) 0%,
-        rgba($accent-color, 0.04) 50%,
-        transparent 100%
-      );
-      border-radius: 1rem;
-      opacity: 0;
-      transition: opacity $transition-speed ease;
-      z-index: -1;
-    }
-
-    // Ligne décorative animée
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -0.4rem;
-      left: 50%;
-      width: 0;
-      height: 0.25rem;
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        $accent-color 25%,
-        color.adjust($accent-color, $lightness: 20%) 50%,
-        $accent-color 75%,
-        transparent 100%
-      );
-      border-radius: 0.125rem;
-      transform: translateX(-50%);
-      transition: width $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 0 10px rgba($accent-color, 0.5);
-    }
-
-    &:hover {
-      color: color.adjust($text-primary, $lightness: 5%);
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
-        0 0 30px rgba($accent-color, 0.2);
-      cursor: pointer;
-
-      &::before {
-        opacity: 1;
-      }
-
-      &::after {
-        width: 100%;
-      }
-    }
-  }
-
-  // Section droite pour actions futures
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-
-    // Animation d'apparition séquentielle
-    > * {
-      animation: fade-slide-in 0.8s ease forwards;
-      opacity: 0;
-      transform: translateY(1rem) scale(0.9);
-
-      @for $i from 1 through 5 {
-        &:nth-child(#{$i}) {
-          animation-delay: #{$i * 0.15}s;
-        }
-      }
-    }
-
-    // Style pour futurs boutons d'action
-    .header-action-btn {
-      background: linear-gradient(
-        135deg,
-        rgba($accent-color, 0.1) 0%,
-        rgba($accent-color, 0.05) 100%
-      );
-      border: 1px solid rgba($accent-color, 0.2);
-      border-radius: 50%;
-      width: 4.5rem;
-      height: 4.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $accent-color;
-      cursor: pointer;
-      transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 12px rgba($accent-color, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-      &::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        background: linear-gradient(
-          45deg,
-          transparent 30%,
-          rgba($accent-color, 0.1) 50%,
-          transparent 70%
-        );
-        border-radius: 50%;
-        opacity: 0;
-        transition: opacity $transition-speed ease;
-        z-index: -1;
-      }
-
-      &:hover {
-        background: linear-gradient(
-          135deg,
-          rgba($accent-color, 0.18) 0%,
-          rgba($accent-color, 0.12) 100%
-        );
-        border-color: rgba($accent-color, 0.4);
-        color: color.adjust($accent-color, $lightness: 10%);
-        transform: translateY(-0.3rem) scale(1.15);
-        box-shadow: 0 8px 25px rgba($accent-color, 0.2),
-          0 0 0 3px rgba($accent-color, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.15);
-
-        &::before {
-          opacity: 1;
-        }
-      }
-
-      &:active {
-        transform: translateY(-0.1rem) scale(1.1);
-      }
-
-      // Badge de notification moderne
-      &.has-notification::after {
-        content: "";
-        position: absolute;
-        top: 0.3rem;
-        right: 0.3rem;
-        width: 1rem;
-        height: 1rem;
-        background: linear-gradient(135deg, #ff4757, #ff3742);
-        border-radius: 50%;
-        border: 2px solid $bg-secondary;
-        box-shadow: 0 2px 4px rgba(255, 71, 87, 0.3),
-          0 0 0 2px rgba(255, 71, 87, 0.1);
-        animation: notification-pulse 2s ease-in-out infinite;
-      }
-    }
-
-    @media (max-width: 768px) {
-      gap: 1.5rem;
-
-      .header-action-btn {
-        width: 4rem;
-        height: 4rem;
-      }
-    }
-  }
-}
-
-// Animation d'entrée spectaculaire
-@keyframes header-grand-entrance {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-    backdrop-filter: blur(0px);
-  }
-  50% {
-    transform: translateY(-20%);
-    opacity: 0.7;
-    backdrop-filter: blur(10px);
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-    backdrop-filter: blur(20px);
-  }
-}
-
-.main-header {
-  animation: header-grand-entrance 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-// Animations pour les effets du header
-@keyframes aurora-flow {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes float-particles {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0.4;
-  }
-  33% {
-    transform: translateY(-2px) rotate(1deg);
-    opacity: 0.6;
-  }
-  66% {
-    transform: translateY(1px) rotate(-0.5deg);
-    opacity: 0.5;
-  }
-}
-
-@keyframes fade-slide-in {
-  from {
-    opacity: 0;
-    transform: translateY(1rem) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes notification-pulse {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.8;
-  }
-}
-
-// Responsive design avancé
-@media (max-width: 768px) {
-  .main-header {
-    padding: 0 2rem;
-    height: calc($header-height - 0.5rem);
-
-    .header-title {
-      font-size: 2rem;
-    }
-
-    .header-actions {
-      gap: 1rem;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .main-header {
-    padding: 0 1.5rem;
-
-    .header-title {
-      font-size: 1.8rem;
-    }
-
-    .toggle-sidebar {
-      padding: 1rem;
-      font-size: 1.6rem;
-    }
-  }
-}
-
-// ==========================================
-// COMPOSANTS DE BASE MODERNES
-// ==========================================
-
-.header-actions {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-
-  // Animation d'apparition décalée
-  > * {
-    animation: fade-in-up 0.6s ease forwards;
-    opacity: 0;
-    transform: translateY(1rem);
-
-    @for $i from 1 through 5 {
-      &:nth-child(#{$i}) {
-        animation-delay: #{$i * 0.1}s;
-      }
-    }
-  }
-}
-
-.project-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    padding: 2rem 0;
-    border-bottom: 1px solid rgba($border-color, 0.5);
-    transition: all $transition-speed ease;
-    position: relative;
-
-    &::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 1px;
-      background: $accent-color;
-      transition: width $transition-speed ease;
-    }
-
-    &:hover {
-      padding-left: 1rem;
-      background: rgba($accent-color, 0.02);
-
-      &::before {
-        width: 100%;
-      }
-    }
-
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-}
-
-// ==========================================
-// ÉTATS DE CHARGEMENT ET ERREURS
-// ==========================================
-
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  min-height: 25rem;
-  color: $text-secondary;
-  font-size: 1.6rem;
-  gap: 2rem;
-  text-align: center;
-
-  .loading-spinner {
-    width: 4rem;
-    height: 4rem;
-    border: 0.3rem solid rgba($accent-color, 0.2);
-    border-top: 0.3rem solid $accent-color;
-    border-radius: 50%;
-    animation: enhanced-spin 1s linear infinite;
-    margin-bottom: 1rem;
-  }
-
-  .loading-text {
-    font-weight: 500;
-    animation: pulse-text 2s ease-in-out infinite;
-  }
-
-  .loading-dots {
-    display: flex;
-    gap: 0.5rem;
-
-    span {
-      width: 0.8rem;
-      height: 0.8rem;
-      background: $accent-color;
-      border-radius: 50%;
-      animation: loading-dots 1.5s ease-in-out infinite;
-
-      &:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-      &:nth-child(3) {
-        animation-delay: 0.4s;
-      }
-    }
-  }
-}
-
-.error-container {
-  text-align: center;
-  padding: 6rem 2rem;
-  max-width: 60rem;
-  margin: 0 auto;
-
-  .error-icon {
-    font-size: 6rem;
-    color: #e74c3c;
-    margin-bottom: 2rem;
-    filter: drop-shadow(0 4px 8px rgba(231, 76, 60, 0.3));
-  }
-
-  h1 {
-    color: #e74c3c;
-    margin-bottom: 1.5rem;
-    font-size: 3rem;
-  }
-
-  p {
-    font-size: 1.8rem;
-    margin-bottom: 3rem;
-    opacity: 0.8;
-  }
-
-  .error-actions {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-}
-
-// ==========================================
-// CARTES DE PROJET MODERNES
-// ==========================================
-
-.project-card {
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(
-    145deg,
-    $bg-elevated 0%,
-    color.adjust($bg-elevated, $lightness: 2%) 100%
-  );
-  border-radius: 1.5rem;
-  box-shadow: $box-shadow, 0 8px 32px rgba(0, 0, 0, 0.08);
-  padding: 3rem;
-  margin-bottom: 3rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  position: relative;
-  overflow: hidden;
-  transition: all $transition-speed ease;
-  backdrop-filter: blur(10px);
-
-  // Bordure supérieure colorée
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 0.4rem;
-    background: linear-gradient(
-      90deg,
-      $accent-color,
-      color.adjust($accent-color, $lightness: 20%)
-    );
-    background-size: 200% 100%;
-    animation: shimmer-border 3s ease-in-out infinite;
-  }
-
-  // Effet de brillance
-  &::after {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-      45deg,
-      transparent 30%,
-      rgba(255, 255, 255, 0.03) 50%,
-      transparent 70%
-    );
-    transform: rotate(45deg);
-    transition: all 0.8s ease;
-    opacity: 0;
-  }
-
-  &:hover {
-    transform: translateY(-0.8rem) scale(1.02);
-    box-shadow: $box-shadow, 0 15px 50px rgba(0, 0, 0, 0.12),
-      0 0 0 1px rgba($accent-color, 0.1);
-
-    &::after {
-      opacity: 1;
-      transform: rotate(45deg) translate(60%, 60%);
-    }
-  }
-
-  h3 {
-    margin-bottom: 1.5rem;
-    font-size: 2.2rem;
-
-    &::before {
-      content: "📁";
-      margin-right: 1rem;
-      opacity: 0.8;
-    }
-  }
-
-  .project-meta {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    font-size: 1.4rem;
-    color: $text-secondary;
-
-    span {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-
-      i {
-        color: $accent-color;
-      }
-    }
-  }
-}
-
-.project-actions {
-  display: flex;
-  gap: 1.5rem;
-  margin-top: auto;
-  flex-wrap: wrap;
-}
-
-// ==========================================
-// UTILITAIRES ET HELPERS
-// ==========================================
-
-.fade-in {
-  animation: fade-in 0.6s ease forwards;
-}
-
-.slide-in-up {
-  animation: slide-in-up 0.6s ease forwards;
-}
-
-.scale-in {
-  animation: scale-in 0.4s ease forwards;
-}
-
-// Classes d'état
-.is-loading {
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba($accent-color, 0.1) 50%,
-      transparent 100%
-    );
-    animation: loading-shimmer 2s ease-in-out infinite;
-  }
-}
-
-.is-disabled {
-  opacity: 0.5;
-  pointer-events: none;
-  filter: grayscale(50%);
-}
-
-// ==========================================
-// ANIMATIONS
-// ==========================================
-
-@keyframes subtle-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-5px) rotate(0.5deg);
-  }
-}
-
-@keyframes enhanced-spin {
-  0% {
-    transform: rotate(0deg);
-    box-shadow: 0 0 5px rgba($accent-color, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba($accent-color, 0.5);
-  }
-  100% {
-    transform: rotate(360deg);
-    box-shadow: 0 0 5px rgba($accent-color, 0.3);
-  }
-}
-
-@keyframes pulse-text {
-  0%,
-  100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes loading-dots {
-  0%,
-  100% {
-    transform: scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(2rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(3rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes shimmer-border {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes loading-shimmer {
-  0% {
-    left: -100%;
-  }
-  100% {
-    left: 100%;
-  }
-}
-
-// ==========================================
-// RESPONSIVE DESIGN
-// ==========================================
-
-@media (max-width: 768px) {
-  body {
-    font-size: 1.4rem;
-  }
-
-  h1 {
-    font-size: 2.8rem;
-    margin-bottom: 2rem;
-  }
-
-  h2 {
-    font-size: 2.4rem;
-    margin-bottom: 2rem;
-
-    &::before {
-      left: -0.5rem;
-      width: 0.3rem;
-    }
-  }
-
-  h3 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .project-card {
-    padding: 2rem;
-    margin-bottom: 2rem;
-
-    .project-meta {
-      flex-direction: column;
-      gap: 1rem;
-    }
-  }
-
-  .project-actions {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .header-actions {
-    flex-direction: column;
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  h1 {
-    font-size: 2.4rem;
-  }
-
-  h2 {
-    font-size: 2rem;
-  }
-
-  .project-card {
-    padding: 1.5rem;
-  }
-
-  .error-container {
-    padding: 4rem 1rem;
-
-    .error-icon {
-      font-size: 4rem;
-    }
-
-    h1 {
-      font-size: 2.4rem;
     }
   }
 }

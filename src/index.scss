@@ -10,908 +10,247 @@
 @use "./common/scss/toast" as *;
 @use "sass:color";
 
-// ==========================================
-// SCROLLBARS CUSTOM - Design moderne
-// ==========================================
-
-// Support pour Firefox (scrollbar-color et scrollbar-width)
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba($accent-color, 0.7) rgba($bg-secondary, 0.3);
-}
-
-// Scrollbars pour WebKit (Chrome, Safari, Edge)
-*::-webkit-scrollbar {
-  width: 1.2rem;
-  height: 1.2rem;
-}
-
-*::-webkit-scrollbar-track {
-  background: rgba($bg-secondary, 0.2);
-  border-radius: 1rem;
-  margin: 0.2rem;
-}
-
-*::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    rgba($accent-color, 0.8) 0%,
-    rgba($accent-color, 0.6) 50%,
-    rgba($accent-color, 0.8) 100%
-  );
-  border-radius: 1rem;
-  border: 0.2rem solid transparent;
-  background-clip: content-box;
-  transition: all 0.3s ease;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    $accent-color 0%,
-    color.adjust($accent-color, $lightness: -10%) 50%,
-    $accent-color 100%
-  );
-  transform: scale(1.1);
-}
-
-*::-webkit-scrollbar-thumb:active {
-  background: linear-gradient(
-    180deg,
-    color.adjust($accent-color, $lightness: 10%) 0%,
-    $accent-color 50%,
-    color.adjust($accent-color, $lightness: 10%) 100%
-  );
-}
-
-*::-webkit-scrollbar-corner {
-  background: rgba($bg-secondary, 0.2);
-}
-
-// Scrollbars spéciales pour la sidebar
-.sidebar {
-  scrollbar-color: rgba($accent-color, 0.5) rgba($bg-primary, 0.3);
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 0.8rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba($bg-primary, 0.3);
-    border-radius: 0.4rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      180deg,
-      rgba($accent-color, 0.6) 0%,
-      rgba($accent-color, 0.4) 100%
-    );
-    border-radius: 0.4rem;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      180deg,
-      rgba($accent-color, 0.8) 0%,
-      rgba($accent-color, 0.6) 100%
-    );
-  }
-}
-
-// Scrollbars pour le contenu principal
-.content-body {
-  scrollbar-color: rgba($accent-color, 0.6) rgba($bg-elevated, 0.3);
-  scrollbar-width: auto;
-
-  &::-webkit-scrollbar {
-    width: 1rem;
-    height: 1rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba($bg-elevated, 0.3);
-    border-radius: 0.5rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      135deg,
-      rgba($accent-color, 0.7) 0%,
-      rgba($accent-color, 0.5) 50%,
-      rgba($accent-color, 0.7) 100%
-    );
-    border-radius: 0.5rem;
-    border: 0.1rem solid rgba($bg-primary, 0.2);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      135deg,
-      rgba($accent-color, 0.9) 0%,
-      rgba($accent-color, 0.7) 50%,
-      rgba($accent-color, 0.9) 100%
-    );
-    box-shadow: 0 0 0.8rem rgba($accent-color, 0.3);
-  }
-}
-
-// ==========================================
-// Styles principaux du site
-// ==========================================
-
-body,
-html {
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
 .container {
   display: flex;
   min-height: 100vh;
+}
 
-  // ==========================================
-  // SIDEBAR - Toujours fermée par défaut
-  // ==========================================
-  .sidebar {
-    width: $sidebar-width;
-    background: $bg-secondary;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1000; // Plus élevé pour être au-dessus du contenu
-    transition: transform $transition-speed ease-in-out,
-      box-shadow $transition-speed;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.11);
-    overflow-y: auto;
+.sidebar {
+  width: $sidebar-width;
+  background: $bg-secondary;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  transform: translateX(-100%);
+  transition: transform $transition-speed ease-in-out;
+  overflow-y: auto;
+  padding: 2rem 0;
 
-    // Fermée par défaut sur toutes les tailles d'écran
-    transform: translateX(-100%);
+  @supports (backdrop-filter: blur(8px)) {
+    background: rgba($bg-secondary, 0.95);
+    backdrop-filter: blur(10px);
+  }
 
-    @supports (backdrop-filter: blur(8px)) {
-      background: rgba(42, 53, 70, 0.95);
-      backdrop-filter: blur(15px) saturate(1.1);
+  &.active {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    margin-bottom: 1rem;
+
+    .sidebar-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: $text-primary;
     }
 
-    .sidebar-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 2rem;
-      border-bottom: 1px solid $border-color;
-      position: sticky;
-      top: 0;
-      background: inherit;
-      z-index: 1;
+    .close-sidebar {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: $text-secondary;
+      cursor: pointer;
+      transition: color $transition-speed;
 
-      .sidebar-title {
+      &:hover {
         color: $accent-color;
-        font-size: 2.4rem;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-      }
-
-      .close-sidebar {
-        display: block; // Toujours visible maintenant
-        background: none;
-        border: none;
-        font-size: 2.1rem;
-        color: $text-secondary;
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 0.5rem;
-        transition: all $transition-speed ease;
-
-        &:hover {
-          color: $accent-hover;
-          background: rgba($accent-color, 0.1);
-          transform: scale(1.1);
-        }
-
-        &:active {
-          transform: scale(0.95);
-        }
       }
     }
+  }
 
-    .menu ul {
-      list-style: none;
-      padding: 1.2rem 0;
+  .menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
       margin: 0;
 
-      li {
-        margin-bottom: 0.3rem;
+      a {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.2rem 2rem;
+        color: $text-secondary;
+        font-size: 1.6rem;
+        text-decoration: none;
+        transition: background $transition-speed, color $transition-speed;
+        border-left: 4px solid transparent;
 
-        a {
-          font-size: 1.7rem;
-          display: flex;
-          align-items: center;
-          padding: 1.2rem 2.2rem;
-          color: $text-secondary;
-          text-decoration: none;
-          border-radius: 0.7rem;
-          transition: background $transition-speed, color $transition-speed,
-            border-left $transition-speed, transform $transition-speed;
-          border-left: 0.4rem solid transparent;
-
-          i {
-            margin-right: 1rem;
-            width: 2.4rem;
-            text-align: center;
-          }
-
-          &:hover,
-          &.active {
-            background: color.adjust($bg-elevated, $lightness: 4%);
-            color: $text-primary;
-            border-left-color: $accent-color;
-            transform: translateX(0.3rem);
-          }
-
-          &.active {
-            font-weight: 600;
-            box-shadow: inset 0 0 0.5rem rgba($accent-color, 0.18);
-          }
+        i {
+          font-size: 1.6rem;
+          min-width: 2rem;
+          text-align: center;
         }
-      }
-    }
-
-    // Sidebar ouverte
-    &.active {
-      transform: translateX(0);
-      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
-    }
-  }
-
-  // ==========================================
-  // SIDEBAR OVERLAY
-  // ==========================================
-  .sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999; // Juste en dessous de la sidebar
-    opacity: 0;
-    visibility: hidden;
-    transition: all $transition-speed ease;
-    backdrop-filter: blur(2px);
-
-    &.active {
-      opacity: 1;
-      visibility: visible;
-    }
-  }
-
-  // ==========================================
-  // CONTENU PRINCIPAL - Toujours pleine largeur
-  // ==========================================
-  .content {
-    flex: 1;
-    margin-left: 0; // Pas de marge, contenu pleine largeur
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    min-height: 100vh;
-    width: 100%; // Assure la pleine largeur
-
-    .main-header {
-      height: $header-height;
-      background: $bg-secondary;
-      box-shadow: $box-shadow;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      padding: 0 2rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-
-      .toggle-sidebar {
-        display: block; // Toujours visible maintenant
-        background: none;
-        border: none;
-        font-size: 2.1rem;
-        color: $accent-color;
-        margin-right: 1.5rem;
-        cursor: pointer;
-        padding: 0.8rem;
-        border-radius: 0.8rem;
-        transition: all $transition-speed ease;
 
         &:hover {
-          color: $accent-hover;
+          background: rgba($accent-color, 0.08);
+          color: $text-primary;
+          border-left-color: $accent-color;
+        }
+
+        &.active {
           background: rgba($accent-color, 0.1);
-          transform: scale(1.05);
-        }
-
-        &:active {
-          transform: scale(0.95);
-          background: rgba($accent-color, 0.2);
-        }
-
-        // Animation de l'icône
-        i {
-          transition: transform $transition-speed ease;
-        }
-
-        &:hover i {
-          transform: rotate(90deg);
-        }
-      }
-
-      .header-title {
-        font-size: 2rem;
-        font-weight: 600;
-        letter-spacing: 0.01em;
-        color: $text-primary;
-      }
-    }
-
-    // CONTENT BODY - Version plus flexible
-    .content-body {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 2.4rem;
-      background: transparent;
-      overflow-y: auto;
-
-      @media (max-width: 900px) {
-        padding: 2rem 1.6rem;
-      }
-
-      @media (max-width: 600px) {
-        padding: 1.6rem 1.2rem;
-      }
-
-      // Classes utilitaires pour différents layouts
-      &.centered-content {
-        display: grid;
-        place-items: center;
-        min-height: calc(100vh - #{$header-height} - 80px);
-      }
-
-      &.full-width {
-        padding: 0;
-      }
-
-      // Container générique pour le contenu
-      .page-container {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      // Pour les pages qui nécessitent un centrage (comme help)
-      .centered-card {
-        max-width: 740px;
-        width: 100%;
-        margin: 0 auto;
-      }
-    }
-
-    .footer {
-      position: relative;
-      background: linear-gradient(
-        135deg,
-        rgba($bg-secondary, 0.95) 0%,
-        rgba(color.adjust($bg-secondary, $lightness: 3%), 0.92) 25%,
-        rgba(color.adjust($bg-secondary, $lightness: 1%), 0.9) 75%,
-        rgba($bg-secondary, 0.95) 100%
-      );
-
-      // Glassmorphism sophistiqué
-      backdrop-filter: blur(20px) saturate(1.6) brightness(1.05);
-      -webkit-backdrop-filter: blur(20px) saturate(1.6) brightness(1.05);
-
-      // Bordure supérieure élégante
-      border-top: 1px solid rgba(255, 255, 255, 0.15);
-
-      // Système d'ombres inversées
-      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.12),
-        0 -8px 32px rgba(0, 0, 0, 0.08), 0 -32px 64px rgba(0, 0, 0, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-
-      padding: 3rem 2rem 2rem 2rem;
-      margin-top: auto;
-      transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-      overflow: hidden;
-
-      // Barre supérieure dégradée comme le header
-      &::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 0.25rem;
-        background: linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba($accent-color, 0.4) 10%,
-          $accent-color 25%,
-          color.adjust($accent-color, $lightness: 15%) 50%,
-          $accent-color 75%,
-          rgba($accent-color, 0.4) 90%,
-          transparent 100%
-        );
-        background-size: 300% 100%;
-        animation: aurora-flow-reverse 10s ease-in-out infinite;
-        opacity: 0.7;
-      }
-
-      // Effet de particules lumineuses subtiles
-      &::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: radial-gradient(
-            circle at 15% 30%,
-            rgba($accent-color, 0.02) 1px,
-            transparent 1px
-          ),
-          radial-gradient(
-            circle at 85% 70%,
-            rgba($accent-color, 0.015) 1px,
-            transparent 1px
-          ),
-          radial-gradient(
-            circle at 50% 20%,
-            rgba(255, 255, 255, 0.015) 1px,
-            transparent 1px
-          );
-        background-size: 80px 80px, 120px 120px, 60px 60px;
-        opacity: 0.3;
-        pointer-events: none;
-        animation: float-particles-slow 20s ease-in-out infinite;
-      }
-
-      .footer-content {
-        max-width: 140rem;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-        position: relative;
-        z-index: 2;
-
-        // Section principale avec informations
-        .footer-main {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1.5rem;
-          text-align: center;
-
-          // Logo/titre avec effet premium
-          .footer-brand {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-
-            .brand-icon {
-              font-size: 2.8rem;
-              background: linear-gradient(
-                135deg,
-                $accent-color 0%,
-                color.adjust($accent-color, $lightness: 20%) 100%
-              );
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              background-clip: text;
-              filter: drop-shadow(0 2px 4px rgba($accent-color, 0.3));
-              animation: pulse-glow-brand 4s ease-in-out infinite;
-            }
-
-            .brand-text {
-              font-size: 2rem;
-              font-weight: 800;
-              color: $text-primary;
-              letter-spacing: 0.02em;
-              text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            }
-          }
-
-          // Texte copyright principal
-          .copyright-text {
-            font-size: 1.6rem;
-            color: $text-secondary;
-            font-weight: 500;
-            line-height: 1.6;
-            margin: 0;
-            opacity: 0.9;
-            transition: opacity $transition-speed ease;
-
-            &:hover {
-              opacity: 1;
-            }
-
-            // Lien développeur avec effet sophistiqué
-            .developer-link {
-              color: $accent-color;
-              text-decoration: none;
-              font-weight: 700;
-              position: relative;
-              padding: 0.3rem 0.8rem;
-              border-radius: 0.6rem;
-              transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-              display: inline-block;
-
-              &::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(
-                  135deg,
-                  rgba($accent-color, 0.1) 0%,
-                  rgba($accent-color, 0.05) 100%
-                );
-                border-radius: 0.6rem;
-                transform: scale(0);
-                transition: transform $transition-speed
-                  cubic-bezier(0.4, 0, 0.2, 1);
-                z-index: -1;
-              }
-
-              &::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 50%;
-                width: 0;
-                height: 0.2rem;
-                background: linear-gradient(
-                  90deg,
-                  transparent 0%,
-                  $accent-color 50%,
-                  transparent 100%
-                );
-                border-radius: 0.1rem;
-                transform: translateX(-50%);
-                transition: width $transition-speed ease;
-              }
-
-              &:hover {
-                color: color.adjust($accent-color, $lightness: 15%);
-                transform: translateY(-0.2rem);
-                text-shadow: 0 0 10px rgba($accent-color, 0.3);
-
-                &::before {
-                  transform: scale(1);
-                }
-
-                &::after {
-                  width: 100%;
-                }
-              }
-
-              // Icône GitHub avec animation
-              .github-icon {
-                margin-left: 0.5rem;
-                font-size: 1.4rem;
-                transition: transform $transition-speed ease;
-              }
-
-              &:hover .github-icon {
-                transform: rotate(15deg) scale(1.1);
-              }
-            }
-          }
-        }
-
-        // Séparateur décoratif
-        .footer-divider {
-          width: 100%;
-          max-width: 60rem;
-          height: 1px;
-          background: linear-gradient(
-            90deg,
-            transparent 0%,
-            rgba($accent-color, 0.3) 20%,
-            rgba($accent-color, 0.6) 50%,
-            rgba($accent-color, 0.3) 80%,
-            transparent 100%
-          );
-          margin: 1rem 0;
-          position: relative;
-
-          &::before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 8px;
-            height: 8px;
-            background: $accent-color;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px rgba($accent-color, 0.5);
-            animation: pulse-dot 3s ease-in-out infinite;
-          }
-        }
-
-        // Version/build info (optionnelle)
-        .footer-meta {
-          font-size: 1.3rem;
-          color: color.adjust($text-secondary, $lightness: -15%);
-          opacity: 0.7;
-          text-align: center;
-          margin-top: 0.5rem;
-          font-weight: 400;
-
-          .version-badge {
-            display: inline-block;
-            background: rgba($accent-color, 0.1);
-            color: $accent-color;
-            padding: 0.3rem 0.8rem;
-            border-radius: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-left: 0.5rem;
-            border: 1px solid rgba($accent-color, 0.2);
-            transition: all $transition-speed ease;
-
-            &:hover {
-              background: rgba($accent-color, 0.15);
-              border-color: rgba($accent-color, 0.3);
-              transform: scale(1.05);
-            }
-          }
-        }
-      }
-    }
-
-    // Animations pour le footer
-    @keyframes aurora-flow-reverse {
-      0%,
-      100% {
-        background-position: 100% 50%;
-      }
-      50% {
-        background-position: 0% 50%;
-      }
-    }
-
-    @keyframes float-particles-slow {
-      0%,
-      100% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.3;
-      }
-      33% {
-        transform: translateY(-1px) rotate(0.5deg);
-        opacity: 0.4;
-      }
-      66% {
-        transform: translateY(0.5px) rotate(-0.3deg);
-        opacity: 0.35;
-      }
-    }
-
-    @keyframes pulse-glow-brand {
-      0%,
-      100% {
-        filter: drop-shadow(0 2px 4px rgba($accent-color, 0.3));
-        transform: scale(1);
-      }
-      50% {
-        filter: drop-shadow(0 4px 8px rgba($accent-color, 0.4));
-        transform: scale(1.02);
-      }
-    }
-
-    @keyframes pulse-dot {
-      0%,
-      100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.3);
-        opacity: 0.7;
-      }
-    }
-
-    // ==========================================
-    // RESPONSIVE DESIGN POUR LE FOOTER
-    // ==========================================
-
-    @media (max-width: 768px) {
-      .footer {
-        padding: 2.5rem 1.5rem 2rem 1.5rem;
-
-        .footer-content {
-          .footer-main {
-            .footer-brand {
-              .brand-icon {
-                font-size: 2.4rem;
-              }
-
-              .brand-text {
-                font-size: 1.8rem;
-              }
-            }
-
-            .copyright-text {
-              font-size: 1.4rem;
-
-              .developer-link {
-                .github-icon {
-                  font-size: 1.2rem;
-                }
-              }
-            }
-          }
-
-          .footer-meta {
-            font-size: 1.2rem;
-
-            .version-badge {
-              font-size: 1rem;
-              padding: 0.2rem 0.6rem;
-            }
-          }
-        }
-      }
-    }
-
-    @media (max-width: 480px) {
-      .footer {
-        padding: 2rem 1rem 1.5rem 1rem;
-
-        .footer-content {
-          gap: 1.5rem;
-
-          .footer-main {
-            gap: 1rem;
-
-            .footer-brand {
-              flex-direction: column;
-              gap: 0.5rem;
-
-              .brand-icon {
-                font-size: 2rem;
-              }
-
-              .brand-text {
-                font-size: 1.6rem;
-              }
-            }
-
-            .copyright-text {
-              font-size: 1.3rem;
-              line-height: 1.5;
-            }
-          }
-
-          .footer-divider {
-            max-width: 40rem;
-          }
+          color: $text-primary;
+          border-left-color: $accent-color;
+          font-weight: 600;
         }
       }
     }
   }
 }
 
-// ==========================================
-// SCROLLBARS SPÉCIALISÉES
-// ==========================================
-
-// Scrollbars pour les modales
-.modal-container {
-  scrollbar-color: rgba($accent-color, 0.6) rgba($bg-secondary, 0.2);
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 0.8rem;
-    height: 0.8rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba($bg-secondary, 0.2);
-    border-radius: 0.4rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba($accent-color, 0.6);
-    border-radius: 0.4rem;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba($accent-color, 0.8);
-  }
-}
-
-// Scrollbars pour les cards avec overflow
-.card {
-  &::-webkit-scrollbar {
-    width: 0.6rem;
-    height: 0.6rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba($bg-primary, 0.2);
-    border-radius: 0.3rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba($accent-color, 0.5);
-    border-radius: 0.3rem;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba($accent-color, 0.7);
-  }
-}
-
-// Scrollbars minimales pour les inputs et textareas
-input,
-textarea,
-select {
-  scrollbar-color: rgba($accent-color, 0.4) rgba($bg-secondary, 0.1);
-  scrollbar-width: thin;
-
-  &::-webkit-scrollbar {
-    width: 0.5rem;
-    height: 0.5rem;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: rgba($bg-secondary, 0.1);
-    border-radius: 0.25rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: rgba($accent-color, 0.4);
-    border-radius: 0.25rem;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba($accent-color, 0.6);
-  }
-}
-
-// Animation pour les scrollbars actives
-@keyframes scroll-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 0.5rem rgba($accent-color, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 1rem rgba($accent-color, 0.4);
-  }
-}
-
-// ==========================================
-// Fin des styles principaux
-// ==========================================
-
-// Modals et toast (simplifiés)
-.modal-overlay {
+.sidebar-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: none;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity $transition-speed ease;
 
   &.active {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.content {
+  flex: 1;
+  margin-left: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 100vh;
+  width: 100%;
+
+  .main-header {
+    height: $header-height;
+    background: $bg-secondary;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    .toggle-sidebar {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: $accent-color;
+      cursor: pointer;
+      margin-right: 1.5rem;
+      transition: color $transition-speed;
+
+      &:hover {
+        color: $accent-hover;
+      }
+    }
+
+    .header-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: $text-primary;
+    }
+  }
+
+  .content-body {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+
+    @include sm {
+      padding: 1.5rem;
+    }
+
+    @include xs {
+      padding: 1rem;
+    }
+  }
+
+  .footer {
+    padding: 2rem;
+    background: rgba($bg-secondary, 0.95);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba($text-secondary, 0.05);
+    font-size: 1.4rem;
+    color: $text-secondary;
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+
+      @include sm {
+        gap: 1rem;
+      }
+    }
+
+    .footer-main {
+      text-align: center;
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.8rem;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: $text-primary;
+      }
+
+      .copyright-text {
+        margin-top: 1rem;
+        font-size: 1.3rem;
+        color: $text-secondary;
+
+        a.developer-link {
+          color: $accent-color;
+          font-weight: 600;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          .github-icon {
+            margin-left: 0.5rem;
+          }
+        }
+      }
+    }
+
+    .footer-divider {
+      width: 80%;
+      height: 1px;
+      background: rgba($text-secondary, 0.1);
+    }
+
+    .footer-meta {
+      font-size: 1.2rem;
+      color: $text-secondary;
+
+      .version-badge {
+        background: rgba($accent-color, 0.1);
+        color: $accent-color;
+        font-size: 1.1rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 0.4rem;
+        margin-left: 0.5rem;
+        font-weight: 600;
+      }
+    }
   }
 }

@@ -1,22 +1,21 @@
 @use "./variables" as *;
+@use "./keyframes" as *;
 
 .modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: $bg-elevated;
-  border-radius: 1.2rem;
-  box-shadow: 0 0.6rem 2.2rem rgba(0, 0, 0, 0.24);
   z-index: 1001;
   width: 94vw;
   max-width: 44rem;
   min-width: 28rem;
-  animation: modal-fade-in 0.22s cubic-bezier(0.65, 0, 0.35, 1);
-
-  // Glassmorphism possible (optionnel)
-  backdrop-filter: blur(12px) saturate(1.15);
-  border: 1.5px solid rgba($border-color, 0.45);
+  background: rgba($bg-elevated, 0.94);
+  border-radius: 1rem;
+  border: 1px solid rgba($border-color, 0.3);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+  animation: modal-fade-in 0.25s ease;
 
   .modal-content {
     display: flex;
@@ -29,45 +28,42 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.8rem 2.4rem;
-    border-bottom: 1px solid $border-color;
+    padding: 1.6rem 2rem;
     background: $bg-secondary;
-    font-size: 2rem;
+    border-bottom: 1px solid $border-color;
 
     h2,
     h3,
     .modal-title {
       margin: 0;
+      font-size: 2rem;
+      font-weight: 600;
       color: $text-primary;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      font-size: 2.1rem;
     }
 
     .close-modal {
       background: none;
       border: none;
-      font-size: 2.6rem;
+      font-size: 2.2rem;
       cursor: pointer;
       color: $text-secondary;
-      transition: color $transition-speed, transform $transition-speed;
+      transition: transform $transition-speed ease, color $transition-speed ease;
 
       &:hover,
       &:focus-visible {
         color: $accent-color;
-        transform: scale(1.13) rotate(7deg);
+        transform: scale(1.1);
         outline: none;
       }
     }
   }
 
   .modal-body {
-    padding: 2.2rem 2.4rem;
-    background: transparent;
+    padding: 2rem;
     color: $text-primary;
 
     .form-group {
-      margin-bottom: 2.2rem;
+      margin-bottom: 2rem;
 
       &:last-child {
         margin-bottom: 0;
@@ -75,60 +71,50 @@
 
       label {
         display: block;
-        margin-bottom: 1rem;
+        margin-bottom: 0.8rem;
         color: $text-secondary;
-        font-weight: 600;
+        font-weight: 500;
       }
 
       .form-control {
         width: 100%;
-        padding: 1.2rem;
-        border-radius: 0.5rem;
-        border: 1.2px solid $border-color;
-        background: $bg-secondary;
-        color: $text-primary;
+        padding: 1rem;
         font-size: 1.6rem;
-        transition: border-color $transition-speed, box-shadow $transition-speed;
+        border-radius: 0.5rem;
+        background: $bg-secondary;
+        border: 1px solid $border-color;
+        color: $text-primary;
+        transition: border-color $transition-speed ease,
+          box-shadow $transition-speed ease;
 
         &:focus {
           border-color: $accent-color;
-          box-shadow: 0 0 0 2px rgba($accent-color, 0.21);
+          box-shadow: 0 0 0 2px rgba($accent-color, 0.2);
           outline: none;
         }
       }
 
       .technical-name {
-        padding: 1rem;
+        margin-top: 0.6rem;
+        padding: 0.8rem;
         background: $bg-elevated;
         border-radius: 0.4rem;
-        color: $accent-color;
         font-family: monospace;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+        color: $accent-color;
         user-select: all;
       }
     }
   }
 
   .modal-footer {
-    padding: 1.7rem 2.4rem;
+    padding: 1.6rem 2rem;
+    background: $bg-secondary;
     border-top: 1px solid $border-color;
     display: flex;
     justify-content: flex-end;
-    gap: 1.2rem;
-    background: $bg-secondary;
+    gap: 1rem;
     border-bottom-left-radius: inherit;
     border-bottom-right-radius: inherit;
-  }
-}
-
-// Animation d’apparition
-@keyframes modal-fade-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -56%) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
   }
 }
