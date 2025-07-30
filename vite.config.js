@@ -11,16 +11,16 @@ export default defineConfig({
       "@common": path.resolve(__dirname, "src/common"),
     },
   },
-  // plugins: [
-  //   viteStaticCopy({
-  //     targets: [
-  //       {
-  //         src: "pages",
-  //         dest: ".",
-  //       },
-  //     ],
-  //   }),
-  // ],
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: "pages",
+          dest: ".",
+        },
+      ],
+    }),
+  ],
   build: {
     outDir: "../dist",
     emptyOutDir: true,

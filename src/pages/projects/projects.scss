@@ -144,6 +144,7 @@ h1 {
       color: $text-primary;
       margin-bottom: 2rem;
       text-align: center;
+      padding-bottom: 2rem;
 
       &::before {
         content: "";
@@ -171,6 +172,7 @@ h1 {
 
 // Container des cartes de projets
 .cards-container {
+  margin-top: 10rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
   gap: 3rem;
@@ -182,20 +184,29 @@ h1 {
 
 // Cartes individuelles de projets
 .project-card {
-  margin: 0;
-  padding: 3rem;
-  transition: all $transition-speed ease;
+  margin-top: 3rem;
+  background-color: $bg-secondary;
+  padding: 2rem;
+  border-radius: 1rem;
+  flex: 1;
+  text-align: center;
+  box-shadow: none;
+  border: 1px solid $border-color;
+  max-width: 40rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   // Cartes de projets normales
   &:not(.empty) {
     h3 {
-      font-size: 2.2rem;
+      font-size: 3rem;
       font-weight: 700;
       color: $text-primary;
       margin-bottom: 1.5rem;
 
       &::before {
-        content: "🚀";
+        content: "";
         margin-right: 1rem;
         font-size: 1.8rem;
         opacity: 0.8;
@@ -203,7 +214,7 @@ h1 {
     }
 
     p {
-      font-size: 1.4rem;
+      font-size: 1.8rem;
       color: $text-secondary;
       margin-bottom: 1rem;
       line-height: 1.6;

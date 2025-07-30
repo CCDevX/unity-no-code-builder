@@ -21,7 +21,7 @@ import { showToast } from "../../common/javascript/helper/toast-helper";
  */
 const createEmptyProjectCard = () => {
   const emptyCard = document.createElement("div");
-  emptyCard.className = "card project-card empty";
+  emptyCard.className = "project-card empty";
   emptyCard.innerHTML = `
     <div class="empty-project">
       <i class="fa-solid fa-circle-plus"></i>
@@ -49,7 +49,7 @@ const renderProjects = (projects, projectList) => {
 
   projects.forEach((project) => {
     const projectCard = document.createElement("div");
-    projectCard.className = "card project-card";
+    projectCard.className = "project-card";
     projectCard.innerHTML = `
       <h3>${project.name}</h3>
       <p>Technical name : ${project.technicalName}</p>
