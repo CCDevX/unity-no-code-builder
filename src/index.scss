@@ -149,27 +149,30 @@ html {
 
 .container {
   display: flex;
-  min-height: 100vh; // Changé de height à min-height pour plus de flexibilité
+  min-height: 100vh;
 
+  // ==========================================
+  // SIDEBAR - Toujours fermée par défaut
+  // ==========================================
   .sidebar {
     width: $sidebar-width;
     background: $bg-secondary;
-    height: 100vh; // Hauteur fixe pour la sidebar
+    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 100;
-    transition: transform $transition-speed, box-shadow $transition-speed;
+    z-index: 1000; // Plus élevé pour être au-dessus du contenu
+    transition: transform $transition-speed ease-in-out,
+      box-shadow $transition-speed;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.11);
-    overflow-y: auto; // Ajout pour permettre le scroll si besoin
+    overflow-y: auto;
+
+    // Fermée par défaut sur toutes les tailles d'écran
+    transform: translateX(-100%);
 
     @supports (backdrop-filter: blur(8px)) {
-      background: rgba(42, 53, 70, 0.84);
-      backdrop-filter: blur(10px) saturate(1.05);
-    }
-
-    @include sm {
-      transform: translateX(-100%);
+      background: rgba(42, 53, 70, 0.95);
+      backdrop-filter: blur(15px) saturate(1.1);
     }
 
     .sidebar-header {
@@ -180,7 +183,7 @@ html {
       border-bottom: 1px solid $border-color;
       position: sticky;
       top: 0;
-      background: inherit; // Pour éviter la transparence lors du scroll
+      background: inherit;
       z-index: 1;
 
       .sidebar-title {
@@ -191,19 +194,24 @@ html {
       }
 
       .close-sidebar {
-        display: none;
+        display: block; // Toujours visible maintenant
         background: none;
         border: none;
         font-size: 2.1rem;
         color: $text-secondary;
         cursor: pointer;
-
-        @include sm {
-          display: block;
-        }
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        transition: all $transition-speed ease;
 
         &:hover {
           color: $accent-hover;
+          background: rgba($accent-color, 0.1);
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(0.95);
         }
       }
     }
@@ -225,8 +233,8 @@ html {
           text-decoration: none;
           border-radius: 0.7rem;
           transition: background $transition-speed, color $transition-speed,
-            border-left $transition-speed;
-          border-left: 0.4rem solid transparent; // Évite le décalage lors du hover
+            border-left $transition-speed, transform $transition-speed;
+          border-left: 0.4rem solid transparent;
 
           i {
             margin-right: 1rem;
@@ -239,6 +247,7 @@ html {
             background: color.adjust($bg-elevated, $lightness: 4%);
             color: $text-primary;
             border-left-color: $accent-color;
+            transform: translateX(0.3rem);
           }
 
           &.active {
@@ -249,25 +258,46 @@ html {
       }
     }
 
+    // Sidebar ouverte
     &.active {
-      @include sm {
-        transform: translateX(0);
-      }
+      transform: translateX(0);
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2);
     }
   }
 
+  // ==========================================
+  // SIDEBAR OVERLAY
+  // ==========================================
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999; // Juste en dessous de la sidebar
+    opacity: 0;
+    visibility: hidden;
+    transition: all $transition-speed ease;
+    backdrop-filter: blur(2px);
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  // ==========================================
+  // CONTENU PRINCIPAL - Toujours pleine largeur
+  // ==========================================
   .content {
     flex: 1;
-    margin-left: $sidebar-width;
+    margin-left: 0; // Pas de marge, contenu pleine largeur
     display: flex;
     flex-direction: column;
     min-width: 0;
     min-height: 100vh;
-    transition: margin-left $transition-speed;
-
-    @include sm {
-      margin-left: 0;
-    }
+    width: 100%; // Assure la pleine largeur
 
     .main-header {
       height: $header-height;
@@ -279,24 +309,38 @@ html {
       padding: 0 2rem;
       position: sticky;
       top: 0;
-      z-index: 90; // Réduit pour éviter les conflits avec la sidebar
+      z-index: 100;
 
       .toggle-sidebar {
-        display: none;
+        display: block; // Toujours visible maintenant
         background: none;
         border: none;
         font-size: 2.1rem;
         color: $accent-color;
         margin-right: 1.5rem;
         cursor: pointer;
-        padding: 0.5rem; // Zone de clic plus grande
-
-        @include sm {
-          display: block;
-        }
+        padding: 0.8rem;
+        border-radius: 0.8rem;
+        transition: all $transition-speed ease;
 
         &:hover {
           color: $accent-hover;
+          background: rgba($accent-color, 0.1);
+          transform: scale(1.05);
+        }
+
+        &:active {
+          transform: scale(0.95);
+          background: rgba($accent-color, 0.2);
+        }
+
+        // Animation de l'icône
+        i {
+          transition: transform $transition-speed ease;
+        }
+
+        &:hover i {
+          transform: rotate(90deg);
         }
       }
 
@@ -315,7 +359,7 @@ html {
       flex-direction: column;
       padding: 2.4rem;
       background: transparent;
-      overflow-y: auto; // Permet le scroll du contenu
+      overflow-y: auto;
 
       @media (max-width: 900px) {
         padding: 2rem 1.6rem;
@@ -329,9 +373,7 @@ html {
       &.centered-content {
         display: grid;
         place-items: center;
-        min-height: calc(
-          100vh - #{$header-height} - 80px
-        ); // 80px pour le footer approx.
+        min-height: calc(100vh - #{$header-height} - 80px);
       }
 
       &.full-width {
@@ -377,7 +419,7 @@ html {
         inset 0 -1px 0 rgba(0, 0, 0, 0.05);
 
       padding: 3rem 2rem 2rem 2rem;
-      margin-top: auto; // Assure que le footer reste en bas
+      margin-top: auto;
       transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
 
@@ -571,72 +613,6 @@ html {
           }
         }
 
-        // Section liens sociaux/actions (optionnelle)
-        .footer-actions {
-          display: flex;
-          align-items: center;
-          gap: 2rem;
-          margin-top: 1rem;
-
-          .action-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 4rem;
-            height: 4rem;
-            background: linear-gradient(
-              135deg,
-              rgba($accent-color, 0.1) 0%,
-              rgba($accent-color, 0.05) 100%
-            );
-            border: 1px solid rgba($accent-color, 0.2);
-            border-radius: 50%;
-            color: $accent-color;
-            text-decoration: none;
-            font-size: 1.6rem;
-            transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            backdrop-filter: blur(5px);
-
-            &::before {
-              content: "";
-              position: absolute;
-              inset: -2px;
-              background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba($accent-color, 0.1) 50%,
-                transparent 70%
-              );
-              border-radius: 50%;
-              opacity: 0;
-              transition: opacity $transition-speed ease;
-              z-index: -1;
-            }
-
-            &:hover {
-              background: linear-gradient(
-                135deg,
-                rgba($accent-color, 0.18) 0%,
-                rgba($accent-color, 0.12) 100%
-              );
-              border-color: rgba($accent-color, 0.4);
-              color: color.adjust($accent-color, $lightness: 10%);
-              transform: translateY(-0.3rem) scale(1.1);
-              box-shadow: 0 6px 20px rgba($accent-color, 0.2),
-                0 0 0 3px rgba($accent-color, 0.1);
-
-              &::before {
-                opacity: 1;
-              }
-            }
-
-            &:active {
-              transform: translateY(-0.1rem) scale(1.05);
-            }
-          }
-        }
-
         // Séparateur décoratif
         .footer-divider {
           width: 100%;
@@ -781,16 +757,6 @@ html {
             }
           }
 
-          .footer-actions {
-            gap: 1.5rem;
-
-            .action-link {
-              width: 3.5rem;
-              height: 3.5rem;
-              font-size: 1.4rem;
-            }
-          }
-
           .footer-meta {
             font-size: 1.2rem;
 
@@ -830,12 +796,6 @@ html {
               font-size: 1.3rem;
               line-height: 1.5;
             }
-          }
-
-          .footer-actions {
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
           }
 
           .footer-divider {
@@ -939,24 +899,6 @@ select {
 // ==========================================
 // Fin des styles principaux
 // ==========================================
-
-// Overlay pour mobile quand la sidebar est ouverte
-.sidebar-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 99;
-  display: none;
-
-  @include sm {
-    &.active {
-      display: block;
-    }
-  }
-}
 
 // Modals et toast (simplifiés)
 .modal-overlay {
