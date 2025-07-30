@@ -2,7 +2,6 @@
 @use "./variables" as *;
 
 .toast-container {
-  // Toujours visible mais vide (évite le "display: none" qui bloque les transitions)
   position: fixed;
   bottom: 2rem;
   left: 50%;
@@ -16,60 +15,122 @@
 }
 
 .toast {
-  min-width: 260px;
+  min-width: 280px;
   max-width: 90vw;
-  padding: 1.1rem 2.2rem;
-  border-radius: 0.75rem;
-  color: $text-primary;
-  font-weight: 600;
+  padding: 1.2rem 2rem;
+  border-radius: 1rem;
+  color: white;
+  font-weight: 500;
   font-family: $font-family;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
-  box-shadow: 0 0.7rem 2rem rgba(0, 0, 0, 0.15);
+  font-size: 0.95rem;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
   opacity: 0;
-  transform: translateY(24px) scale(0.98);
-  transition: opacity $transition-speed, transform $transition-speed,
-    background $transition-speed;
+  transform: translateY(20px) scale(0.96);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: all;
   user-select: text;
+  position: relative;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 
-  background: $bg-elevated;
-  backdrop-filter: blur(8px);
+  // Indicateur coloré à gauche
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    border-radius: 1rem 0 0 1rem;
+  }
+
+  // Toast par défaut
+  background: rgba($bg-elevated, 0.9);
+  color: $text-primary;
+
+  &::before {
+    background: $accent-color;
+  }
 
   &.toast-success {
-    background: linear-gradient(90deg, $success 80%, rgba($success, 0.95));
-    color: $text-primary;
-    border: 1.5px solid color.adjust($success, $lightness: 7%);
-    box-shadow: 0 0.4rem 1.2rem rgba($success, 0.19);
-  }
-  &.toast-error {
-    background: linear-gradient(90deg, $error 80%, rgba($error, 0.93));
-    color: $text-primary;
-    border: 1.5px solid color.adjust($error, $lightness: 7%);
-    box-shadow: 0 0.4rem 1.2rem rgba($error, 0.17);
-  }
-  &.toast-info {
-    background: linear-gradient(90deg, $info 80%, rgba($info, 0.9));
-    color: $text-primary;
-    border: 1.5px solid color.adjust($info, $lightness: 8%);
-    box-shadow: 0 0.4rem 1.2rem rgba($info, 0.15);
-  }
-  &.toast-warning {
-    background: linear-gradient(90deg, $warning 80%, rgba($warning, 0.88));
-    color: $border-color;
-    border: 1.5px solid color.adjust($warning, $lightness: -12%);
-    box-shadow: 0 0.4rem 1.2rem rgba($warning, 0.13);
+    background: rgba($success, 0.9);
+
+    &::before {
+      background: rgba(255, 255, 255, 0.8);
+    }
   }
 
+  &.toast-error {
+    background: rgba($error, 0.9);
+
+    &::before {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &.toast-info {
+    background: rgba($info, 0.9);
+
+    &::before {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &.toast-warning {
+    background: rgba($warning, 0.9);
+    color: rgba(0, 0, 0, 0.8);
+
+    &::before {
+      background: rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  // États d'animation
   &.show {
     opacity: 1;
     transform: translateY(0) scale(1);
-    transition: opacity $transition-speed, transform $transition-speed;
   }
 
   &.hide {
     opacity: 0;
-    transform: translateY(24px) scale(0.98);
-    transition: opacity $transition-speed, transform $transition-speed;
+    transform: translateY(-10px) scale(0.95);
+    transition: all 0.2s ease-in;
+  }
+
+  // Effet hover subtil
+  &:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Animation d'entrée progressive pour plusieurs toasts
+.toast-container .toast {
+  &:nth-child(1) {
+    animation-delay: 0ms;
+  }
+  &:nth-child(2) {
+    animation-delay: 100ms;
+  }
+  &:nth-child(3) {
+    animation-delay: 200ms;
+  }
+  &:nth-child(4) {
+    animation-delay: 300ms;
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .toast {
+    min-width: 260px;
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+
+    &:hover {
+      transform: none; // Pas d'effet hover sur mobile
+    }
   }
 }
